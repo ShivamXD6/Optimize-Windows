@@ -92,7 +92,8 @@
     ```
 
 3. Plug your USB drive/installation media into your computer.
-4. Copy the drivers you want to automatically install from `C:\Drivers` to `D:\$WinpeDriver$`.
+4. Create a folder named `$WinpeDriver$` on your USB drive.
+5. Copy the drivers you want to automatically install from `C:\Drivers` to `D:\$WinpeDriver$`.
 
 > [!NOTE]
 > Drivers should be placed in their respective subfolders with `.inf` files included. `.exe` driver files are not supported.
