@@ -1285,7 +1285,37 @@ reg.exe add "HKLM\SOFTWARE\Policies\Microsoft\Windows\WorkplaceJoin" /v BlockAAD
     "AppliesTo"="NOT (System.ItemPathDisplay:=\"C:\\\")"
 [HKEY_CLASSES_ROOT\Drive\shell\runas\command]
     @="cmd.exe /c takeown /f \"%1\\\" /r /d y && icacls \"%1\\\" /grant *S-1-3-4:F /t /c & Pause"
-    "IsolatedCommand"="cmd.exe /c takeown /f \"%1\\\" /r /d y && icacls \"%1\\\" /grant *S-1-3-4:F /t /c & Pause"]]>
+    "IsolatedCommand"="cmd.exe /c takeown /f \"%1\\\" /r /d y && icacls \"%1\\\" /grant *S-1-3-4:F /t /c & Pause"
+    
+; Add Run With Priority to Context Menu
+[HKEY_CLASSES_ROOT\exefile\shell\Priority]
+"MUIVerb"="Run with priority"
+"SubCommands"=""
+[HKEY_CLASSES_ROOT\exefile\Shell\Priority\shell\001flyout]
+@="Realtime"
+[HKEY_CLASSES_ROOT\exefile\Shell\Priority\shell\001flyout\command]
+@="powershell start -file 'cmd' -args '/c start \"\"\"Realtime App\"\"\" /Realtime \"\"\"%1\"\"\"' -verb runas"
+[HKEY_CLASSES_ROOT\exefile\Shell\Priority\shell\002flyout]
+@="High"
+[HKEY_CLASSES_ROOT\exefile\Shell\Priority\shell\002flyout\command]
+@="cmd /c start \"\" /High \"%1\""
+[HKEY_CLASSES_ROOT\exefile\Shell\Priority\shell\003flyout]
+@="Above normal"
+[HKEY_CLASSES_ROOT\exefile\Shell\Priority\shell\003flyout\command]
+@="cmd /c start \"\" /AboveNormal \"%1\""
+[HKEY_CLASSES_ROOT\exefile\Shell\Priority\shell\004flyout]
+@="Normal"
+[HKEY_CLASSES_ROOT\exefile\Shell\Priority\shell\004flyout\command]
+@="cmd /c start \"\" /Normal \"%1\""
+[HKEY_CLASSES_ROOT\exefile\Shell\Priority\shell\005flyout]
+@="Below normal"
+[HKEY_CLASSES_ROOT\exefile\Shell\Priority\shell\005flyout\command]
+@="cmd /c start \"\" /BelowNormal \"%1\""
+[HKEY_CLASSES_ROOT\exefile\Shell\Priority\shell\006flyout]
+@="Low"
+[HKEY_CLASSES_ROOT\exefile\Shell\Priority\shell\006flyout\command]
+@="cmd /c start \"\" /Low \"%1\""
+    ]]>
     </File>
 
 <!-- 9+ Windows Current User Preferences -->
