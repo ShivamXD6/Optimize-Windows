@@ -50,14 +50,15 @@
 - 🛡️ **Disables Windows Defender Partially**: Reduces the functionality of Windows Defender to improve performance or compatibility.
 - 🎮 **Disables Xbox GameDVR**: Disables Xbox DVR features that may impact performance.
 - 📵 **Disables Notifications and Background Apps**: Limits background processes and notifications to reduce resource usage.
+- 💤 **Disables Hibernation**: Free Up 40% Space of Computers Ram. Also Disables Fast Startup. Fixes Dual boot Issues.
+
+> [!NOTE]
+> Selective Features can be Configure from Revert Folder.
 
 ### ⚙️ Specific System Tweaks
 - 🚫 **Prevents Installation of Certain Windows Features**: Prevents installation of Dev Home, New Outlook, Chat, and Bitlocker Auto Encryption on Win 11 24H2.
 - 🖥️ **Disables MPO**: Disables Multi-Plane Overlay for better graphical performance on AMD and Nvidia GPUs.
 - ⚙️ **Enables SSD Trimming**: Improves SSD performance by enabling trimming to clear deleted data blocks.
-
-> [!NOTE]
-> Selective Features can be Configure from Revert Folder.
 
 ## 🛠️ Setup & Installation
 

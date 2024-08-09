@@ -527,7 +527,7 @@ Create-Shortcut -command $activatedCommand -shortcutName 'Activate-Windows.lnk'
 New-Item -Path $desktopPath -Name "Revert" -ItemType Directory -Force
 $revertPath = "C:\Users\Default\Desktop\Revert"
 
-# Enable Defender Script
+# Enable Defender
 $defender = @"
 @echo off
 :: Restore Windows Defender registry settings
@@ -572,6 +572,14 @@ reg.exe add "HKLM\SOFTWARE\Policies\Microsoft\Windows\GameDVR" /v AllowGameDVR /
 "@
 $enablegameDVR = [System.IO.Path]::Combine($revertPath, 'Enable-GameDVR.cmd')
 $gameDVR | Out-File -FilePath $enablegameDVR -Encoding UTF8
+
+# Enable Hibernation & Fast Startup
+$hibernation = @"
+@echo off
+reg.exe add "HKLM\System\CurrentControlSet\Control\Session Manager\Power" /v HibernateEnabled /t REG_DWORD /d 1 /f
+"@
+$enableHibernation = [System.IO.Path]::Combine($revertPath, 'Enable-Hibernation-and-Fast-Startup.cmd')
+$hibernation | Out-File -FilePath $enableHibernation -Encoding UTF8
 
 # Enables .NET Framework 3.5
   DISM /Online /Enable-Feature /FeatureName:NetFx3 /All /Source:X:\sources\sxs /LimitAccess
@@ -1113,6 +1121,9 @@ reg.exe add "HKLM\Software\Policies\Microsoft\Windows\Windows Search" /v AllowCo
 reg.exe add "HKLM\SOFTWARE\Policies\Microsoft\Windows\System" /v EnableActivityFeed /t REG_DWORD /d 0 /f
 reg.exe add "HKLM\SOFTWARE\Policies\Microsoft\Windows\System" /v PublishUserActivities /t REG_DWORD /d 0 /f
 reg.exe add "HKLM\SOFTWARE\Policies\Microsoft\Windows\System" /v UploadUserActivities /t REG_DWORD /d 0 /f
+
+:: Disables Hibernation (Takes 40% space of RAM also does not make much difference for in Booting for SSD Users)
+reg.exe add "HKLM\System\CurrentControlSet\Control\Session Manager\Power" /v HibernateEnabled /t REG_DWORD /d 0 /f
 
 :: Disables Location Tracking
 reg.exe add "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\CapabilityAccessManager\ConsentStore\location" /v Value /t REG_SZ /d Deny /f
