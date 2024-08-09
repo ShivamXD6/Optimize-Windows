@@ -1,0 +1,9 @@
+{
+  "auto_install": [
+    {
+      "parent": "/WinISO",
+      "template": ["/ventoy/autounattend.xml"],
+      "autosel": 1
+    }
+  ]
+}
