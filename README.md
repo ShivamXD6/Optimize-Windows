@@ -10,7 +10,7 @@
 - [🖥️ User Interface and Usability Enhancements](#%EF%B8%8F-user-interface-and-usability-enhancements)
 - [⚙️ Selective Features Disabling](#%EF%B8%8F-selective-features-disabling)
 - [⚙️ Specific System Tweaks](#%EF%B8%8F-specific-system-tweaks)
-- [🛠️ Setup & Installation Guide](#-setup-&-installation-guide)
+- [🛠️ Setup & Installation Guide](#%EF%B8%8F-setup--installation)
 - [1. Prepare Your USB Drive](#1-prepare-your-usb-drive)
 - [2. Optional Adding Drivers](#2-optional-adding-drivers)
 - [3. Installing Windows Via Ventoy](#3-installing-windows-via-ventoy)
@@ -124,4 +124,4 @@
 
 ## 💖 Acknowledgements
  - Thanks to [MemTechTips](https://github.com/memstechtips/UnattendedWinstall) for Core file Used as a base.
- - Credits to [Schneegans](https://schneegans.de/windows/unattend-generator/), [ChrisTitusTech](https://github.com/ChrisTitusTech/winutil), [Revi](https://revi.cc) for Tweaks used in this answer File -->
+ - Credits to [Schneegans](https://schneegans.de/windows/unattend-generator/), [ChrisTitusTech](https://github.com/ChrisTitusTech/winutil), [Revi](https://revi.cc) for Tweaks used in this answer File.
