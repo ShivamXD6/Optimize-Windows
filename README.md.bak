@@ -92,8 +92,7 @@
     ```
 
 3. Plug your USB drive/installation media into your computer.
-4. Create a folder named `$WinpeDriver$` on your USB drive.
-5. Copy the drivers you want to automatically install from `C:\Drivers` to `D:\$WinpeDriver$`.
+4. Copy the drivers you want to automatically install from `C:\Drivers` to `D:\$WinpeDriver$`.
 
 > [!NOTE]
 > Drivers should be placed in their respective subfolders with `.inf` files included. `.exe` driver files are not supported.
@@ -116,8 +115,11 @@
 > If you don't see many windows version. Click back once and again next then you will get all Windows Versions.
 
 7. You'll be Redirected to Custom Installation
+
 7.1 If you want to keep your data (Just select partition where your windows is installed and click next. Don't delete any other partition.)
-7.2. If you have backup all data. Then delete all partitions. Then select Unallocated Space and click Next.
+
+7.2 If you have backup all data. Then delete all partitions. Then select Unallocated Space and click Next.
+
 8. Enter your Name and Password for Local User Account (Use Simple names without Symbols).
 9. Now windows will run some more commands and restart.
 10. Done Enjoy.
