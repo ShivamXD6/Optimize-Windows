@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <unattend xmlns="urn:schemas-microsoft-com:unattend" xmlns:wcm="http://schemas.microsoft.com/WMIConfig/2002/State">
-<!-- Trishula (Optimised for Power Users) -->
+<!-- Shivaay (Optimised for Power Users) -->
 <!-- Modified by FlaxCube Gaming -->
 <!-- Originally Compiled by Memory Tech Tips | https://github.com/memstechtips/UnattendedWinstall -->
-<!-- Credits to Schneegans.de, ChrisTitusTech, Revi for Tweaks used in this answer File -->
+<!-- Credits to Atlas, Schneegans.de, ChrisTitusTech, MajorGeeks and Revi for Tweaks used in this answer File -->
 
 <!-- 1+ Windows Setup -->
   <settings pass="offlineServicing"></settings>
@@ -42,7 +42,7 @@
           <Order>6</Order>
           <Path>reg add "HKLM\SYSTEM\Setup\LabConfig" /v BypassDiskCheck /t REG_DWORD /d 1 /f</Path>
         </RunSynchronousCommand>
-        <!-- Creates new ei.cfg File to Prevent auto detection of Windows Edition and forces Windows Setup to show all available Editions of Windows during setup.-->
+        <!--Prevent auto detection of Windows Edition-->
         <RunSynchronousCommand wcm:action="add">
           <Order>7</Order>
           <Path>cmd.exe /c del /f /q X:\Sources\ei.cfg</Path>
@@ -74,7 +74,6 @@
         <AcceptEula>true</AcceptEula>
       </UserData>
       <RunSynchronous>
-        <!-- Bypass Windows 11 System Requirements-->
         <RunSynchronousCommand wcm:action="add">
           <Order>1</Order>
           <Path>reg add "HKLM\SYSTEM\Setup\LabConfig" /v BypassTPMCheck /t REG_DWORD /d 1 /f</Path>
@@ -99,7 +98,6 @@
           <Order>6</Order>
           <Path>reg add "HKLM\SYSTEM\Setup\LabConfig" /v BypassDiskCheck /t REG_DWORD /d 1 /f</Path>
         </RunSynchronousCommand>
-        <!-- Creates new ei.cfg File to Prevent auto detection of Windows Edition and forces Windows Setup to show all available Editions of Windows during setup.-->
         <RunSynchronousCommand wcm:action="add">
           <Order>7</Order>
           <Path>cmd.exe /c del /f /q X:\Sources\ei.cfg</Path>
@@ -131,7 +129,6 @@
         <AcceptEula>true</AcceptEula>
       </UserData>
       <RunSynchronous>
-        <!-- Bypass Windows 11 System Requirements-->
         <RunSynchronousCommand wcm:action="add">
           <Order>1</Order>
           <Path>reg add "HKLM\SYSTEM\Setup\LabConfig" /v BypassTPMCheck /t REG_DWORD /d 1 /f</Path>
@@ -156,7 +153,6 @@
           <Order>6</Order>
           <Path>reg add "HKLM\SYSTEM\Setup\LabConfig" /v BypassDiskCheck /t REG_DWORD /d 1 /f</Path>
         </RunSynchronousCommand>
-        <!-- Creates new ei.cfg File to Prevent auto detection of Windows Edition and forces Windows Setup to show all available Editions of Windows during setup.-->
         <RunSynchronousCommand wcm:action="add">
           <Order>7</Order>
           <Path>cmd.exe /c del /f /q X:\Sources\ei.cfg</Path>
@@ -191,43 +187,36 @@
           <Description>Extracts and Executes Scripts in this XML File</Description>
           <Path>powershell.exe -NoProfile -WindowStyle Hidden -Command "$xml = [xml]::new(); $xml.Load('C:\Windows\Panther\unattend.xml'); $sb = [scriptblock]::Create( $xml.unattend.Extensions.ExtractScript ); Invoke-Command -ScriptBlock $sb -ArgumentList $xml;"</Path>
         </RunSynchronousCommand>
-
         <RunSynchronousCommand wcm:action="add">
           <Order>2</Order>
           <Description>Executes the remove-packages Powershell Script</Description>
           <Path>powershell.exe -NoProfile -WindowStyle Hidden -ExecutionPolicy Bypass -Command "Get-Content -LiteralPath 'C:\Windows\Setup\Scripts\remove-packages.ps1' -Raw | Invoke-Expression;"</Path>
         </RunSynchronousCommand>
-
         <RunSynchronousCommand wcm:action="add">
           <Order>3</Order>
           <Description>Run PowerShell Tweaks</Description>
           <Path>powershell.exe -NoProfile -WindowStyle Hidden -ExecutionPolicy Bypass -Command "Get-Content -LiteralPath 'C:\Windows\Setup\Scripts\wintweaks.ps1' -Raw | Invoke-Expression;"</Path>
         </RunSynchronousCommand>
-
         <RunSynchronousCommand wcm:action="add">
           <Order>4</Order>
           <Description>Executes the HKLM Registry Entries Script</Description>
           <Path>cmd.exe /c "C:\Windows\Setup\Scripts\localmachine.cmd &gt;&gt;"C:\Windows\Setup\Scripts\localmachine.log" 2&gt;&amp;1"</Path>
         </RunSynchronousCommand>
-
         <RunSynchronousCommand wcm:action="add">
           <Order>5</Order>
           <Description>Adds Items to Right-Click Context Menu</Description>
           <Path>cmd.exe /c "reg import "C:\Windows\Setup\Scripts\contextmenu.reg" &gt;&gt;"C:\Windows\Setup\Scripts\contextmenu.log" 2&gt;&amp;1"</Path>
         </RunSynchronousCommand>
-
         <RunSynchronousCommand wcm:action="add">
           <Order>6</Order>
           <Description>Loads the Default User Registry Hive so Changes Can be Made to It</Description>
           <Path>reg load "HKU\DefaultUser" "C:\Users\Default\NTUSER.DAT"</Path>
         </RunSynchronousCommand>
-
         <RunSynchronousCommand wcm:action="add">
           <Order>7</Order>
           <Description>Registry Entry to Execute the HKCU Registry Entry Script the First Time a New User Logs In</Description>
           <Path>reg add "HKU\DefaultUser\Software\Microsoft\Windows\CurrentVersion\Runonce" /v "currentuser" /t REG_SZ /d "C:\Windows\Setup\Scripts\currentuser.cmd" /f</Path>
         </RunSynchronousCommand>
-
         <RunSynchronousCommand wcm:action="add">
           <Order>8</Order>
           <Description>Unloads the Default User Registry Hive</Description>
@@ -236,50 +225,42 @@
       </RunSynchronous>
     </component>
     <component name="Microsoft-Windows-Deployment" processorArchitecture="arm64" publicKeyToken="31bf3856ad364e35" language="neutral" versionScope="nonSxS">
-      <RunSynchronous>
-
+        <RunSynchronous>
         <RunSynchronousCommand wcm:action="add">
           <Order>1</Order>
           <Description>Extracts and Executes Scripts in this XML File</Description>
           <Path>powershell.exe -NoProfile -WindowStyle Hidden -Command "$xml = [xml]::new(); $xml.Load('C:\Windows\Panther\unattend.xml'); $sb = [scriptblock]::Create( $xml.unattend.Extensions.ExtractScript ); Invoke-Command -ScriptBlock $sb -ArgumentList $xml;"</Path>
         </RunSynchronousCommand>
-
         <RunSynchronousCommand wcm:action="add">
           <Order>2</Order>
           <Description>Executes the remove-packages Powershell Script</Description>
           <Path>powershell.exe -NoProfile -WindowStyle Hidden -ExecutionPolicy Bypass -Command "Get-Content -LiteralPath 'C:\Windows\Setup\Scripts\remove-packages.ps1' -Raw | Invoke-Expression;"</Path>
         </RunSynchronousCommand>
-
         <RunSynchronousCommand wcm:action="add">
           <Order>3</Order>
           <Description>Run PowerShell Tweaks</Description>
           <Path>powershell.exe -NoProfile -WindowStyle Hidden -ExecutionPolicy Bypass -Command "Get-Content -LiteralPath 'C:\Windows\Setup\Scripts\wintweaks.ps1' -Raw | Invoke-Expression;"</Path>
         </RunSynchronousCommand>
-
         <RunSynchronousCommand wcm:action="add">
           <Order>4</Order>
           <Description>Executes the HKLM Registry Entries Script</Description>
           <Path>cmd.exe /c "C:\Windows\Setup\Scripts\localmachine.cmd &gt;&gt;"C:\Windows\Setup\Scripts\localmachine.log" 2&gt;&amp;1"</Path>
         </RunSynchronousCommand>
-
         <RunSynchronousCommand wcm:action="add">
           <Order>5</Order>
           <Description>Adds Items to Right-Click Context Menu</Description>
           <Path>cmd.exe /c "reg import "C:\Windows\Setup\Scripts\contextmenu.reg" &gt;&gt;"C:\Windows\Setup\Scripts\contextmenu.log" 2&gt;&amp;1"</Path>
         </RunSynchronousCommand>
-
         <RunSynchronousCommand wcm:action="add">
           <Order>6</Order>
           <Description>Loads the Default User Registry Hive so Changes Can be Made to It</Description>
           <Path>reg load "HKU\DefaultUser" "C:\Users\Default\NTUSER.DAT"</Path>
         </RunSynchronousCommand>
-
         <RunSynchronousCommand wcm:action="add">
           <Order>7</Order>
           <Description>Registry Entry to Execute the HKCU Registry Entry Script the First Time a New User Logs In</Description>
           <Path>reg add "HKU\DefaultUser\Software\Microsoft\Windows\CurrentVersion\Runonce" /v "currentuser" /t REG_SZ /d "C:\Windows\Setup\Scripts\currentuser.cmd" /f</Path>
         </RunSynchronousCommand>
-
         <RunSynchronousCommand wcm:action="add">
           <Order>8</Order>
           <Description>Unloads the Default User Registry Hive</Description>
@@ -289,7 +270,6 @@
     </component>
     <component name="Microsoft-Windows-Deployment" processorArchitecture="amd64" publicKeyToken="31bf3856ad364e35" language="neutral" versionScope="nonSxS">
       <RunSynchronous>
-
         <RunSynchronousCommand wcm:action="add">
           <Order>1</Order>
           <Description>Extracts and Executes Scripts in this XML File</Description>
@@ -300,25 +280,21 @@
           <Description>Executes the remove-packages Powershell Script</Description>
           <Path>powershell.exe -NoProfile -WindowStyle Hidden -ExecutionPolicy Bypass -Command "Get-Content -LiteralPath 'C:\Windows\Setup\Scripts\remove-packages.ps1' -Raw | Invoke-Expression;"</Path>
         </RunSynchronousCommand>
-
         <RunSynchronousCommand wcm:action="add">
           <Order>3</Order>
           <Description>Run PowerShell Tweaks</Description>
           <Path>powershell.exe -NoProfile -WindowStyle Hidden -ExecutionPolicy Bypass -Command "Get-Content -LiteralPath 'C:\Windows\Setup\Scripts\wintweaks.ps1' -Raw | Invoke-Expression;"</Path>
         </RunSynchronousCommand>
-
         <RunSynchronousCommand wcm:action="add">
           <Order>4</Order>
           <Description>Executes the HKLM Registry Entries Script</Description>
           <Path>cmd.exe /c "C:\Windows\Setup\Scripts\localmachine.cmd &gt;&gt;"C:\Windows\Setup\Scripts\localmachine.log" 2&gt;&amp;1"</Path>
         </RunSynchronousCommand>
-
         <RunSynchronousCommand wcm:action="add">
           <Order>5</Order>
           <Description>Adds Items to Right-Click Context Menu</Description>
           <Path>cmd.exe /c "reg import "C:\Windows\Setup\Scripts\contextmenu.reg" &gt;&gt;"C:\Windows\Setup\Scripts\contextmenu.log" 2&gt;&amp;1"</Path>
         </RunSynchronousCommand>
-
         <RunSynchronousCommand wcm:action="add">
           <Order>6</Order>
           <Description>Loads the Default User Registry Hive so Changes Can be Made to It</Description>
@@ -489,97 +465,516 @@ Where-Object -FilterScript {
   $logFile = "C:\Windows\Setup\Scripts\wintweaks.log"
   Start-Transcript -Path $logFile
           
-# Define the desktop path for the Default user
+# Define the desktop and shell
 $desktopPath = "C:\Users\Default\Desktop"
-
-# Define the shell object
 $shell = New-Object -ComObject WScript.Shell
 
-# Function to create a shortcut with given parameters
+# Create Shivaay Folders in Desktop
+$shivaayPath = New-Item -Path $desktopPath -Name "Shivaay" -ItemType Directory -Force
+$optimizationPath = New-Item -Path $shivaayPath -Name "Optimizations" -ItemType Directory -Force
+$securityPath = New-Item -Path $shivaayPath -Name "Security" -ItemType Directory -Force
+$softwaresPath = New-Item -Path $shivaayPath -Name "Softwares" -ItemType Directory -Force
+$managementPath = New-Item -Path $shivaayPath -Name "System Management" -ItemType Directory -Force
+$interfacePath = New-Item -Path $shivaayPath -Name "User Interface" -ItemType Directory -Force
+
 function Create-Shortcut {
     param (
-        [string]$command,
-        [string]$shortcutName
+        [string]$target,
+        [string]$shortcutName,
+        [string]$shortcutType
     )
-    # Define the shortcut path
     $shortcutPath = Join-Path $desktopPath $shortcutName
-    # Create the shortcut object
-    $shortcut = $shell.CreateShortcut($shortcutPath)          
-    # Set properties of the shortcut
-    $shortcut.TargetPath = "powershell.exe"
-    $shortcut.Arguments = "-NoProfile -ExecutionPolicy Bypass -Command `"$command`""
-    $shortcut.Save()        
-    # Make the shortcut have 'Run as administrator' property on
-    $bytes = [System.IO.File]::ReadAllBytes($shortcutPath)
-    $bytes[0x15] = $bytes[0x15] -bor 0x20
-    [System.IO.File]::WriteAllBytes($shortcutPath, $bytes)
+    $softPath = Join-Path $softwaresPath $shortcutName
+    if ($shortcutType -eq "url") {
+        $internetShortcut = $shell.CreateShortcut($softPath)
+        $internetShortcut.TargetPath = $target
+        $internetShortcut.Save()
+    } else {
+        $shortcut = $shell.CreateShortcut($shortcutPath)
+        $shortcut.TargetPath = "powershell.exe"
+        $shortcut.Arguments = "-NoProfile -ExecutionPolicy Bypass -Command `"$target`""
+        $shortcut.Save()
+        $bytes = [System.IO.File]::ReadAllBytes($shortcutPath)
+        $bytes[0x15] = $bytes[0x15] -bor 0x20
+        [System.IO.File]::WriteAllBytes($shortcutPath, $bytes)
+    }
 }
 
-# Create WinUtil-CTT shortcut
+# Create WinUtil-CTT and Activate Windows shortcut
 $winUtilCommand = "irm https://christitus.com/win | iex"
-Create-Shortcut -command $winUtilCommand -shortcutName 'WinUtil-CTT.lnk'
-
-# Create Activate Windows shortcut
+Create-Shortcut -target $winUtilCommand -shortcutName 'WinUtil-CTT.lnk'
 $activatedCommand = "irm https://get.activated.win | iex"
-Create-Shortcut -command $activatedCommand -shortcutName 'Activate-Windows.lnk'
-   
-# Create and Define Revert Folder in Desktop 
-New-Item -Path $desktopPath -Name "Revert" -ItemType Directory -Force
-$revertPath = "C:\Users\Default\Desktop\Revert"
+Create-Shortcut -target $activatedCommand -shortcutName 'Activate-Windows.lnk'
 
-# Enable Defender
-$defender = @"
-@echo off
-:: Restore Windows Defender registry settings
-reg add "HKLM\SYSTEM\CurrentControlSet\Services\Sense" /v Start /t REG_DWORD /d 3 /f
-reg add "HKLM\SYSTEM\CurrentControlSet\Services\WdBoot" /v Start /t REG_DWORD /d 0 /f
-reg add "HKLM\SYSTEM\CurrentControlSet\Services\WdFilter" /v Start /t REG_DWORD /d 0 /f
-reg add "HKLM\SYSTEM\CurrentControlSet\Services\WdNisDrv" /v Start /t REG_DWORD /d 3 /f
-reg add "HKLM\SYSTEM\CurrentControlSet\Services\WdNisSvc" /v Start /t REG_DWORD /d 3 /f
-reg add "HKLM\SYSTEM\CurrentControlSet\Services\WinDefend" /v Start /t REG_DWORD /d 2 /f
-reg del "HKLM\SOFTWARE\Policies\Microsoft\Windows Defender Security Center\Notifications" /v DisableNotifications /f
+# Softwares
+$gameBar = "ms-windows-store://pdp/?productid=9nzkpstsnw4p"
+Create-Shortcut -target $gameBar -shortcutName 'Download XBOX GameBar.url' -shortcutType "url"
 
-:: Start Windows Defender services immediately
-net start Sense
-net start WdNisSvc
-net start WinDefend
-
-:: Reboot the system
-shutdown /r /t 0
+# Security
+# Toggle Windows Defender
+$Defender = @"
+@echo off & net session >nul 2>&1
+if %errorLevel% neq 0 (
+    echo Please Run as Administrator.
+    pause & exit
+)
+set srt=%~n0
+if "%srt%"=="Enable - Defender" (
+reg delete "HKLM\SOFTWARE\Policies\Microsoft\Windows Defender" /v "DisableAntiSpyware" /f
+reg delete "HKLM\SOFTWARE\Policies\Microsoft\Windows Defender" /v "DisableRealtimeMonitoring" /f
+reg delete "HKLM\SOFTWARE\Policies\Microsoft\Windows Defender" /v "DisableAntiVirus" /f
+reg delete "HKLM\SOFTWARE\Policies\Microsoft\Windows Defender" /v "DisableSpecialRunningModes" /f
+reg delete "HKLM\SOFTWARE\Policies\Microsoft\Windows Defender" /v "DisableRoutinelyTakingAction" /f
+reg delete "HKLM\SOFTWARE\Policies\Microsoft\Windows Defender" /v "ServiceKeepAlive" /f
+reg delete "HKLM\SOFTWARE\Policies\Microsoft\Windows Defender\Real-Time Protection" /v "DisableBehaviorMonitoring" /f
+reg delete "HKLM\SOFTWARE\Policies\Microsoft\Windows Defender\Real-Time Protection" /v "DisableOnAccessProtection" /f
+reg delete "HKLM\SOFTWARE\Policies\Microsoft\Windows Defender\Real-Time Protection" /v "DisableScanOnRealtimeEnable" /f
+reg delete "HKLM\SOFTWARE\Policies\Microsoft\Windows Defender\Real-Time Protection" /v "DisableRealtimeMonitoring" /f
+reg delete "HKLM\SOFTWARE\Policies\Microsoft\Windows Defender\Signature Updates" /v "ForceUpdateFromMU" /f
+reg delete "HKLM\SOFTWARE\Policies\Microsoft\Windows Defender\Spynet" /v "DisableBlockAtFirstSeen" /f
+reg delete "HKLM\SOFTWARE\Policies\Microsoft\Windows Defender Security Center\Notifications" /v DisableNotifications /f
+reg add "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Run" /v "SecurityHealth" /t REG_SZ /d "%windir%\system32\SecurityHealthSystray.exe" /f
+reg add "HKCR\*\shellex\ContextMenuHandlers\EPP" /ve /d "{09A47860-11B0-4DA5-AFA5-26D86198A780}" /f
+reg add "HKCR\CLSID\{09A47860-11B0-4DA5-AFA5-26D86198A780}\InprocServer32" /ve /d "C:\\Program Files\\Windows Defender\\shellext.dll" /f
+reg add "HKCR\CLSID\{09A47860-11B0-4DA5-AFA5-26D86198A780}\InprocServer32" /v "ThreadingModel" /d "Apartment" /f
+reg add "HKCR\CLSID\{09A47860-11B0-4DA5-AFA5-26D86198A780}\Version" /ve /d "10.0.18362.1" /f
+reg add "HKCR\Directory\shellex\ContextMenuHandlers\EPP" /ve /d "{09A47860-11B0-4DA5-AFA5-26D86198A780}" /f
+reg add "HKCR\Drive\shellex\ContextMenuHandlers\EPP" /ve /d "{09A47860-11B0-4DA5-AFA5-26D86198A780}" /f
+start %windir%\system32\SecurityHealthSystray.exe
+set st="Disable - Defender.cmd"
+) else (
+echo 1. Click on "Virus & Threat Protection".
+echo 2. Disable all protections on the page.
+echo 3. Return Back to Terminal.
+pause
+start %windir%\explorer.exe windowsdefender://threat
+pause
+reg add "HKLM\SOFTWARE\Policies\Microsoft\Windows Defender" /v "DisableAntiSpyware" /t REG_DWORD /d 1 /f
+reg add "HKLM\SOFTWARE\Policies\Microsoft\Windows Defender" /v "DisableRealtimeMonitoring" /t REG_DWORD /d 1 /f
+reg add "HKLM\SOFTWARE\Policies\Microsoft\Windows Defender" /v "DisableAntiVirus" /t REG_DWORD /d 1 /f
+reg add "HKLM\SOFTWARE\Policies\Microsoft\Windows Defender" /v "DisableSpecialRunningModes" /t REG_DWORD /d 1 /f
+reg add "HKLM\SOFTWARE\Policies\Microsoft\Windows Defender" /v "DisableRoutinelyTakingAction" /t REG_DWORD /d 1 /f
+reg add "HKLM\SOFTWARE\Policies\Microsoft\Windows Defender" /v "ServiceKeepAlive" /t REG_DWORD /d 0 /f
+reg add "HKLM\SOFTWARE\Policies\Microsoft\Windows Defender\Real-Time Protection" /v "DisableBehaviorMonitoring" /t REG_DWORD /d 1 /f
+reg add "HKLM\SOFTWARE\Policies\Microsoft\Windows Defender\Real-Time Protection" /v "DisableOnAccessProtection" /t REG_DWORD /d 1 /f
+reg add "HKLM\SOFTWARE\Policies\Microsoft\Windows Defender\Real-Time Protection" /v "DisableScanOnRealtimeEnable" /t REG_DWORD /d 1 /f
+reg add "HKLM\SOFTWARE\Policies\Microsoft\Windows Defender\Real-Time Protection" /v "DisableRealtimeMonitoring" /t REG_DWORD /d 1 /f
+reg add "HKLM\SOFTWARE\Policies\Microsoft\Windows Defender\Signature Updates" /v "ForceUpdateFromMU" /t REG_DWORD /d 0 /f
+reg add "HKLM\SOFTWARE\Policies\Microsoft\Windows Defender\Spynet" /v "DisableBlockAtFirstSeen" /t REG_DWORD /d 1 /f
+reg add "HKLM\SOFTWARE\Policies\Microsoft\Windows Defender Security Center\Notifications" /v DisableNotifications /t REG_DWORD /d 1 /f
+reg delete "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Run" /v "SecurityHealth" /f
+reg delete "HKCR\*\shellex\ContextMenuHandlers\EPP" /f
+reg delete "HKCR\CLSID\{09A47860-11B0-4DA5-AFA5-26D86198A780}" /f
+reg delete "HKCR\Directory\shellex\ContextMenuHandlers\EPP" /f
+reg delete "HKCR\Drive\shellex\ContextMenuHandlers\EPP" /f
+taskkill /im SecurityHealthSystray.exe /f
+set st="Enable - Defender.cmd"
+)
+ren "%~dpnx0" %st%
 "@
-$enableDefender = [System.IO.Path]::Combine($revertPath, 'Enable-Defender.cmd')
-$defender | Out-File -FilePath $enableDefender -Encoding UTF8
+$toggleDefender = [System.IO.Path]::Combine($securityPath, 'Enable - Defender.cmd')
+$Defender | Out-File -FilePath $toggleDefender -Encoding ASCII
 
-# Enable Notifications
-$notifications = @"
-@echo off
-reg add "HKCU\Software\Policies\Microsoft\Windows\Explorer" /v DisableNotificationCenter /t REG_DWORD /d 0 /f
-reg add "HKCU\Software\Microsoft\Windows\CurrentVersion\PushNotifications" /v ToastEnabled /t REG_DWORD /d 1 /f
-reg add "HKCU\SOFTWARE\Microsoft\Windows\CurrentVersion\BackgroundAccessApplications" /v GlobalUserDisabled /t REG_DWORD /d 0 /f
+# Toggle Core Isolation - Memory Integrity 
+$memoryIntegrity = @"
+@echo off & net session >nul 2>&1
+if %errorLevel% neq 0 (
+    echo Please Run as Administrator.
+    pause & exit
+)
+set srt=%~n0
+if "%srt%"=="Enable - Core Isolation" (
+reg add "HKLM\SYSTEM\CurrentControlSet\Control\DeviceGuard\Scenarios\HypervisorEnforcedCodeIntegrity" /v Enabled /t REG_DWORD /d 1 /f
+reg delete "HKLM\SOFTWARE\Policies\Microsoft\Windows Defender Security Center\Device security" /v "UILockdown" /f
+set st="Disable - Core Isolation.cmd"
+) else (
+reg add "HKLM\SYSTEM\CurrentControlSet\Control\DeviceGuard\Scenarios\HypervisorEnforcedCodeIntegrity" /v Enabled /t REG_DWORD /d 0 /f
+reg add "HKLM\SOFTWARE\Policies\Microsoft\Windows Defender Security Center\Device security" /v "UILockdown" /t REG_DWORD /d 1 /f
+set st="Enable - Core Isolation.cmd"
+)
+ren "%~dpnx0" %st% & echo Restart to apply changes.
 "@
-$enableNotifications = [System.IO.Path]::Combine($revertPath, 'Enable-Notification.cmd')
-$notifications | Out-File -FilePath $enableNotifications -Encoding UTF8
+$toggleMemoryIntegrity = [System.IO.Path]::Combine($securityPath, 'Enable - Core Isolation.cmd')
+$memoryIntegrity | Out-File -FilePath $toggleMemoryIntegrity -Encoding ASCII
 
-# Enable GameDVR
+# Toggle Fault Tolerant Heap (FTH)
+$faultHeapToggle = @"
+@echo off & net session >nul 2>&1
+if %errorLevel% neq 0 (
+    echo Please Run as Administrator.
+    pause & exit
+)
+set srt=%~n0
+if "%srt%"=="Enable - Fault Tolerant Heap.cmd" (
+reg add "HKLM\SOFTWARE\Microsoft\FTH" /v "Enabled" /t REG_DWORD /d 1 /f
+set st="Disable - Fault Tolerant Heap.cmd"
+) else (
+reg add "HKLM\SOFTWARE\Microsoft\FTH" /v "Enabled" /t REG_DWORD /d 0 /f
+set st="Enable - Fault Tolerant Heap.cmd"
+)
+ren "%~dpnx0" %st%
+"@
+$faultHeapPath = [System.IO.Path]::Combine($securityPath, 'Enable - Fault Tolerant Heap.cmd')
+$faultHeapToggle | Out-File -FilePath $faultHeapPath -Encoding ASCII
+
+# Show/Hide Unused Security Pages
+$UnusedSecurityPages = @"
+@echo off & net session >nul 2>&1
+if %errorLevel% neq 0 (
+    echo Please Run as Administrator.
+    pause & exit
+)
+set srt=%~n0
+if "%srt%"=="Hide - Unused Security Pages" (
+reg add "HKLM\SOFTWARE\Policies\Microsoft\Windows Defender Security Center\Device performance and health" /v "UILockdown" /t REG_DWORD /d 1 /f
+reg add "HKLM\SOFTWARE\Policies\Microsoft\Windows Defender Security Center\Family options" /v "UILockdown" /t REG_DWORD /d 1 /f
+reg add "HKLM\SOFTWARE\Policies\Microsoft\Windows Defender Security Center\Account protection" /v "UILockdown" /t REG_DWORD /d 1 /f
+set st="Show - Unused Security Pages.cmd"
+) else (
+reg delete "HKLM\SOFTWARE\Policies\Microsoft\Windows Defender Security Center\Device performance and health" /v "UILockdown" /f
+reg delete "HKLM\SOFTWARE\Policies\Microsoft\Windows Defender Security Center\Family options" /v "UILockdown" /f
+reg delete "HKLM\SOFTWARE\Policies\Microsoft\Windows Defender Security Center\Account protection" /v "UILockdown" /f
+set st="Hide - Unused Security Pages.cmd"
+)
+ren "%~dpnx0" %st%
+"@
+$toggleUnusedSecurityPages = [System.IO.Path]::Combine($securityPath, 'Show - Unused Security Pages.cmd')
+$UnusedSecurityPages | Out-File -FilePath $toggleUnusedSecurityPages -Encoding ASCII
+
+# System Management
+# Toggle Hibernation and Fast Startup
+$hibernationToggle = @"
+@echo off & net session >nul 2>&1
+if %errorLevel% neq 0 (
+    echo Please Run as Administrator.
+    pause & exit
+)
+set srt=%~n0
+if "%srt%"=="Enable Hibernation and Fast Startup" (
+powercfg /hibernate on
+reg add "HKLM\SYSTEM\CurrentControlSet\Control\Session Manager\Power" /v HiberbootEnabled /t REG_DWORD /d 1 /f
+    set st="Disable Hibernation and Fast Startup.cmd"
+) else (
+powercfg /hibernate off
+set st="Enable Hibernation and Fast Startup.cmd"
+)
+ren "%~dpnx0" %st%
+"@
+$toggleHibernation = [System.IO.Path]::Combine($managementPath, 'Enable Hibernation and Fast Startup')
+$hibernationToggle | Out-File -FilePath "$toggleHibernation.cmd" -Encoding ASCII
+
+# Toggle GameDVR
 $gameDVR = @"
-@echo off
+@echo off & net session >nul 2>&1
+if %errorLevel% neq 0 (
+    echo Please Run as Administrator.
+    pause & exit
+)
+set srt=%~n0
+if "%srt%"=="Enable GameDVR" (
 reg add "HKCU\System\GameConfigStore" /v GameDVR_FSEBehavior /t REG_DWORD /d 0 /f
 reg add "HKCU\System\GameConfigStore" /v GameDVR_Enabled /t REG_DWORD /d 1 /f
 reg add "HKCU\System\GameConfigStore" /v GameDVR_DXGIHonorFSEWindowsCompatible /t REG_DWORD /d 0 /f
 reg add "HKCU\System\GameConfigStore" /v GameDVR_HonorUserFSEBehaviorMode /t REG_DWORD /d 0 /f
 reg add "HKCU\System\GameConfigStore" /v GameDVR_EFSEFeatureFlags /t REG_DWORD /d 1 /f
 reg add "HKLM\SOFTWARE\Policies\Microsoft\Windows\GameDVR" /v AllowGameDVR /t REG_DWORD /d 1 /f
+set st="Disable GameDVR.cmd"
+) else (
+reg delete "HKCU\System\GameConfigStore" /v GameDVR_FSEBehavior /f
+reg delete "HKCU\System\GameConfigStore" /v GameDVR_Enabled /f
+reg delete "HKCU\System\GameConfigStore" /v GameDVR_DXGIHonorFSEWindowsCompatible /f
+reg delete "HKCU\System\GameConfigStore" /v GameDVR_HonorUserFSEBehaviorMode /f
+reg delete "HKCU\System\GameConfigStore" /v GameDVR_EFSEFeatureFlags /f
+reg delete "HKLM\SOFTWARE\Policies\Microsoft\Windows\GameDVR" /v AllowGameDVR /f
+set st="Enable GameDVR.cmd"
+)
+ren "%~dpnx0" %st%
 "@
-$enablegameDVR = [System.IO.Path]::Combine($revertPath, 'Enable-GameDVR.cmd')
-$gameDVR | Out-File -FilePath $enablegameDVR -Encoding UTF8
+$toggleGameDVR = [System.IO.Path]::Combine($managementPath, 'Enable GameDVR')
+$gameDVR | Out-File -FilePath "$toggleGameDVR.cmd" -Encoding ASCII
 
-# Enable Hibernation & Fast Startup
-$hibernation = @"
-@echo off
-reg add "HKLM\System\CurrentControlSet\Control\Session Manager\Power" /v HibernateEnabled /t REG_DWORD /d 1 /f
+# Toggle Windows Search Indexing Service
+$searchService = @"
+@echo off & net session >nul 2>&1
+if %errorLevel% neq 0 (
+    echo Please Run as Administrator.
+    pause & exit
+)
+set srt=%~n0
+if "%srt%"=="Enable Search Indexing" (
+sc config WSearch start=auto
+net start WSearch
+set st="Disable Search Indexing.cmd"
+) else (
+net stop WSearch
+sc config WSearch start=disabled
+set st="Enable Search Indexing.cmd"
+)
+ren "%~dpnx0" %st% & taskkill /f /im explorer.exe & start explorer.exe
 "@
-$enableHibernation = [System.IO.Path]::Combine($revertPath, 'Enable-Hibernation-and-Fast-Startup.cmd')
-$hibernation | Out-File -FilePath $enableHibernation -Encoding UTF8
+$toggleSearchService = [System.IO.Path]::Combine($managementPath, 'Enable Search Indexing')
+$searchService | Out-File -FilePath "$toggleSearchService.cmd" -Encoding ASCII
+
+# Toggle Notifications and Background Apps
+$notificationToggle = @"
+@echo off & net session >nul 2>&1
+if %errorLevel% neq 0 (
+    echo Please Run as Administrator.
+    pause & exit
+)
+set srt=%~n0
+if "%srt%"=="Enable Notifications and Background Apps" (
+reg add "HKCU\Software\Policies\Microsoft\Windows\Explorer" /v DisableNotificationCenter /t REG_DWORD /d 0 /f
+reg add "HKCU\Software\Microsoft\Windows\CurrentVersion\PushNotifications" /v ToastEnabled /t REG_DWORD /d 1 /f
+reg add "HKCU\SOFTWARE\Microsoft\Windows\CurrentVersion\BackgroundAccessApplications" /v GlobalUserDisabled /t REG_DWORD /d 0 /f
+set st="Disable Notifications and Background Apps.cmd"
+) else (
+reg add "HKCU\Software\Policies\Microsoft\Windows\Explorer" /v DisableNotificationCenter /t REG_DWORD /d 1 /f
+reg add "HKCU\Software\Microsoft\Windows\CurrentVersion\PushNotifications" /v ToastEnabled /t REG_DWORD /d 0 /f
+reg add "HKCU\SOFTWARE\Microsoft\Windows\CurrentVersion\BackgroundAccessApplications" /v GlobalUserDisabled /t REG_DWORD /d 1 /f
+set st="Enable Notifications and Background Apps.cmd"
+)
+ren "%~dpnx0" %st% & taskkill /f /im explorer.exe & start explorer.exe
+"@
+$toggleNotification = [System.IO.Path]::Combine($managementPath, 'Enable Notifications and Background Apps')
+$notificationToggle | Out-File -FilePath "$toggleNotification.cmd" -Encoding ASCII
+
+# Toggle Windows Printer Spooler Service
+$spoolerService = @"
+@echo off & net session >nul 2>&1
+if %errorLevel% neq 0 (
+    echo Please Run as Administrator.
+    pause & exit
+)
+set srt=%~n0
+if "%srt%"=="Enable Printer Spooler" (
+sc config Spooler start=auto
+net start Spooler
+set st="Disable Printer Spooler.cmd"
+) else (
+net stop Spooler
+sc config Spooler start=disabled
+set st="Enable Printer Spooler.cmd"
+)
+ren "%~dpnx0" %st%
+"@
+$toggleSpoolerService = [System.IO.Path]::Combine($managementPath, 'Enable Printer Spooler')
+$spoolerService | Out-File -FilePath "$toggleSpoolerService.cmd" -Encoding ASCII
+
+# Optimizations
+# Toggle Update Notifications
+$updateNotifications = @"
+@echo off & net session >nul 2>&1
+if %errorLevel% neq 0 (
+    echo Please Run as Administrator.
+    pause & exit
+)
+set srt=%~n0
+if "%srt%"=="Enable Update Notifications" (
+reg add "HKLM\SOFTWARE\Policies\Microsoft\Windows\WindowsUpdate" /v SetAutoRestartNotificationDisable /t REG_DWORD /d 0 /f
+reg add "HKLM\SOFTWARE\Microsoft\WindowsUpdate\UX\Settings" /v RestartNotificationsAllowed2 /t REG_DWORD /d 1 /f
+reg add "HKLM\SOFTWARE\Policies\Microsoft\Windows\WindowsUpdate" /v SetUpdateNotificationLevel /t REG_DWORD /d 1 /f
+set st="Disable Update Notifications.cmd"
+) else (
+reg delete "HKLM\SOFTWARE\Policies\Microsoft\Windows\WindowsUpdate" /v SetAutoRestartNotificationDisable /f
+reg delete "HKLM\SOFTWARE\Microsoft\WindowsUpdate\UX\Settings" /v RestartNotificationsAllowed2 /f
+reg delete "HKLM\SOFTWARE\Policies\Microsoft\Windows\WindowsUpdate" /v SetUpdateNotificationLevel /f
+set st="Enable Update Notifications.cmd"
+)
+ren "%~dpnx0" %st%
+"@
+$toggleUpdateNotifications = [System.IO.Path]::Combine($optimizationPath, 'Enable Update Notifications.cmd')
+$updateNotifications | Out-File -FilePath $toggleUpdateNotifications -Encoding ASCII
+
+# Toggle Automatic Folder Discovery
+$automaticFolder = @"
+@echo off & net session >nul 2>&1
+if %errorLevel% neq 0 (
+    echo Please Run as Administrator.
+    pause & exit
+)
+set srt=%~n0
+if "%srt%"=="Enable Automatic Folder Discovery" (
+reg add "HKCU\Software\Classes\Local Settings\Software\Microsoft\Windows\Shell\Bags\AllFolders\Shell" /v FolderType /t REG_DWORD /d 0 /f
+set st="Disable Automatic Folder Discovery.cmd"
+) else (
+reg delete "HKCU\Software\Classes\Local Settings\Software\Microsoft\Windows\Shell\Bags\AllFolders\Shell" /v FolderType /f
+set st="Enable Automatic Folder Discovery.cmd"
+)
+ren "%~dpnx0" %st%
+"@
+$toggleAutomaticFolder = [System.IO.Path]::Combine($optimizationPath, 'Enable Automatic Folder Discovery.cmd')
+$automaticFolder | Out-File -FilePath $toggleAutomaticFolder -Encoding ASCII
+
+# Toggle Last Access Time Stamp and 8.3 Char Length File Name Creation
+$toggleFileSystemSettings = @"
+@echo off & net session >nul 2>&1
+if %errorLevel% neq 0 (
+    echo Please Run as Administrator.
+    pause & exit
+)
+set srt=%~n0
+if "%srt%"=="Disable Last Access Time and 8.3 Name" (
+fsutil behavior set disableLastAccess 1
+fsutil behavior set disable8dot3 1
+set st="Enable Last Access Time and 8.3 Name.cmd"
+) else (
+fsutil behavior set disableLastAccess 0
+fsutil behavior set disable8dot3 0
+set st="Disable Last Access Time and 8.3 Name.cmd"
+)
+ren "%~dpnx0" %st%
+"@
+$toggleFileSystemSettingsPath = [System.IO.Path]::Combine($optimizationPath, 'Enable Last Access Time and 8.3 Name.cmd')
+$toggleFileSystemSettings | Out-File -FilePath $toggleFileSystemSettingsPath -Encoding ASCII
+
+# Toggle Multi-Plane Overlay
+$toggleOverlayTestMode = @"
+@echo off & net session >nul 2>&1
+if %errorLevel% neq 0 (
+    echo Please Run as Administrator.
+    pause & exit
+)
+set srt=%~n0
+if "%srt%"=="Enable Multi-Plane Overlay" (
+reg delete "HKLM\SOFTWARE\Microsoft\Windows\Dwm" /v OverlayTestMode /f
+set st="Disable Multi-Plane Overlay.cmd"
+) else (
+reg add "HKLM\SOFTWARE\Microsoft\Windows\Dwm" /v OverlayTestMode /t REG_DWORD /d 5 /f
+set st="Enable Multi-Plane Overlay.cmd"
+)
+ren "%~dpnx0" %st%
+"@
+$toggleOverlayTestModePath = [System.IO.Path]::Combine($optimizationPath, 'Enable Multi-Plane Overlay.cmd')
+$toggleOverlayTestMode | Out-File -FilePath $toggleOverlayTestModePath -Encoding ASCII
+
+# User Interface
+# Toggle Gallery in File Explorer
+$toggleGalleryExplorer = @"
+@echo off & net session >nul 2>&1
+if %errorLevel% neq 0 (
+    echo Please Run as Administrator.
+    pause & exit
+)
+set srt=%~n0
+if "%srt%"=="Show - Gallery In File Explorer" (
+reg add "HKCU\Software\Classes\CLSID\{e88865ea-0e1c-4e20-9aa6-edcd0212c87c}" /v System.IsPinnedToNameSpaceTree /t REG_DWORD /d 1 /f
+set st="Hide - Gallery In File Explorer.cmd"
+) else (
+reg delete "HKCU\Software\Classes\CLSID\{e88865ea-0e1c-4e20-9aa6-edcd0212c87c}" /v System.IsPinnedToNameSpaceTree /f
+set st="Show - Gallery In File Explorer.cmd"
+)
+ren "%~dpnx0" %st% & taskkill /f /im explorer.exe & start explorer.exe
+"@
+$toggleGalleryExplorerPath = [System.IO.Path]::Combine($interfacePath, 'Show - Gallery In File Explorer.cmd')
+$toggleGalleryExplorer | Out-File -FilePath $toggleGalleryExplorerPath -Encoding ASCII
+
+# Toggle Network Navigation Pane in File Explorer
+$toggleNetworkNavigation = @"
+@echo off & net session >nul 2>&1
+if %errorLevel% neq 0 (
+    echo Please Run as Administrator.
+    pause & exit
+)
+set srt=%~n0
+if "%srt%"=="Show - Network Navigation In File Explorer" (
+reg add "HKCU\SOFTWARE\Classes\CLSID\{F02C1A0D-BE21-4350-88B0-7367FC96EF3C}" /v System.IsPinnedToNameSpaceTree /t REG_SZ /d "1" /f
+set st="Hide - Network Navigation In File Explorer.cmd"
+) else (
+reg delete "HKCU\SOFTWARE\Classes\CLSID\{F02C1A0D-BE21-4350-88B0-7367FC96EF3C}" /v System.IsPinnedToNameSpaceTree /f
+set st="Show - Network Navigation In File Explorer.cmd"
+)
+ren "%~dpnx0" %st% & taskkill /f /im explorer.exe & start explorer.exe
+"@
+$toggleNetworkNavigationPath = [System.IO.Path]::Combine($interfacePath, 'Show - Network Navigation In File Explorer.cmd')
+$toggleNetworkNavigation | Out-File -FilePath $toggleNetworkNavigationPath -Encoding ASCII
+
+# Toggle Removable Drives in File Explorer
+$toggleRemovableDrives = @"
+@echo off & net session >nul 2>&1
+if %errorLevel% neq 0 (
+    echo Please Run as Administrator.
+    pause & exit
+)
+set srt=%~n0
+if "%srt%"=="Show - Removable Drives In File Explorer Quick Access" (
+reg add "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Desktop\NameSpace\DelegateFolders\{F5FB2C77-0E2F-4A16-A381-3E560C68BC83}" /ve /d "Removable Drives" /f
+reg add "HKLM\SOFTWARE\WOW6432Node\Microsoft\Windows\CurrentVersion\Explorer\Desktop\NameSpace\DelegateFolders\{F5FB2C77-0E2F-4A16-A381-3E560C68BC83}\{F5FB2C77-0E2F-4A16-A381-3E560C68BC83}" /ve /d "Removable Drives" /f
+set st="Hide - Removable Drives In File Explorer Quick Access.cmd"
+) else (
+reg delete "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Desktop\NameSpace\DelegateFolders\{F5FB2C77-0E2F-4A16-A381-3E560C68BC83}" /v /f
+reg delete "HKLM\SOFTWARE\WOW6432Node\Microsoft\Windows\CurrentVersion\Explorer\Desktop\NameSpace\DelegateFolders\{F5FB2C77-0E2F-4A16-A381-3E560C68BC83}\{F5FB2C77-0E2F-4A16-A381-3E560C68BC83}" /v /f
+set st="Show - Removable Drives In File Explorer Quick Access.cmd"
+)
+ren "%~dpnx0" %st% & taskkill /f /im explorer.exe & start explorer.exe
+"@
+$toggleRemovableDrivesPath = [System.IO.Path]::Combine($interfacePath, 'Show - Removable Drives In File Explorer Quick Access.cmd')
+$toggleRemovableDrives | Out-File -FilePath $toggleRemovableDrivesPath -Encoding ASCII
+
+# Toggle Context Menu
+$contextMenu = @"
+@echo off & net session >nul 2>&1
+if %errorLevel% neq 0 (
+    echo Please Run as Administrator.
+    pause & exit
+)
+set srt=%~n0
+if "%srt%"=="Enable - NEW Context Menu" (
+reg delete "HKCU\Software\Classes\CLSID\{86ca1aa0-34aa-4e8b-a509-50c905bae2a2}" /f
+set st="Enable - OLD Context Menu.cmd"
+) else (
+reg add "HKCU\Software\Classes\CLSID\{86ca1aa0-34aa-4e8b-a509-50c905bae2a2}\InprocServer32" /f
+set st="Enable - NEW Context Menu.cmd"
+)
+ren "%~dpnx0" %st% & taskkill /f /im explorer.exe & start explorer.exe
+"@
+$toggleContextMenuPath = [System.IO.Path]::Combine($interfacePath, 'Enable - NEW Context Menu.cmd')
+$contextMenu | Out-File -FilePath $toggleContextMenuPath -Encoding ASCII
+
+# Change New Folder Name
+$FolderName = @"
+reg add "HKCU\Software\Microsoft\Windows\CurrentVersion\Explorer\NamingTemplates" /v "RenameNameTemplate" /t REG_SZ /d %~n0 /f
+"@
+$NewFolderName = [System.IO.Path]::Combine($interfacePath, 'Change Me and Run to Change Default New Folder Name.cmd')
+$FolderName | Out-File -FilePath $NewFolderName -Encoding ASCII
+
+# Toggle Recent Items in Windows
+$toggleRecentItems = @"
+@echo off & net session >nul 2>&1
+if %errorLevel% neq 0 (
+    echo Please Run as Administrator.
+    pause & exit
+)
+set srt=%~n0
+if "%srt%"=="Disable - Recent Items" (
+reg add "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\Explorer" /v "NoStartMenuMFUprogramsList" /t REG_DWORD /d "1" /f
+reg add "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\Explorer" /v "NoRecentDocsHistory" /t REG_DWORD /d "1" /f
+reg add "HKLM\SOFTWARE\Policies\Microsoft\Windows\Explorer" /v "ShowOrHideMostUsedApps" /t REG_DWORD /d "1" /f
+reg add "HKLM\SOFTWARE\Policies\Microsoft\Windows\Explorer" /v "HideRecentlyAddedApps" /t REG_DWORD /d "1" /f
+reg add "HKCU\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\Explorer" /v "NoInstrumentation" /t REG_DWORD /d "1" /f
+reg add "HKCU\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\Explorer" /v "ClearRecentDocsOnExit" /t REG_DWORD /d "1" /f
+reg add "HKCU\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\Explorer" /v "NoRecentDocsHistory" /t REG_DWORD /d "1" /f
+reg add "HKCU\SOFTWARE\Policies\Microsoft\Windows\Explorer" /v "NoRemoteDestinations" /t REG_DWORD /d "1" /f
+reg add "HKCU\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Advanced" /v "Start_TrackProgs" /t REG_DWORD /d "0" /f
+reg add "HKCU\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Advanced" /v "Start_TrackDocs" /t REG_DWORD /d "0" /f
+set st="Enable - Recent Items.cmd"
+) else (
+reg delete "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\Explorer" /v "NoStartMenuMFUprogramsList" /f
+reg delete "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\Explorer" /v "NoRecentDocsHistory" /f
+reg delete "HKLM\SOFTWARE\Policies\Microsoft\Windows\Explorer" /v "ShowOrHideMostUsedApps" /f
+reg delete "HKLM\SOFTWARE\Policies\Microsoft\Windows\Explorer" /v "HideRecentlyAddedApps" /f
+reg delete "HKCU\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\Explorer" /v "NoInstrumentation" /f
+reg delete "HKCU\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\Explorer" /v "ClearRecentDocsOnExit" /f
+reg delete "HKCU\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\Explorer" /v "NoRecentDocsHistory" /f
+reg delete "HKCU\SOFTWARE\Policies\Microsoft\Windows\Explorer" /v "NoRemoteDestinations" /f
+reg add "HKCU\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Advanced" /v "Start_TrackProgs" /t REG_DWORD /d "1" /f
+reg add "HKCU\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Advanced" /v "Start_TrackDocs" /t REG_DWORD /d "1" /f
+set st="Disable - Recent Items.cmd"
+)
+ren "%~dpnx0" %st% & taskkill /f /im explorer.exe & start explorer.exe
+"@
+$toggleRecentItemsPath = [System.IO.Path]::Combine($interfacePath, 'Enable - Recent Items.cmd')
+$toggleRecentItems | Out-File -FilePath $toggleRecentItemsPath -Encoding ASCII
 
 # Enables .NET Framework 3.5
   DISM /Online /Enable-Feature /FeatureName:NetFx3 /All /Source:X:\sources\sxs /LimitAccess
@@ -691,17 +1086,16 @@ $hibernation | Out-File -FilePath $enableHibernation -Encoding UTF8
       $proc.WaitForExit()
   }
   
-# Disables Teredo
+#Disable Teredo
   $registryKeysTeredo = @(
       @{Path = "HKLM:\SYSTEM\CurrentControlSet\Services\Tcpip6\Parameters"; Name = "DisabledComponents"; Type = "DWord"; Value = 1}
   )
   foreach ($key in $registryKeysTeredo) {
       New-ItemProperty -Path $key.Path -Name $key.Name -PropertyType $key.Type -Value $key.Value -Force
   }
-  netsh interface Teredo set state type=default
-  netsh interface Teredo set state servername=default
+  netsh interface teredo set state disabled
   
-# Disables Telemetry
+#Disable Telemetry
 # Disable Scheduled Tasks
   $scheduledTasks = @(
 "Microsoft\Windows\Application Experience\Microsoft Compatibility Appraiser",
@@ -716,27 +1110,21 @@ $hibernation | Out-File -FilePath $enableHibernation -Encoding UTF8
 "Microsoft\Windows\Application Experience\MareBackup",
 "Microsoft\Windows\Application Experience\StartupAppTask",
 "Microsoft\Windows\Application Experience\PcaPatchDbTask",
-"Microsoft\Windows\Maps\MapsUpdateTask",
-"Microsoft\Windows\Power Efficiency Diagnostics\AnalyzeSystem",
-"Microsoft\Windows\MemoryDiagnostic\ProcessMemoryDiagnosticEvents",
-"Microsoft\Windows\MemoryDiagnostic\RunFullMemoryDiagnostic",
-"Microsoft\Windows\WindowsUpdate\Scheduled Start",
-"Microsoft\Windows\Application Experience\AitAgent",
-"Microsoft\Windows\UpdateOrchestrator\StartOobeAppsScanAfterUpdate",
-"Microsoft\Windows\UpdateOrchestrator\Start Oobe Expedite Work",
-"Microsoft\Windows\UpdateOrchestrator\Schedule Scan"
+"Microsoft\Windows\Maps\MapsUpdateTask"
   )
   foreach ($task in $scheduledTasks) {
       schtasks /Change /TN $task /Disable
   }
-  
-# Disable Reserved Storage 
-  DISM /Online /Set-ReservedStorageState /State:Disabled
-  
-# Create a custom PowerPlan Trishula
+
+# Disable Reserved Storage (To free up some space)
+DISM /Online /Set-ReservedStorageState /State:Disabled
+reg add "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\ReserveManager" /v "ShippedWithReserves" /t REG_DWORD /d 0 /f
+
+# Create a custom Power Plan of Shivaay
+# Shivaay - Power Within (Default)
 powercfg -restoredefaultschemes
 powercfg -duplicatescheme e9a42b02-d5df-448d-aa00-03f14749eb61 3ff9831b-6f80-4830-8178-736cd4229e7b
- powercfg -changename 3ff9831b-6f80-4830-8178-736cd4229e7b "Trishula - Bole to OP Performance" "Windows's Ultimate Performance with additional changes."
+ powercfg -changename 3ff9831b-6f80-4830-8178-736cd4229e7b "Shivaay - Unleash the Power Within" "Inspired by the strength of Shiva, this plan activates all CPU cores for unmatched performance.."
  powercfg -s 3ff9831b-6f80-4830-8178-736cd4229e7b
  powercfg -setacvalueindex scheme_current sub_processor PERFINCPOL 2
  powercfg -setacvalueindex scheme_current sub_processor PERFDECPOL 1
@@ -744,6 +1132,7 @@ powercfg -duplicatescheme e9a42b02-d5df-448d-aa00-03f14749eb61 3ff9831b-6f80-483
  powercfg -setacvalueindex scheme_current sub_processor PERFDECTHRESHOLD 8
  powercfg -setacvalueindex scheme_current sub_processor CPMINCORES 100
  powercfg -setacvalueindex scheme_current sub_processor CPMINCORES1 100
+ powercfg -setacvalueindex scheme_current sub_processor PROCTHROTTLEMAX 0
  powercfg /setactive scheme_current
 
 # Set Services to Manual
@@ -896,7 +1285,7 @@ powercfg -duplicatescheme e9a42b02-d5df-448d-aa00-03f14749eb61 3ff9831b-6f80-483
   Set-Service -Name 'SharedRealitySvc' -StartupType Manual -ErrorAction Continue
   Set-Service -Name 'ShellHWDetection' -StartupType Automatic -ErrorAction Continue
   Set-Service -Name 'SmsRouter' -StartupType Manual -ErrorAction Continue
-  Set-Service -Name 'Spooler' -StartupType Automatic -ErrorAction Continue
+  Set-Service -Name 'Spooler' -StartupType Manual -ErrorAction Continue
   Set-Service -Name 'SstpSvc' -StartupType Manual -ErrorAction Continue
   Set-Service -Name 'StateRepository' -StartupType Manual -ErrorAction Continue
   Set-Service -Name 'StiSvc' -StartupType Manual -ErrorAction Continue
@@ -935,7 +1324,7 @@ powercfg -duplicatescheme e9a42b02-d5df-448d-aa00-03f14749eb61 3ff9831b-6f80-483
   Set-Service -Name 'WManSvc' -StartupType Manual -ErrorAction Continue
   Set-Service -Name 'WPDBusEnum' -StartupType Manual -ErrorAction Continue
   Set-Service -Name 'WSService' -StartupType Manual -ErrorAction Continue
-  Set-Service -Name 'WSearch' -StartupType Manual -ErrorAction Continue
+  Set-Service -Name 'WSearch' -StartupType Disabled -ErrorAction Continue
   Set-Service -Name 'WaaSMedicSvc' -StartupType Manual -ErrorAction Continue
   Set-Service -Name 'WalletService' -StartupType Manual -ErrorAction Continue
   Set-Service -Name 'WarpJITSvc' -StartupType Manual -ErrorAction Continue
@@ -1031,44 +1420,75 @@ powercfg -duplicatescheme e9a42b02-d5df-448d-aa00-03f14749eb61 3ff9831b-6f80-483
   Stop-Transcript]]>
     </File>
 
- <!-- 7+ Windows Registry Tweaks -->
-    <!--Local Machine Registry Entries - This Sets Features for the Local Machine-->
+    <!-- 7+ Local Machine Registry Entries - This Sets Features for the Local Machine-->
     <File path="C:\Windows\Setup\Scripts\localmachine.cmd">
       <![CDATA[
-:: Disables Windows Defender Security
-reg add "HKLM\SYSTEM\CurrentControlSet\Services\Sense" /v Start /t REG_DWORD /d 4 /f
-reg add "HKLM\SYSTEM\CurrentControlSet\Services\WdBoot" /v Start /t REG_DWORD /d 4 /f
-reg add "HKLM\SYSTEM\CurrentControlSet\Services\WdFilter" /v Start /t REG_DWORD /d 4 /f
-reg add "HKLM\SYSTEM\CurrentControlSet\Services\WdNisDrv" /v Start /t REG_DWORD /d 4 /f
-reg add "HKLM\SYSTEM\CurrentControlSet\Services\WdNisSvc" /v Start /t REG_DWORD /d 4 /f
-reg add "HKLM\SYSTEM\CurrentControlSet\Services\WinDefend" /v Start /t REG_DWORD /d 4 /f
+:: Disable Windows Defender Security
+reg add "HKLM\SOFTWARE\Policies\Microsoft\Windows Defender" /v "DisableAntiSpyware" /t REG_DWORD /d 1 /f
+reg add "HKLM\SOFTWARE\Policies\Microsoft\Windows Defender" /v "DisableRealtimeMonitoring" /t REG_DWORD /d 1 /f
+reg add "HKLM\SOFTWARE\Policies\Microsoft\Windows Defender" /v "DisableAntiVirus" /t REG_DWORD /d 1 /f
+reg add "HKLM\SOFTWARE\Policies\Microsoft\Windows Defender" /v "DisableSpecialRunningModes" /t REG_DWORD /d 1 /f
+reg add "HKLM\SOFTWARE\Policies\Microsoft\Windows Defender" /v "DisableRoutinelyTakingAction" /t REG_DWORD /d 1 /f
+reg add "HKLM\SOFTWARE\Policies\Microsoft\Windows Defender" /v "ServiceKeepAlive" /t REG_DWORD /d 0 /f
+reg add "HKLM\SOFTWARE\Policies\Microsoft\Windows Defender\Real-Time Protection" /v "DisableBehaviorMonitoring" /t REG_DWORD /d 1 /f
+reg add "HKLM\SOFTWARE\Policies\Microsoft\Windows Defender\Real-Time Protection" /v "DisableOnAccessProtection" /t REG_DWORD /d 1 /f
+reg add "HKLM\SOFTWARE\Policies\Microsoft\Windows Defender\Real-Time Protection" /v "DisableScanOnRealtimeEnable" /t REG_DWORD /d 1 /f
+reg add "HKLM\SOFTWARE\Policies\Microsoft\Windows Defender\Real-Time Protection" /v "DisableRealtimeMonitoring" /t REG_DWORD /d 1 /f
+reg add "HKLM\SOFTWARE\Policies\Microsoft\Windows Defender\Signature Updates" /v "ForceUpdateFromMU" /t REG_DWORD /d 0 /f
+reg add "HKLM\SOFTWARE\Policies\Microsoft\Windows Defender\Spynet" /v "DisableBlockAtFirstSeen" /t REG_DWORD /d 1 /f
 reg add "HKLM\SOFTWARE\Policies\Microsoft\Windows Defender Security Center\Notifications" /v DisableNotifications /t REG_DWORD /d 1 /f
+reg delete "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Run" /v "SecurityHealth" /f
+reg delete "HKCR\*\shellex\ContextMenuHandlers\EPP" /f
+reg delete "HKCR\CLSID\{09A47860-11B0-4DA5-AFA5-26D86198A780}" /f
+reg delete "HKCR\Directory\shellex\ContextMenuHandlers\EPP" /f
+reg delete "HKCR\Drive\shellex\ContextMenuHandlers\EPP" /f
+taskkill /IM SecurityHealthSystray.exe /F
 
-:: Add TrishulaOS in OEM Info
-reg add "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\OEMInformation" /v "Model"  /t REG_SZ /d "TrishulaOS" /f
- reg add "HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion" /v "RegisteredOrganization" /t REG_SZ /d "TrishulaOS" /f
+:: Hide Unused Windows Security Pages
+reg add "HKLM\SOFTWARE\Policies\Microsoft\Windows Defender Security Center\Device performance and health" /v "UILockdown" /t REG_DWORD /d 1 /f
+reg add "HKLM\SOFTWARE\Policies\Microsoft\Windows Defender Security Center\Family options" /v "UILockdown" /t REG_DWORD /d 1 /f
+reg add "HKLM\SOFTWARE\Policies\Microsoft\Windows Defender Security Center\Account protection" /v "UILockdown" /t REG_DWORD /d 1 /f
+
+:: Disable Core Isolation (To Improve Performance)
+reg add "HKLM\SYSTEM\CurrentControlSet\Control\DeviceGuard\Scenarios\HypervisorEnforcedCodeIntegrity" /v Enabled /t REG_DWORD /d 0 /f
+reg add "HKLM\SOFTWARE\Policies\Microsoft\Windows Defender Security Center\Device security" /v "UILockdown" /t REG_DWORD /d 1 /f
+
+:: Disable Fault Tolerant Heap (FTH)
+reg add "HKLM\SOFTWARE\Microsoft\FTH" /v "Enabled" /t REG_DWORD /d 0 /f
+
+:: Turn on Hardware Accelerated GPU Scheduling
+reg add "HKLM\SYSTEM\CurrentControlSet\Control\GraphicsDrivers" /v "HwSchMode" /t REG_DWORD /d 2 /f
+
+:: Displays Camera On/Off Notification for Privacy
+reg add "HKLM\SOFTWARE\Microsoft\OEM\Device\Capture" /v "NoPhysicalCameraLED" /t REG_DWORD /d 1 /f
+
+:: Disable Auto Start on BSOD
+reg add "HKLM\SYSTEM\CurrentControlSet\Control\CrashControl" /v "AutoReboot" /t REG_DWORD /d 0 /f
+
+:: Add Shivaay OS in OEM Info
+reg add "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\OEMInformation" /v "Model"  /t REG_SZ /d "Shivaay OS - V2" /f
+reg add "HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion" /v "RegisteredOrganization" /t REG_SZ /d "Shivaay OS - V2" /f
  
 :: Disable Multi-Plane Overlay (MPO) (Fixes Lags or Glitches On Nvidia or AMD GPUs)
 reg add "HKLM\SOFTWARE\Microsoft\Windows\Dwm" /v OverlayTestMode /t REG_DWORD /d 5 /f
       
 :: Bypasses Microsoft Account Creation
 reg add "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\OOBE" /v BypassNRO /t REG_DWORD /d 1 /f
-
-;; Hide Settings Home Page
+  
+:: Hide Settings Home Page
 reg add "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\Explorer" /v SettingsPageVisibility /t REG_SZ /d "hide:home" /f
 
-:: Disables diagnostics for sleep/wake cycles, processor power management, and user-mode power events to slightly improve performance by reducing background logging activity.
-wevtutil sl Microsoft-Windows-SleepStudy/Diagnostic /q:false
-wevtutil sl Microsoft-Windows-Kernel-Processor-Power/Diagnostic /q:false
-wevtutil sl Microsoft-Windows-UserModePowerService/Diagnostic /q:false
+:: Disable Processor Performance Boost mode (To avoid heat issues or thermal throttling)
+reg add "HKLM\SYSTEM\ControlSet001\Control\Power\PowerSettings\54533251-82be-4824-96c1-47b60b740d00\be337238-0d82-4146-a960-4f3749d470c7" /v "Attributes" /t REG_DWORD /d 0 /f
 
-:: Disables User Account Control Temporarily - Without this entry, some commands in the currentuser.cmd script will fail. UAC is re-enabled in the currentuser.cmd script again.
+:: Disable System Restore (Sometimes Ineffictive and Causes Problems)
+reg add "HKLM\SOFTWARE\Policies\Microsoft\Windows NT\SystemRestore" /v DisableSR /t REG_DWORD /d 1 /f
+
+:: Disable User Account Control Temporarily
 reg add "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\System" /v EnableLUA /t REG_DWORD /d 0 /f
 
 :: Disable Windows Spotlight and set the normal Windows Picture as the desktop background
-:: Disable Windows Spotlight on the lock screen
 reg add "HKLM\SOFTWARE\Policies\Microsoft\Windows\CloudContent" /v DisableWindowsSpotlightOnLockScreen /t REG_DWORD /d 1 /f
-:: Disable Windows Spotlight suggestions, tips, tricks, and more on the lock screen
 reg add "HKLM\SOFTWARE\Policies\Microsoft\Windows\CloudContent" /v DisableWindowsConsumerFeatures /t REG_DWORD /d 1 /f
 :: Disable Windows Spotlight on Settings
 reg add "HKLM\SOFTWARE\Policies\Microsoft\Windows\CloudContent" /v DisableWindowsSpotlightActiveUser /t REG_DWORD /d 1 /f
@@ -1094,16 +1514,20 @@ reg add "HKLM\SOFTWARE\Microsoft\PolicyManager\current\device\Start" /v Configur
 reg add "HKLM\SOFTWARE\Microsoft\PolicyManager\providers\B5292708-1619-419B-9923-E5D9F3925E71\default\Device\Start" /v ConfigureStartPins /t REG_SZ /d "{ \"pinnedList\": [] }" /f
 reg add "HKLM\SOFTWARE\Microsoft\PolicyManager\providers\B5292708-1619-419B-9923-E5D9F3925E71\default\Device\Start" /v ConfigureStartPins_LastWrite /t REG_DWORD /d 1 /f
 
+:: Hide Removable Drives (This PC can show this drives)
+reg delete "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Desktop\NameSpace\DelegateFolders\{F5FB2C77-0E2F-4A16-A381-3E560C68BC83}" /f
+reg delete "HKLM\SOFTWARE\WOW6432Node\Microsoft\Windows\CurrentVersion\Explorer\Desktop\NameSpace\DelegateFolders\{F5FB2C77-0E2F-4A16-A381-3E560C68BC83}\{F5FB2C77-0E2F-4A16-A381-3E560C68BC83}" /f
+
 :: Enable Long File Paths with Up to 32,767 Characters
 reg add "HKLM\SYSTEM\CurrentControlSet\Control\FileSystem" /v LongPathsEnabled /t REG_DWORD /d 1 /f
 
-:: Disables News and Interests
+:: Disable News and Interests
 reg add "HKLM\SOFTWARE\Policies\Microsoft\Dsh" /v AllowNewsAndInterests /t REG_DWORD /d 0 /f
 
-:: Disables Windows Consumer Features Like App Promotions etc.
+:: Disable Windows Consumer Features Like App Promotions etc.
 reg add "HKLM\Software\Policies\Microsoft\Windows\CloudContent" /v "DisableWindowsConsumerFeatures" /t REG_DWORD /d 0 /f
 
-:: Disables Bitlocker Auto Encryption on Windows 11 24H2 and Onwards
+:: Disable Bitlocker Auto Encryption on Windows 11 24H2 and Onwards
 reg add "HKLM\SYSTEM\CurrentControlSet\Control\BitLocker" /v "PreventDeviceEncryption" /t REG_DWORD /d 1 /f
 reg add "HKLM\SOFTWARE\Policies\Microsoft\Windows\EnhancedStorageDevices" /v TCGSecurityActivationDisabled /t REG_DWORD /d 1 /f
 
@@ -1114,54 +1538,47 @@ reg add "HKLM\SOFTWARE\Policies\Microsoft\Windows\WindowsUpdate" /v DeferFeature
 reg add "HKLM\SOFTWARE\Policies\Microsoft\Windows\WindowsUpdate" /v DeferQualityUpdates /t REG_DWORD /d 1 /f
 reg add "HKLM\SOFTWARE\Policies\Microsoft\Windows\WindowsUpdate" /v DeferQualityUpdatesPeriodInDays /t REG_DWORD /d 365 /f
 
-:: Disables Cortana
+:: Disable Cortana
 reg add "HKLM\Software\Policies\Microsoft\Windows\Windows Search" /v AllowCortana /t REG_DWORD /d 0 /f
 
-:: Disables Activity History
+:: Disable Activity History
 reg add "HKLM\SOFTWARE\Policies\Microsoft\Windows\System" /v EnableActivityFeed /t REG_DWORD /d 0 /f
 reg add "HKLM\SOFTWARE\Policies\Microsoft\Windows\System" /v PublishUserActivities /t REG_DWORD /d 0 /f
 reg add "HKLM\SOFTWARE\Policies\Microsoft\Windows\System" /v UploadUserActivities /t REG_DWORD /d 0 /f
 
-:: Disables Hibernation (Takes 40% space of RAM also does not make much difference for in Booting for SSD Users)
-reg add "HKLM\System\CurrentControlSet\Control\Session Manager\Power" /v HibernateEnabled /t REG_DWORD /d 0 /f
+:: Disable Hibernation (Takes 40% space of RAM also does not make much difference in Booting for SSD Users)
+powercfg /hibernate off
 
-:: Disables Location Tracking
+:: Disable Location Tracking
 reg add "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\CapabilityAccessManager\ConsentStore\location" /v Value /t REG_SZ /d Deny /f
 reg add "HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Sensor\Overrides\{BFA794E4-F964-4FDB-90F6-51056BFE4B44}" /v SensorPermissionState /t REG_DWORD /d 0 /f
 reg add "HKLM\SYSTEM\CurrentControlSet\Services\lfsvc\Service\Configuration" /v Status /t REG_DWORD /d 0 /f
 reg add "HKLM\SYSTEM\Maps" /v AutoUpdateEnabled /t REG_DWORD /d 0 /f
 
-:: Disables Telemetry
+:: Disable Telemetry
 reg add "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\DataCollection" /v AllowTelemetry /t REG_DWORD /d 0 /f
 reg add "HKLM\SOFTWARE\Policies\Microsoft\Windows\DataCollection" /v AllowTelemetry /t REG_DWORD /d 0 /f
 
-:: Disables Windows Ink Workspace
+:: Disable Windows Ink Workspace
 reg add "HKLM\SOFTWARE\Policies\Microsoft\WindowsInkWorkspace" /v AllowWindowsInkWorkspace /t REG_DWORD /d 0 /f
 
-:: Disables Feedback Notifications
+:: Disable Feedback Notifications
 reg add "HKLM\SOFTWARE\Policies\Microsoft\Windows\DataCollection" /v DoNotShowFeedbackNotifications /t REG_DWORD /d 1 /f
 
-:: Disables the Advertising ID for All Users
+:: Disable the Advertising ID for All Users
 reg add "HKLM\SOFTWARE\Policies\Microsoft\Windows\AdvertisingInfo" /v DisabledByGroupPolicy /t REG_DWORD /d 1 /f
 
-:: Disables Windows Error Reporting
+:: Disable Windows Error Reporting
 reg add "HKLM\SOFTWARE\Microsoft\Windows\Windows Error Reporting" /v Disabled /t REG_DWORD /d 1 /f
 
-:: Disables Delivery Optimization
+:: Disable Delivery Optimization
 reg add "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\DeliveryOptimization\Config" /v DODownloadMode /t REG_DWORD /d 0 /f
 
-:: Disables Remote Assistance
+:: Disable Remote Assistance
 reg add "HKLM\SYSTEM\CurrentControlSet\Control\Remote Assistance" /v fAllowToGetHelp /t REG_DWORD /d 0 /f
 
 :: Search Windows Update for Drivers First
 reg add "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\DriverSearching" /v SearchOrderConfig /t REG_DWORD /d 1 /f
-
-:: Disable Smart App Control (Fixes slow app loading issues on W11)
-reg add "HKLM\SYSTEM\ControlSet001\Control\CI\Policy" /v "VerifiedAndReputablePolicyState" /t REG_DWORD /d "0" /f
-
-:: Disable WPBT
-:: https://github.com/Jamesits/dropWPBT
-reg add "HKLM\SYSTEM\ControlSet001\Control\Session Manager" /v "DisableWpbtExecution" /t REG_DWORD /d "1" /f
 
 :: Gives Multimedia Applications like Games and Video Editing a Higher Priority
 reg add "HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Multimedia\SystemProfile" /v SystemResponsiveness /t REG_DWORD /d 0 /f
@@ -1207,17 +1624,17 @@ reg add "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\ImmersiveShell" /v SignI
 :: Disable "Use my sign-in info to automatically finish setting up my device after an update or restart"
 reg add "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\System" /v DisableAutomaticRestartSignOn /t REG_DWORD /d 1 /f
 
-:: Disables OneDrive Automatic Backups of Important Folders (Documents, Pictures etc.)
+:: Disable OneDrive Automatic Backups of Important Folders (Documents, Pictures etc.)
 reg add "HKLM\SOFTWARE\Policies\Microsoft\OneDrive" /v KFMBlockOptIn /t REG_DWORD /d 1 /f
 reg add "HKLM\SOFTWARE\Policies\Microsoft\Windows\OneDrive" /v DisableFileSyncNGSC /t REG_DWORD /d 1 /f
 
-:: Disables the "Push To Install" feature in Windows
+:: Disable the "Push To Install" feature in Windows
 reg add "HKLM\SOFTWARE\Policies\Microsoft\PushToInstall" /v "DisablePushToInstall" /t REG_DWORD /d 1 /f
 
-:: Disables Consumer Account State Content
+:: Disable Consumer Account State Content
 reg add "HKLM\SOFTWARE\Policies\Microsoft\Windows\CloudContent" /v "DisableConsumerAccountStateContent" /t REG_DWORD /d 1 /f
 
-:: Disables Cloud Optimized Content
+:: Disable Cloud Optimized Content
 reg add "HKLM\SOFTWARE\Policies\Microsoft\Windows\CloudContent" /v "DisableCloudOptimizedContent" /t REG_DWORD /d 1 /f
 
 :: Deletes Microsoft Edge Registry Entries
@@ -1230,8 +1647,6 @@ reg delete "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Appx\AppxAllUserStore
 reg delete "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Appx\AppxAllUserStore\S-1-5-21-2466455740-832722602-188176761-1001\Microsoft.MicrosoftEdge_44.19041.1266.0_neutral__8wekyb3d8bbwe" /f
 reg delete "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Appx\AppxAllUserStore\S-1-5-21-2466455740-832722602-188176761-1001\Microsoft.MicrosoftEdgeDevToolsClient_10.0.19041.1023_neutral__8wekyb3d8bbwe" /f
 
-:: DELETES SCHEDULED TASKS REGISTRY KEYS
-
 :: Deleting Application Compatibility Appraiser
 reg delete "HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Schedule\TaskCache\Tasks\{0600DD45-FAF2-4131-A006-0B17509B9F78}" /f
 
@@ -1239,6 +1654,12 @@ reg delete "HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Schedule\TaskCache
 reg delete "HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Schedule\TaskCache\Tasks\{4738DE7A-BCC1-4E2D-B1B0-CADB044BFA81}" /f
 reg delete "HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Schedule\TaskCache\Tasks\{6FAC31FA-4A85-4E64-BFD5-2154FF4594B3}" /f
 reg delete "HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Schedule\TaskCache\Tasks\{FC931F16-B50A-472E-B061-B6F79A71EF59}" /f
+
+:: Disable Recent Items - 1
+reg add "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\Explorer" /v "NoStartMenuMFUprogramsList" /t REG_DWORD /d "1" /f
+reg add "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\Explorer" /v "NoRecentDocsHistory" /t REG_DWORD /d "1" /f
+reg add "HKLM\SOFTWARE\Policies\Microsoft\Windows\Explorer" /v "ShowOrHideMostUsedApps" /t REG_DWORD /d "1" /f
+reg add "HKLM\SOFTWARE\Policies\Microsoft\Windows\Explorer" /v "HideRecentlyAddedApps" /t REG_DWORD /d "1" /f
 
 :: Deleting Program Data Updater
 reg delete "HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Schedule\TaskCache\Tasks\{0671EB05-7D95-4153-A32B-1426B9FE61DB}" /f
@@ -1254,6 +1675,9 @@ reg delete "HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Schedule\TaskCache
 reg add "HKLM\SOFTWARE\Policies\Microsoft\Windows\WindowsUpdate" /v "TargetReleaseVersion" /t REG_DWORD /d 1 /f
 reg add "HKLM\SOFTWARE\Policies\Microsoft\Windows\WindowsUpdate" /v "TargetReleaseVersionInfo" /t REG_SZ /d "22H2" /f
 reg add "HKLM\SOFTWARE\Policies\Microsoft\Windows\WindowsUpdate" /v "ProductVersion" /t REG_SZ /d "Windows 10" /f
+
+:: Enable Verbose Status Messages
+reg add "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\System" /v "verbosestatus" /t REG_DWORD /d 1 /f
 
 :: Blocks the “Allow my organization to manage my device” and “No, sign in to this app only” pop-up message.
 reg add "HKLM\SOFTWARE\Policies\Microsoft\Windows\WorkplaceJoin" /v BlockAADWorkplaceJoin /t REG_DWORD /d 1 /f]]>
@@ -1297,37 +1721,8 @@ reg add "HKLM\SOFTWARE\Policies\Microsoft\Windows\WorkplaceJoin" /v BlockAADWork
 [HKEY_CLASSES_ROOT\Drive\shell\runas\command]
     @="cmd.exe /c takeown /f \"%1\\\" /r /d y && icacls \"%1\\\" /grant *S-1-3-4:F /t /c & Pause"
     "IsolatedCommand"="cmd.exe /c takeown /f \"%1\\\" /r /d y && icacls \"%1\\\" /grant *S-1-3-4:F /t /c & Pause"
-    
-; Add Run With Priority to Context Menu
-[HKEY_CLASSES_ROOT\exefile\shell\Priority]
-"MUIVerb"="Run with priority"
-"SubCommands"=""
-[HKEY_CLASSES_ROOT\exefile\Shell\Priority\shell\001flyout]
-@="Realtime"
-[HKEY_CLASSES_ROOT\exefile\Shell\Priority\shell\001flyout\command]
-@="powershell start -file 'cmd' -args '/c start \"\"\"Realtime App\"\"\" /Realtime \"\"\"%1\"\"\"' -verb runas"
-[HKEY_CLASSES_ROOT\exefile\Shell\Priority\shell\002flyout]
-@="High"
-[HKEY_CLASSES_ROOT\exefile\Shell\Priority\shell\002flyout\command]
-@="cmd /c start \"\" /High \"%1\""
-[HKEY_CLASSES_ROOT\exefile\Shell\Priority\shell\003flyout]
-@="Above normal"
-[HKEY_CLASSES_ROOT\exefile\Shell\Priority\shell\003flyout\command]
-@="cmd /c start \"\" /AboveNormal \"%1\""
-[HKEY_CLASSES_ROOT\exefile\Shell\Priority\shell\004flyout]
-@="Normal"
-[HKEY_CLASSES_ROOT\exefile\Shell\Priority\shell\004flyout\command]
-@="cmd /c start \"\" /Normal \"%1\""
-[HKEY_CLASSES_ROOT\exefile\Shell\Priority\shell\005flyout]
-@="Below normal"
-[HKEY_CLASSES_ROOT\exefile\Shell\Priority\shell\005flyout\command]
-@="cmd /c start \"\" /BelowNormal \"%1\""
-[HKEY_CLASSES_ROOT\exefile\Shell\Priority\shell\006flyout]
-@="Low"
-[HKEY_CLASSES_ROOT\exefile\Shell\Priority\shell\006flyout\command]
-@="cmd /c start \"\" /Low \"%1\""
-    ]]>
-    </File>
+  ]]>
+</File>
 
 <!-- 9+ Windows Current User Preferences -->
     <File path="C:\Windows\Setup\Scripts\currentuser.cmd">
@@ -1358,6 +1753,14 @@ reg delete "HKCU\SOFTWARE\Microsoft\Windows\CurrentVersion\ContentDeliveryManage
 reg delete "HKCU\SOFTWARE\Microsoft\Windows\CurrentVersion\ContentDeliveryManager\SuggestedApps" /f
 reg add "HKCU\SOFTWARE\Microsoft\Speech_OneCore\Settings\OnlineSpeechPrivacy" /v "HasAccepted" /t REG_DWORD /d 0 /f
 
+:: Disable Recent Items - 2
+reg add "HKCU\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\Explorer" /v "NoInstrumentation" /t REG_DWORD /d "1" /f
+reg add "HKCU\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\Explorer" /v "ClearRecentDocsOnExit" /t REG_DWORD /d "1" /f
+reg add "HKCU\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\Explorer" /v "NoRecentDocsHistory" /t REG_DWORD /d "1" /f
+reg add "HKCU\SOFTWARE\Policies\Microsoft\Windows\Explorer" /v "NoRemoteDestinations" /t REG_DWORD /d "1" /f
+reg add "HKCU\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Advanced" /v "Start_TrackProgs" /t REG_DWORD /d "0" /f
+reg add "HKCU\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Advanced" /v "Start_TrackDocs" /t REG_DWORD /d "0" /f
+
 :: Removes Copilot
 reg add "HKCU\SOFTWARE\Microsoft\Windows\CurrentVersion\Runonce" /v "UninstallCopilot" /t REG_SZ /d "" /f
 reg add "HKCU\SOFTWARE\Policies\Microsoft\Windows\WindowsCopilot" /v TurnOffWindowsCopilot /t REG_DWORD /d 1 /f
@@ -1374,7 +1777,17 @@ reg add "HKCU\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced" /v Ta
 :: Display only Search Icon on Taskbar
 reg add "HKCU\SOFTWARE\Microsoft\Windows\CurrentVersion\Search" /v SearchboxTaskbarMode /t REG_DWORD /d 1 /f
 
-:: Disables Recommendations in the Start Menu
+:: Show More Details on File Explorer
+reg add "HKCU\Software\Microsoft\Windows\CurrentVersion\Explorer\OperationStatusManager" /v "EnthusiastMode" /t REG_DWORD /d 1 /f
+
+:: Change New Folder name to "Eternal Vault"
+reg add "HKCU\Software\Microsoft\Windows\CurrentVersion\Explorer\NamingTemplates" /v "RenameNameTemplate" /t REG_SZ /d "Eternal Vault" /f
+
+:: Turn on Game Mode
+reg add "HKCU\Software\Microsoft\GameBar" /v "AllowAutoGameMode" /t REG_DWORD /d 1 /f
+reg add "HKCU\Software\Microsoft\GameBar" /v "AutoGameModeEnabled" /t REG_DWORD /d 1 /f
+
+:: Disable Recommendations in the Start Menu
 reg add "HKCU\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced" /v Start_IrisRecommendations /t REG_DWORD /d 0 /f
 
 :: Hides or Removes People from Taskbar
@@ -1388,61 +1801,56 @@ reg add "HKCU\SOFTWARE\Microsoft\Windows\CurrentVersion\Feeds" /v ShellFeedsTask
 reg add "HKCU\SOFTWARE\Microsoft\Windows\CurrentVersion\Feeds" /v ShellFeedsEnabled /t REG_DWORD /d 0 /f
 reg add "HKCU\SOFTWARE\Policies\Microsoft\Windows\Windows Feeds" /v EnableFeeds /t REG_DWORD /d 0 /f
 
-:: Disables User Account Sync
+:: Disable User Account Sync
 reg add "HKCU\SOFTWARE\Microsoft\Windows\CurrentVersion\Privacy" /v SettingSyncEnabled /t REG_DWORD /d 0 /f
 
-:: Disable Link-Local Multitask Name Resolution (LLMNR) Protocol (Vulnerable and Replaced by DNS)
-reg add "HKLM\SOFTWARE\Policies\Microsoft\Windows NT\DNSClient" /v EnableMulticast /t REG_DWORD /d 0 /f
+:: File Explorer Customization
+:: Hide Network Navigation Pane
+reg add "HKCU\SOFTWARE\Classes\CLSID\{F02C1A0D-BE21-4350-88B0-7367FC96EF3C}" /v System.IsPinnedToNameSpaceTree /t REG_DWORD /d 0 /f
 
-:: Disable Bandwidth Throttling for Workstation service
-reg add "HKLM\SYSTEM\CurrentControlSet\Services\LanmanWorkstation\Parameters" /v DisableBandwidthThrottling /t REG_DWORD /d 1 /f
+:: Disable Automatic Folder Discovery (Improves Responsiveness)
+reg delete "HKCU\Software\Classes\Local Settings\Software\Microsoft\Windows\Shell\Bags\AllFolders\Shell" /v FolderType /f
 
-:: Restrict Null Session Access for Server service
-reg add "HKLM\SYSTEM\CurrentControlSet\Services\LanManServer\Parameters" /v RestrictNullSessAccess /t REG_DWORD /d 1 /f
+:: Hide Gallary From File Explorer
+reg add "HKCU\Software\Classes\CLSID\{e88865ea-0e1c-4e20-9aa6-edcd0212c87c}" /v System.IsPinnedToNameSpaceTree /t REG_DWORD /d 0 /f
 
-:: Restrict Anonymous Access in Local Security Authority (LSA)
-reg add "HKLM\SYSTEM\CurrentControlSet\Control\Lsa" /v RestrictAnonymous /t REG_DWORD /d 1 /f
+:: Use Full App Name on Desktop Shortcuts (Like Firefox not Firefox - Shortcut)
+reg add "HKCU\Software\Microsoft\Windows\CurrentVersion\Explorer\NamingTemplates" /v "ShortcutNameTemplate" /t REG_SZ /d "\"%%s.lnk\"" /f
 
-:: Disables Location Services
+:: Disable Location Services
 reg add "HKCU\SOFTWARE\Microsoft\Windows\CurrentVersion\Privacy" /v LocationServicesEnabled /t REG_DWORD /d 0 /f
 
-:: Disables Input Personalization Settings
+:: Disable Input Personalization Settings
 reg add "HKCU\SOFTWARE\Microsoft\Personalization\Settings" /v AcceptedPrivacyPolicy /t REG_DWORD /d 0 /f
 reg add "HKCU\SOFTWARE\Microsoft\Windows\CurrentVersion\InputPersonalization" /v RestrictImplicitTextCollection /t REG_DWORD /d 1 /f
 reg add "HKCU\SOFTWARE\Microsoft\Windows\CurrentVersion\InputPersonalization" /v RestrictImplicitInkCollection /t REG_DWORD /d 1 /f
 
-:: Disables Automatic Feedback Sampling
+:: Disable Automatic Feedback Sampling
 reg add "HKCU\SOFTWARE\Microsoft\Windows\CurrentVersion\Feedback" /v AutoSample /t REG_DWORD /d 0 /f
 reg add "HKCU\SOFTWARE\Microsoft\Windows\CurrentVersion\Feedback" /v ServiceEnabled /t REG_DWORD /d 0 /f
-
-:: Disables Recent Documents Tracking
-reg add "HKCU\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Advanced" /v Start_TrackDocs /t REG_DWORD /d 0 /f
-
-:: Disables "Let Windows track app launches to improve Start and search results"
-reg add "HKCU\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Advanced" /v Start_TrackProgs /t REG_DWORD /d 0 /f
 
 :: Disable "Let websites provide locally relevant content by accessing my language list"
 reg add "HKCU\Control Panel\International\User Profile" /v HttpAcceptLanguageOptOut /t REG_DWORD /d 1 /f
 
-:: Disables Background Apps
+:: Disable Background Apps
 reg add "HKCU\SOFTWARE\Microsoft\Windows\CurrentVersion\BackgroundAccessApplications" /v GlobalUserDisabled /t REG_DWORD /d 1 /f
 
-:: Disables App Diagnostics
+:: Disable App Diagnostics
 reg add "HKCU\SOFTWARE\Microsoft\Windows\CurrentVersion\AppDiagnostics" /v AppDiagnosticsEnabled /t REG_DWORD /d 0 /f
 
-:: Disables Delivery Optimization
+:: Disable Delivery Optimization
 reg add "HKCU\SOFTWARE\Microsoft\Windows\CurrentVersion\DeliveryOptimization" /v DODownloadMode /t REG_DWORD /d 0 /f
 
-:: Disables Tablet Mode
+:: Disable Tablet Mode
 reg add "HKCU\SOFTWARE\Microsoft\Windows\CurrentVersion\ImmersiveShell" /v TabletMode /t REG_DWORD /d 0 /f
 
-:: Disables Use Sign-In Info for User Account
+:: Disable Use Sign-In Info for User Account
 reg add "HKCU\SOFTWARE\Microsoft\Windows\CurrentVersion\Authentication" /v UseSignInInfo /t REG_DWORD /d 0 /f
 
-:: Disables Maps Auto Download
+:: Disable Maps Auto Download
 reg add "HKCU\SOFTWARE\Microsoft\Windows\CurrentVersion\Maps" /v AutoDownload /t REG_DWORD /d 0 /f
 
-:: Disables Telemetry and Ads
+:: Disable Telemetry and Ads
 reg add "HKCU\SOFTWARE\Microsoft\Siuf\Rules" /v NumberOfSIUFInPeriod /t REG_DWORD /d 0 /f
 reg add "HKCU\SOFTWARE\Policies\Microsoft\Windows\CloudContent" /v DisableTailoredExperiencesWithDiagnosticData /t REG_DWORD /d 1 /f
 reg add "HKCU\SOFTWARE\Policies\Microsoft\Windows\CloudContent" /v DisableWindowsConsumerFeatures /t REG_DWORD /d 1 /f
@@ -1468,7 +1876,7 @@ reg add "HKCU\Control Panel\Mouse" /v MouseHoverTime /t REG_SZ /d "400" /f
 :: Hides the Meet Now Button on the Taskbar
 reg add "HKCU\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\Explorer" /v HideSCAMeetNow /t REG_DWORD /d 1 /f
 
-:: Disables the Second Out-Of-Box Experience
+:: Disable the Second Out-Of-Box Experience
 reg add "HKCU\SOFTWARE\Microsoft\Windows\CurrentVersion\UserProfileEngagement" /v ScoobeSystemSettingEnabled /t REG_DWORD /d 0 /f
 
 :: Set Display for Performance
@@ -1488,7 +1896,7 @@ reg add "HKCU\Software\Microsoft\Windows\DWM" /v EnableAeroPeek /t REG_DWORD /d 
 reg add "HKCU\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Advanced" /v TaskbarDeveloperSettings /t REG_DWORD /d 1 /f
 reg add "HKCU\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Advanced" /v TaskbarEndTask /t REG_DWORD /d 1 /f
 
-:: Disables Notification Tray and Calendar
+:: Disable Notification Tray and Calendar
 reg add "HKCU\Software\Policies\Microsoft\Windows\Explorer" /v DisableNotificationCenter /t REG_DWORD /d 1 /f
 reg add "HKCU\Software\Microsoft\Windows\CurrentVersion\PushNotifications" /v ToastEnabled /t REG_DWORD /d 0 /f
 
@@ -1502,13 +1910,13 @@ reg add "HKCU\System\GameConfigStore" /v GameDVR_DXGIHonorFSEWindowsCompatible /
 reg add "HKCU\System\GameConfigStore" /v GameDVR_HonorUserFSEBehaviorMode /t REG_DWORD /d 1 /f
 reg add "HKCU\System\GameConfigStore" /v GameDVR_EFSEFeatureFlags /t REG_DWORD /d 0 /f
 
-:: Disables Bing Search in Start Menu
+:: Disable Bing Search in Start Menu
 reg add "HKCU\SOFTWARE\Policies\Microsoft\Windows\Explorer" /v DisableSearchBoxSuggestions /t REG_DWORD /d 1 /f
 
 :: Enables NumLock on Startup
 reg add "HKCU\Control Panel\Keyboard" /v InitialKeyboardIndicators /t REG_SZ /d 2 /f
 
-:: Disables Sticky Keys
+:: Disable Sticky Keys
 reg add "HKCU\Control Panel\Accessibility\StickyKeys" /v Flags /t REG_SZ /d "506" /f
 reg add "HKCU\Control Panel\Accessibility\StickyKeys" /v HotkeyFlags /t REG_SZ /d "58" /f
 
@@ -1530,13 +1938,9 @@ reg add "HKCU\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Advanced" /v "T
 :: Makes Taskbar Small in Windows 10
 reg add "HKCU\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Advanced" /v "TaskbarSmallIcons" /t REG_DWORD /d 1 /f
 
-:: Enable Trimming For SSD (Improves SSD Performance)
-fsutil behavior query Disabledeletenotify
-fsutil behavior set DisableDeleteNotify 0
-
 :: Disable Last Access Time Stamp and Legacy 8.3 Char Length File Name Creation - This Can Improve File System Performance
-fsutil.exe behavior set disableLastAccess 1
-fsutil.exe behavior set disable8dot3 1
+fsutil behavior set disableLastAccess 1
+fsutil behavior set disable8dot3 1
 
 :: Restore Windows Photo Viewer and Set as Default Program for Image Files
 :: Restore Windows Photo Viewer
@@ -1571,37 +1975,24 @@ reg add "HKCU\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\FileExts\.tif\O
 reg add "HKCU\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\FileExts\.tiff\OpenWithProgids" /v "PhotoViewer.FileAssoc.Tiff" /t REG_NONE /f
 reg add "HKCU\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\FileExts\.wdp\OpenWithProgids" /v "PhotoViewer.FileAssoc.Tiff" /t REG_NONE /f
 
-:: Disables Windows Recall on Copilot+ PC - Credit Britec09
+:: Disable Windows Recall on Copilot+ PC - Credit Britec09
 reg add "HKCU\Software\Policies\Microsoft\Windows\WindowsAI" /f
 reg add "HKCU\Software\Policies\Microsoft\Windows\WindowsAI" /v "DisableAIDataAnalysis" /t REG_DWORD /d 1 /f
 reg add "HKCU\Software\Policies\Microsoft\Windows\Windows AI" /v "TurnOffSavingSnapshots" /t REG_DWORD /d 1 /f
 
-:: Disables Wallpaper JPEG Quality Reduction in Windows 10 
+:: Disable Wallpaper JPEG Quality Reduction in Windows 10 
 reg add "HKCU\Control Panel\Desktop" /v "JPEGImportQuality" /t REG_DWORD /d 100 /f
 
 :: Sets "When Windows Detects Communication Activity" under "System > Sound > More sound settings > Communications" to "Do Nothing"
 reg add "HKCU\Software\Microsoft\Multimedia\Audio" /v "UserDuckingPreference" /t REG_DWORD /d 3 /f
 
-:: Enables User Account Control (Default Value)
+:: Enables User Account Control (Without Dimming Desktop)
 reg add "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\System" /v EnableLUA /t REG_DWORD /d 1 /f
+reg add "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\System" /v "PromptOnSecureDesktop" /t REG_DWORD /d "0" /f
 
 :: Restart PC to Apply All Changes
-shutdown /r -t 1]]>
-    </File>
-    
-<!-- 10+ XD Windows Last Resort -->
-    <!--Start Menu Template (Credit:https://schneegans.de/windows/unattend-generator/)-->
-    <File path="C:\Users\Default\AppData\Local\Microsoft\Windows\Shell\LayoutModification.xml">
-      <![CDATA[
-<LayoutModificationTemplate Version="1" xmlns="http://schemas.microsoft.com/Start/2014/LayoutModification">
-	<LayoutOptions StartTileGroupCellWidth="6" />
-	<DefaultLayoutOverride>
-		<StartLayoutCollection>
-			<StartLayout GroupCellWidth="6" xmlns="http://schemas.microsoft.com/Start/2014/FullDefaultLayout" />
-		</StartLayoutCollection>
-	</DefaultLayoutOverride>
-</LayoutModificationTemplate>
-		]]>
+shutdown /r -t 1
+]]>
     </File>
   </Extensions>
 </unattend>
