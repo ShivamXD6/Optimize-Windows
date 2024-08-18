@@ -462,8 +462,8 @@ Where-Object -FilterScript {
     <File path="C:\Windows\Setup\Scripts\wintweaks.ps1">
       <![CDATA[
 # Start Transcript to capture script output
-  $logFile = "C:\Windows\Setup\Scripts\wintweaks.log"
-  Start-Transcript -Path $logFile
+$logFile = "C:\Windows\Setup\Scripts\wintweaks.log"
+Start-Transcript -Path $logFile
           
 # Define the desktop and shell
 $desktopPath = "C:\Users\Default\Desktop"
@@ -1893,8 +1893,7 @@ reg add "HKCU\Software\Microsoft\Windows\CurrentVersion\Explorer\VisualEffects" 
 reg add "HKCU\Software\Microsoft\Windows\DWM" /v EnableAeroPeek /t REG_DWORD /d 0 /f
 
 :: Set Registry Keys to Enable End Task With Right Click
-reg add "HKCU\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Advanced" /v TaskbarDeveloperSettings /t REG_DWORD /d 1 /f
-reg add "HKCU\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Advanced" /v TaskbarEndTask /t REG_DWORD /d 1 /f
+reg add "HKCU\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Advanced\TaskbarDeveloperSettings" /v TaskbarEndTask /t REG_DWORD /d 1 /f
 
 :: Disable Notification Tray and Calendar
 reg add "HKCU\Software\Policies\Microsoft\Windows\Explorer" /v DisableNotificationCenter /t REG_DWORD /d 1 /f
