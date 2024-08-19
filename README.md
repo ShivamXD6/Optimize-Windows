@@ -35,70 +35,70 @@
 
 ## 🚀 Features
 ### 1. **🚀 Answer File Only***
-- 🚧 **Bypass Windows 11 Requirements**
-- 🌐 **Support for Local Account During Setup**
-- 🗂️ **Show All Available Windows Editions**
-- 💾 **Support Automatic Offline Driver Installation**
-- ⚙️ **Auto OOBE Setup**
-- 🚀 **Improve Windows Installation Speed**
+- 🚧 Bypass Windows 11 Requirements
+- 🌐 Support for Local Account During Setup
+- 🗂️ Show All Available Windows Editions
+- 💾 Support Automatic Offline Driver Installation
+- ⚙️ Auto OOBE Setup
+- 🚀 Improve Windows Installation Speed
 
 ### 2. **💨 Debloat & Optimization**
-- 🧹 **Remove Windows Bloatware**
-- ❌ **Disable Error Reporting, Delivery Optimization, and Remote Assistance**
-- 🚀 **Various Services Optimization**
-- 🚫 **Disable Automatic File Discovery**
-- 🎮 **Turn on Game Mode & GPU Scheduling**
+- 🧹 Remove Windows Bloatware
+- ❌ Disable Error Reporting, Delivery Optimization, and Remote Assistance
+- 🚀 Various Services Optimization
+- 🚫 Disable Automatic File Discovery
+- 🎮 Turn on Game Mode & GPU Scheduling
 
 ### 3. **🔐 Privacy & Security**
-- 👁️ **Disable Telemetry and Tracking**
-- 🔔 **Display Camera On/Off Notification**
-- 🔒 **Configure Windows Update: Security-Only Updates, Delay Feature Updates by 1 Year**
-- 🔒 **Prevent Installation of Dev Home, New Outlook, Chat, Bitlocker Auto-Encryption**
+- 👁️ Disable Telemetry and Tracking
+- 🔔 Display Camera On/Off Notification
+- 🔒 Configure Windows Update: Security-Only Updates, Delay Feature Updates by 1 Year
+- 🔒 Prevent Installation of Dev Home, New Outlook, Chat, Bitlocker Auto-Encryption
 
 ### 4. **👤 User-Based Customizations**
-- 📁 **Hide Gallery and Network Navigation (In Explorer)**
-- 🔄 **Hide Removable Drives (In Explorer)**
-- ⚙️ **Hide Homepage(In Settings)**
-- 🛡️**Hide Unused Security Pages(In Windows Security)**
-- 📊 **Show More Details on File Transfer**
-- 🖥️ **Enable Verbose Status Messages**
-- 🔤 **Use Full App Name on Desktop Shortcuts**
+- 📁 Hide Gallery and Network Navigation (In Explorer)
+- 🔄 Hide Removable Drives (In Explorer)
+- ⚙️ Hide Homepage(In Settings)
+- 🛡️Hide Unused Security Pages(In Windows Security)
+- 📊 Show More Details on File Transfer
+- 🖥️ Enable Verbose Status Messages
+- 🔤 Use Full App Name on Desktop Shortcuts
 
 ### 5. **🛑 Disable Components/Services**
-- 💤 **Disable Hibernation and Reserved Storage**
-- 🖨️ **Disable Printer**
-- 🔍 **Disable Search Indexing**
-- 🛡️ **Fully Disable Windows Defender**
+- 💤 Disable Hibernation and Reserved Storage
+- 🖨️ Disable Printer Spooler
+- 🔍 Disable Search Indexing
+- 🛡️ Fully Disable Windows Defender
 
 ### 6. **📂 Shivaay's Folder Options**
-#### 🔐 Security
-- 🛡️ **Toggle Windows Defender, Core Isolation, Unused Security Pages and Fault Torrent Heap**
+#### 🔐 **Security**
+- 🛡️ Toggle Windows Defender, Core Isolation, Unused Security Pages and Fault Torrent Heap
 
-#### 📦 Software
-- 🎮 **Install Game Bar (Without Xbox Bloats)**
+#### 📦 **Software**
+- 🎮 Install Game Bar (Without Xbox Bloats)
 
-#### 🛠️ System Management
-- 💤 **Toggle Hibernation, Fast Startup**
-- 🖨️ **Toggle Printer Spooler**
-- 📵 **Toggle Notifications and Background Apps**
-- 🔍 **Toggle Search Indexing**
-- 🎥 **Toggle GameDVR**
+#### 🛠️ **System Management**
+- 💤 Toggle Hibernation, Fast Startup
+- 🖨️ Toggle Printer Spooler
+- 📵 Toggle Notifications and Background Apps
+- 🔍 Toggle Search Indexing
+- 🎥 Toggle GameDVR
 
-#### ⚡ Optimizations
-- 🔔 **Toggle Update Notification**
-- 🔄 **Toggle File Discovery, 8.3 Char Name, Last Access Time, Multi-Plane Overlay**
+#### ⚡ **Optimizations**
+- 🔔 Toggle Update Notification
+- 🔄 Toggle File Discovery, 8.3 Char Name, Last Access Time, Multi-Plane Overlay
 
-#### 🖥️ User Interface
-- 📁 **Toggle Gallery, Network Pane and Removable Drives in File Explorer**
-- 📝 **Change Default New Folder Name**
-- 📜 **Toggle Recent Items (Recent Apps, Recent Documents, Files etc)**
-- 🔄 **Toggle Windows Old/New Context Menu**
+#### 🖥️ **User Interface**
+- 📁 Toggle Gallery, Network Pane and Removable Drives in File Explorer
+- 📝 Change Default New Folder Name
+- 📜 Toggle Recent Items (Recent Apps, Recent Documents, Files etc)
+- 🔄 Toggle Windows Old/New Context Menu
 
 ### 7. **🔄 Miscellaneous**
 - 🖥️ Create Shortcuts on Desktop of CTT Winutil and Activate Windows.
-- ⚡ **Added a Custom Power Plan (Shivaay - Power Within)**
-- 🌑 **Don't Dim Windows while User Account Control**
-- 🛑 **Disable Auto Restart on BSOD (To Capture Detailed Logs)**
+- ⚡ Added a Custom Power Plan (Shivaay - Power Within)
+- 🌑 Don't Dim Windows while User Account Control
+- 🛑 Disable Auto Restart on BSOD (To Capture Detailed Logs)
 
 ## 🔧 Installation with Answer File (Recommended)
 
@@ -136,13 +136,12 @@
 4. Copy the drivers you want to automatically install from `C:\Drivers` to `D:\$WinpeDriver$`.
 
 > [!NOTE]
-> Drivers should be placed in their respective subfolders with `.inf` files included. 
-> `.exe` driver files are not supported.
+> Drivers should be placed in their respective subfolders with `.inf` files included. `.exe` driver files are not supported.
 
 ### 3. Installing Windows via Ventoy
 1. Now Restart into Boot Selection Menu (By Pressing F12, F8 or ESC Repeatedly).
 2. Select your USB Drive.
-3. If it Says "Verification Failed: (0x1A) Security Violation"
+3. If it Says "Verification Failed: (0x1A) Security Violation" Then, Follow this :-
 
 ![Ventoy Enroll Key](https://www.ventoy.net/static/img/secure_key.gif)
 
