@@ -1,71 +1,111 @@
-# 🎮 Gaming Unattend (Answer File) for Power Users
-- Thinking about reinstalling Windows? Wait—use this answer file to reinstall and get the best Windows experience without any bloat.
-- Skip the hassle of manual Windows setup—use this answer file for a fully automated installation. Auto Unattend configures everything in advance, from setup and debloating to tweaking and installing drivers, so you can sit back while Windows installs itself. Perfect for quick, effortless reinstalls!
+# 🔮 Optimize Windows
+[![Static Badge](https://img.shields.io/badge/Version-V2.1-brightgreen?style=for-the-badge)]() &nbsp;
 
-# 📑 Table of Contents
+ - This repository contains scripts designed to optimize and streamline your Windows installation or current windows, making it perfect for gaming, power users, and even low-end laptops or PCs. 🎮💻
+
+## 📑 Table of Contents
+
+- [📂 Included Scripts](#-included-scripts)
 - [🚀 Features](#-features)
-- [🛠️Bypass and Customization of Windows Installation](#%EF%B8%8F-bypass-and-customization-of-windows-installation)
-- [💨 Debloating and Performance Optimization](#-debloating-and-performance-optimization)
-- [🔐 Privacy and Security Enhancements](#-privacy-and-security-enhancements)
-- [🖥️ User Interface and Usability Enhancements](#%EF%B8%8F-user-interface-and-usability-enhancements)
-- [⚙️ Selective Features Disabling](#%EF%B8%8F-selective-features-disabling)
-- [⚙️ Specific System Tweaks](#%EF%B8%8F-specific-system-tweaks)
-- [🛠️ Setup & Installation Guide](#%EF%B8%8F-setup--installation)
-- [1. Prepare Your USB Drive](#1-prepare-your-usb-drive)
-- [2. Optional Adding Drivers](#2-optional-adding-drivers)
-- [3. Installing Windows Via Ventoy](#3-installing-windows-via-ventoy)
+- [🔧 Installation with Answer File (Recommended)](#️-installation-with-answer-file-recommended)
+- [🎲 Installation with Post Install Scripts](#-installation-with-post-install-scripts)
+- [📸 Screenshots](#-screenshots)
 - [💖 Acknowledgements](#-acknowledgements)
 
+## 📂 Included Scripts
+### 1. Auto Unattend or Answer File
+
+ - Automates Windows installation with optimized settings, debloating or tweaking Windows etc.
+ - Ideal for new setups or reinstalling Windows.
+
+### 2. Post Install Script
+
+ - Optimizes and debloats an existing Windows installation.
+ - Suitable for users who don’t want to reinstall Windows.
+
+### 3. Update Script (Coming Soon)
+
+ - Updates system optimizations without re-running the full setup.
+ - Keeps your system current with the latest tweaks and enhancements.
+
+### 4. Additional Features Script (Coming Soon)
+
+ - Adds more features to the "Shivaay" shortcut folder on your desktop.
+ - Features like toggling of Bluetooth or adding some context menus.
+
 ## 🚀 Features
+### 1. **🚀 Answer File Only***
+- 🚧 **Bypass Windows 11 Requirements**
+- 🌐 **Support for Local Account During Setup**
+- 🗂️ **Show All Available Windows Editions**
+- 💾 **Support Automatic Offline Driver Installation**
+- ⚙️ **Auto OOBE Setup**
+- 🚀 **Improve Windows Installation Speed**
 
-### 🛠️ Bypass and Customization of Windows Installation
-- 🚧 **Bypass Windows 11 Requirements**: Allows installation on unsupported hardware.
-- 🌐 **Support for Local Account (Offline Installation) During Setup**: Enables the use of a local account instead of a Microsoft account.
-- 🗂️ **Show All Available Editions of Windows During Setup**: Provides options to choose different Windows editions during installation.
-- 💾 **Support Automatic Drivers Installation From Pendrive/Installation Media**: Allows for driver installation directly from the installation media.
-- ⚙️ **Auto OOBE Setup**: Automates the out-of-box experience setup process.
+### 2. **💨 Debloat & Optimization**
+- 🧹 **Remove Windows Bloatware**
+- ❌ **Disable Error Reporting, Delivery Optimization, and Remote Assistance**
+- 🚀 **Various Services Optimization**
+- 🚫 **Disable Automatic File Discovery**
+- 🎮 **Turn on Game Mode & GPU Scheduling**
 
-### 💨 Debloating and Performance Optimization
-- 🧹 **Debloat Windows 11 Bloatware**: Removes unnecessary apps and disables telemetry, logging, history, and tracking (Excludes Microsoft Store, Edge Webview, Snipping Tool, Notepad).
-- ❌ **Disables Windows Error Reporting, Update Delivery Optimization, and Windows Remote Assistance**: Disables certain Windows features that may impact performance or privacy.
-- 🔒 **Configures Windows Update**: Only installs security updates and delays feature updates for 1 year.
-- ⚡ **Create a Custom Power Plan (Trishula)**: Maximizes performance with 100% CPU parked.
-- 🚀 **Service Optimization**: Sets numerous Windows services to manual or disabled to optimize performance.
-- 🛡️ **Various Tweaks**: Applies performance, network, and privacy-related tweaks from CTT-WinUtil, Atlas, and Revi.
-- 🗃️ **Disables Reserved Storage**: Frees up storage reserved by the system.
+### 3. **🔐 Privacy & Security**
+- 👁️ **Disable Telemetry and Tracking**
+- 🔔 **Display Camera On/Off Notification**
+- 🔒 **Configure Windows Update: Security-Only Updates, Delay Feature Updates by 1 Year**
+- 🔒 **Prevent Installation of Dev Home, New Outlook, Chat, Bitlocker Auto-Encryption**
 
-### 🔐 Privacy and Security Enhancements
-- 👁️ **Disables Telemetry, Loggings, History, and Tracking**: Improves privacy by reducing data collection.
-- 🚫 **Disables Smart App Control**: Disables security features that may slow down the system.
-- 🛑 **Disables WPBT**: Disables the Windows Platform Binary Table for improved security.
-- 🔒 **Disables LLMNR Protocol**: Disables a potentially vulnerable protocol, replaced by DNS.
-- 💾 **File System Optimization**: Disables Last Access Time Stamp and Legacy 8.3 Char Length File Name Creation to enhance file system performance.
+### 4. **👤 User-Based Customizations**
+- 📁 **Hide Gallery and Network Navigation (In Explorer)**
+- 🔄 **Hide Removable Drives (In Explorer)**
+- ⚙️ **Hide Homepage(In Settings)**
+- 🛡️**Hide Unused Security Pages(In Windows Security)**
+- 📊 **Show More Details on File Transfer**
+- 🖥️ **Enable Verbose Status Messages**
+- 🔤 **Use Full App Name on Desktop Shortcuts**
 
-### 🖥️ User Interface and Usability Enhancements
-- 🔗 **Desktop Shortcuts**: Creates useful shortcuts for CTT-WinUtil, Activation, and Revert on the desktop.
-- 📋 **Configures Start Menu and Taskbar**: Customizes the Start menu and taskbar for a tailored user experience.
-- 🖱️ **Context Menu Additions**: Adds context menu items like "Take Ownership" and "Run with Priority" by default.
+### 5. **🛑 Disable Components/Services**
+- 💤 **Disable Hibernation and Reserved Storage**
+- 🖨️ **Disable Printer**
+- 🔍 **Disable Search Indexing**
+- 🛡️ **Fully Disable Windows Defender**
 
-### ⚙️ Selective Features Disabling 
-- 🛡️ **Disables Windows Defender Partially**: Reduces the functionality of Windows Defender to improve performance or compatibility.
-- 🎮 **Disables Xbox GameDVR**: Disables Xbox DVR features that may impact performance.
-- 📵 **Disables Notifications and Background Apps**: Limits background processes and notifications to reduce resource usage.
-- 💤 **Disables Hibernation**: Free Up 40% Space of Computers Ram. Also Disables Fast Startup. Fixes Dual boot Issues.
+### 6. **📂 Shivaay's Folder Options**
+#### 🔐 Security
+- 🛡️ **Toggle Windows Defender, Core Isolation, Unused Security Pages and Fault Torrent Heap**
 
-> [!NOTE]
-> Selective Features can be Configure from Revert Folder.
+#### 📦 Software
+- 🎮 **Install Game Bar (Without Xbox Bloats)**
 
-### ⚙️ Specific System Tweaks
-- 🚫 **Prevents Installation of Certain Windows Features**: Prevents installation of Dev Home, New Outlook, Chat, and Bitlocker Auto Encryption on Win 11 24H2.
-- 🖥️ **Disables MPO**: Disables Multi-Plane Overlay for better graphical performance on AMD and Nvidia GPUs.
-- ⚙️ **Enables SSD Trimming**: Improves SSD performance by enabling trimming to clear deleted data blocks.
+#### 🛠️ System Management
+- 💤 **Toggle Hibernation, Fast Startup**
+- 🖨️ **Toggle Printer Spooler**
+- 📵 **Toggle Notifications and Background Apps**
+- 🔍 **Toggle Search Indexing**
+- 🎥 **Toggle GameDVR**
 
-## 🛠️ Setup & Installation
+#### ⚡ Optimizations
+- 🔔 **Toggle Update Notification**
+- 🔄 **Toggle File Discovery, 8.3 Char Name, Last Access Time, Multi-Plane Overlay**
+
+#### 🖥️ User Interface
+- 📁 **Toggle Gallery, Network Pane and Removable Drives in File Explorer**
+- 📝 **Change Default New Folder Name**
+- 📜 **Toggle Recent Items (Recent Apps, Recent Documents, Files etc)**
+- 🔄 **Toggle Windows Old/New Context Menu**
+
+### 7. **🔄 Miscellaneous**
+- 🖥️ Create Shortcuts on Desktop of CTT Winutil and Activate Windows.
+- ⚡ **Added a Custom Power Plan (Shivaay - Power Within)**
+- 🌑 **Don't Dim Windows while User Account Control**
+- 🛑 **Disable Auto Restart on BSOD (To Capture Detailed Logs)**
+
+## 🔧 Installation with Answer File (Recommended)
 
 ### 1. Prepare Your USB Drive
 1. Create a bootable USB drive using **Ventoy**.
-2. Download the `GamingUnattend.zip` file.
-3. Extract the contents of `Gaming-Unattend.zip` into your USB drive.
+2. [Download the Fresh-Install.zip](https://github.com/ShivamXD6/Optimize-Windows/blob/main/Fresh-Install/Fresh-Install.zip).
+3. Extract the contents of `Fresh-Install.zip` into your USB drive.
 4. Confirm that the file structure on your USB drive matches the following:
 
     ```plaintext
@@ -82,7 +122,7 @@
         └───Add Your Windows ISO Here
     ```
 
-5. After confirming the file structure, add your Windows ISO file and drivers to the respective folders.
+5. Add your Windows ISO into WinISO, then Move on to Next Section.
 
 ### 2. Optional: Adding Drivers
 1. Create a folder named `Drivers` on your C: drive.
@@ -96,15 +136,13 @@
 4. Copy the drivers you want to automatically install from `C:\Drivers` to `D:\$WinpeDriver$`.
 
 > [!NOTE]
-> Drivers should be placed in their respective subfolders with `.inf` files included. `.exe` driver files are not supported.
+> Drivers should be placed in their respective subfolders with `.inf` files included. 
+> `.exe` driver files are not supported.
 
-### 3. Installing Windows Via Ventoy
+### 3. Installing Windows via Ventoy
 1. Now Restart into Boot Selection Menu (By Pressing F12, F8 or ESC Repeatedly).
 2. Select your USB Drive.
 3. If it Says "Verification Failed: (0x1A) Security Violation"
-
-> [!NOTE] 
-> All the steps only need to be done once for each computer when booting Ventoy at the first time.
 
 ![Ventoy Enroll Key](https://www.ventoy.net/static/img/secure_key.gif)
 
@@ -117,14 +155,54 @@
 
 7. You'll be Redirected to Custom Installation. Now Do any one method according to your condition.
 
-7.1 If you want to keep your data (Just select partition where your windows is installed and click next. Don't delete any other partition.)
+-  If you want to keep your data :- Just select partition where your windows is installed and click next. Don't delete any other partition.
 
-7.2 If you have backup all data. Then delete all partitions. Then select Unallocated Space and click Next.
+- If you want to Clean Install :- Delete all partitions. Then select Unallocated Space and click Next.
 
 8. Enter your Name and Password for Local User Account (Use Simple names without Symbols).
 9. Now windows will run some more commands and restart.
-10. Done Enjoy.
+10. Done Enjoy :).
+
+## 🎲 Installation with Post Install Scripts
+1. [Download the Post-Install.zip](https://github.com/ShivamXD6/Optimize-Windows/blob/main/Post-Install/Post-Install.zip).
+2. Extract it anywhere inside your Drive.
+3. Run `Post-Install.cmd` as Administrator.
+4. It'll Prompt you to Disable Defender, Just Press any key and Disable Defender. (If you want you can enable Defender later.)
+5. After Disabling, Return back to Terminal/Command Prompt.
+6. Press any key to continue Installation.
+
+> [!NOTE]
+> Ignore Errors if you get any.
+
+7. Done, Windows will automatically restart now.
+
+## 📸 Screenshots
+
+### 🧪 Benchmarks
+
+- On Original Windows
+![BenchMark-OG](./screenshots/ORG-BM.png)
+
+- On Windows with Answer File
+![BenchMark-AF](./screenshots/AF-BM.png)
+
+### 💻 Process Count and RAM Usage
+
+- On Original Windows
+![TaskManager-OG](./screenshots/ORG-TM.png)
+
+- On Windows with Answer File
+![TaskManager-AF](./screenshots/AF-TM.png)
+
+### 🖥️ Desktop & Shivaay Folder
+
+- On Original Windows
+![Desktop-OG](./screenshots/ORG-D.png)
+
+- On Windows with Answer File
+![Desktop-AF](./screenshots/AF-D.png)
+![Shivaay-Folder-AF](./screenshots/AF-E.png)
 
 ## 💖 Acknowledgements
- - Thanks to [MemTechTips](https://github.com/memstechtips/UnattendedWinstall) for Core file Used as a base.
- - Credits to [Schneegans](https://schneegans.de/windows/unattend-generator/), [ChrisTitusTech](https://github.com/ChrisTitusTech/winutil), [Revi](https://revi.cc) for Tweaks used in this answer File.
+ - Thanks to [MemTechTips](https://github.com/memstechtips/UnattendedWinstall) for Core file Used as a base for Answer File.
+ - Credits to [Atlas](https://atlasos.net), [ChrisTitusTech](https://github.com/ChrisTitusTech/winutil) and [Revi](https://revi.cc) for Tweaks used in this answer File.
