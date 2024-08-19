@@ -7,7 +7,7 @@
 
 - [📂 Included Scripts](#-included-scripts)
 - [🚀 Features](#-features)
-- [🔧 Installation with Answer File (Recommended)](#️-installation-with-answer-file-recommended)
+- [🔧 Installation with Answer File (Recommended)](#-installation-with-answer-file-recommended)
 - [🎲 Installation with Post Install Scripts](#-installation-with-post-install-scripts)
 - [📸 Screenshots](#-screenshots)
 - [💖 Acknowledgements](#-acknowledgements)
@@ -181,27 +181,34 @@
 ### 🧪 Benchmarks
 
 - On Original Windows
-![BenchMark-OG](./screenshots/ORG-BM.png)
+
+![BenchMark-OG](./Screenshots/ORG-BM.png)
 
 - On Windows with Answer File
-![BenchMark-AF](./screenshots/AF-BM.png)
+
+![BenchMark-AF](./Screenshots/AF-BM.png)
 
 ### 💻 Process Count and RAM Usage
 
 - On Original Windows
-![TaskManager-OG](./screenshots/ORG-TM.png)
+
+![TaskManager-OG](./Screenshots/ORG-TM.png)
 
 - On Windows with Answer File
-![TaskManager-AF](./screenshots/AF-TM.png)
+
+![TaskManager-AF](./Screenshots/AF-TM.png)
 
 ### 🖥️ Desktop & Shivaay Folder
 
 - On Original Windows
-![Desktop-OG](./screenshots/ORG-D.png)
+
+![Desktop-OG](./Screenshots/ORG-D.png)
 
 - On Windows with Answer File
-![Desktop-AF](./screenshots/AF-D.png)
-![Shivaay-Folder-AF](./screenshots/AF-E.png)
+
+![Desktop-AF](./Screenshots/AF-D.png)
+
+![Shivaay-Folder-AF](./Screenshots/AF-E.png)
 
 ## 💖 Acknowledgements
  - Thanks to [MemTechTips](https://github.com/memstechtips/UnattendedWinstall) for Core file Used as a base for Answer File.
