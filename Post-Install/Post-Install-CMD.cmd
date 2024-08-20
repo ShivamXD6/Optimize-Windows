@@ -11,7 +11,7 @@ pause
 
 echo " - Running Powershell Script..."
 timeout 2
-powershell -ExecutionPolicy Bypass -File "%~dp0Post-Install.ps1"
+powershell -ExecutionPolicy Bypass -File "%~dp0Post-Install-PowerShell.ps1"
 
 echo " - Applying Local Machine Registry Tweaks..."
 timeout 2
@@ -528,7 +528,7 @@ reg add "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\System" /v Enab
 reg add "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\System" /v "PromptOnSecureDesktop" /t REG_DWORD /d "0" /f
 
 echo " - Importing Registry File..."
-reg import "%~dp0Post-Install.reg"
+reg import "%~dp0Post-Install-Registry.reg"
 timeout 2
 
 echo " - Restarting PC to Apply All Changes..."
