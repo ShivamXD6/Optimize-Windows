@@ -165,7 +165,7 @@
 ## 🎲 Installation with Post Install Scripts
 1. [Download the Post-Install.zip](https://github.com/ShivamXD6/Optimize-Windows/blob/main/Post-Install/Post-Install.zip).
 2. Extract it anywhere inside your Drive.
-3. Run `Post-Install.cmd` as Administrator.
+3. Run `Post-Install-CMD.cmd` as Administrator.
 4. It'll Prompt you to Disable Defender, Just Press any key and Disable Defender. (If you want you can enable Defender later.)
 5. After Disabling, Return back to Terminal/Command Prompt.
 6. Press any key to continue Installation.
