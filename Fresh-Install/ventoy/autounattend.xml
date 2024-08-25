@@ -667,8 +667,8 @@ $hibernationToggle | Out-File -FilePath "$toggleHibernation.cmd" -Encoding ASCII
 $gameDVR = @"
 @echo off & net session >nul 2>&1
 if %errorLevel% neq 0 (
- Please Run as Administrator.
-echo & exit
+echo Please Run as Administrator.
+pause & exit
 )
 set srt=%~n0
 if "%srt%"=="Enable GameDVR" (
@@ -697,8 +697,8 @@ $gameDVR | Out-File -FilePath "$toggleGameDVR.cmd" -Encoding ASCII
 $searchService = @"
 @echo off & net session >nul 2>&1
 if %errorLevel% neq 0 (
- Please Run as Administrator.
-echo & exit
+echo Please Run as Administrator.
+pause & exit
 )
 set srt=%~n0
 if "%srt%"=="Enable Search Indexing" (
@@ -719,8 +719,8 @@ $searchService | Out-File -FilePath "$toggleSearchService.cmd" -Encoding ASCII
 $notificationToggle = @"
 @echo off & net session >nul 2>&1
 if %errorLevel% neq 0 (
- Please Run as Administrator.
-echo & exit
+echo Please Run as Administrator.
+pause & exit
 )
 set srt=%~n0
 if "%srt%"=="Enable Notifications and Background Apps" (
@@ -743,8 +743,8 @@ $notificationToggle | Out-File -FilePath "$toggleNotification.cmd" -Encoding ASC
 $spoolerService = @"
 @echo off & net session >nul 2>&1
 if %errorLevel% neq 0 (
- Please Run as Administrator.
-echo & exit
+echo Please Run as Administrator.
+pause & exit
 )
 set srt=%~n0
 if "%srt%"=="Enable Printer Spooler" (
@@ -766,8 +766,8 @@ $spoolerService | Out-File -FilePath "$toggleSpoolerService.cmd" -Encoding ASCII
 $updateNotifications = @"
 @echo off & net session >nul 2>&1
 if %errorLevel% neq 0 (
- Please Run as Administrator.
-echo & exit
+echo Please Run as Administrator.
+pause & exit
 )
 set srt=%~n0
 if "%srt%"=="Enable Update Notifications" (
@@ -790,8 +790,8 @@ $updateNotifications | Out-File -FilePath $toggleUpdateNotifications -Encoding A
 $automaticFolder = @"
 @echo off & net session >nul 2>&1
 if %errorLevel% neq 0 (
- Please Run as Administrator.
-echo & exit
+echo Please Run as Administrator.
+pause & exit
 )
 set srt=%~n0
 if "%srt%"=="Enable Automatic Folder Discovery" (
@@ -810,8 +810,8 @@ $automaticFolder | Out-File -FilePath $toggleAutomaticFolder -Encoding ASCII
 $toggleFileSystemSettings = @"
 @echo off & net session >nul 2>&1
 if %errorLevel% neq 0 (
- Please Run as Administrator.
-echo & exit
+echo Please Run as Administrator.
+pause & exit
 )
 set srt=%~n0
 if "%srt%"=="Disable Last Access Time and 8.3 Name" (
@@ -832,8 +832,8 @@ $toggleFileSystemSettings | Out-File -FilePath $toggleFileSystemSettingsPath -En
 $toggleOverlayTestMode = @"
 @echo off & net session >nul 2>&1
 if %errorLevel% neq 0 (
- Please Run as Administrator.
-echo & exit
+echo Please Run as Administrator.
+pause & exit
 )
 set srt=%~n0
 if "%srt%"=="Enable Multi-Plane Overlay" (
@@ -853,8 +853,8 @@ $toggleOverlayTestMode | Out-File -FilePath $toggleOverlayTestModePath -Encoding
 $toggleGalleryExplorer = @"
 @echo off & net session >nul 2>&1
 if %errorLevel% neq 0 (
- Please Run as Administrator.
-echo & exit
+echo Please Run as Administrator.
+pause & exit
 )
 set srt=%~n0
 if "%srt%"=="Show - Gallery In File Explorer" (
@@ -873,8 +873,8 @@ $toggleGalleryExplorer | Out-File -FilePath $toggleGalleryExplorerPath -Encoding
 $toggleNetworkNavigation = @"
 @echo off & net session >nul 2>&1
 if %errorLevel% neq 0 (
- Please Run as Administrator.
-echo & exit
+echo Please Run as Administrator.
+pause & exit
 )
 set srt=%~n0
 if "%srt%"=="Show - Network Navigation In File Explorer" (
@@ -893,8 +893,8 @@ $toggleNetworkNavigation | Out-File -FilePath $toggleNetworkNavigationPath -Enco
 $toggleRemovableDrives = @"
 @echo off & net session >nul 2>&1
 if %errorLevel% neq 0 (
- Please Run as Administrator.
-echo & exit
+echo Please Run as Administrator.
+pause & exit
 )
 set srt=%~n0
 if "%srt%"=="Show - Removable Drives In File Explorer Quick Access" (
@@ -915,8 +915,8 @@ $toggleRemovableDrives | Out-File -FilePath $toggleRemovableDrivesPath -Encoding
 $contextMenu = @"
 @echo off & net session >nul 2>&1
 if %errorLevel% neq 0 (
- Please Run as Administrator.
-echo & exit
+echo Please Run as Administrator.
+pause & exit
 )
 set srt=%~n0
 if "%srt%"=="Enable - NEW Context Menu" (
@@ -942,8 +942,8 @@ $FolderName | Out-File -FilePath $NewFolderName -Encoding ASCII
 $toggleRecentItems = @"
 @echo off & net session >nul 2>&1
 if %errorLevel% neq 0 (
- Please Run as Administrator.
-echo & exit
+echo Please Run as Administrator.
+pause & exit
 )
 set srt=%~n0
 if "%srt%"=="Disable - Recent Items" (
