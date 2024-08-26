@@ -739,24 +739,6 @@ schtasks /Change /TN $task /Disable
 DISM /Online /Set-ReservedStorageState /State:Disabled
 reg add "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\ReserveManager" /v "ShippedWithReserves" /t REG_DWORD /d 0 /f
 
-Write-Output " - Creating and Activating Custom Shivaay Power Plan..."
-Start-Sleep 2
-
-# Create a custom Power Plan of Shivaay
-# Shivaay - Power Within (Default)
-powercfg -restoredefaultschemes
-powercfg -duplicatescheme e9a42b02-d5df-448d-aa00-03f14749eb61 3ff9831b-6f80-4830-8178-736cd4229e7b
-powercfg -changename 3ff9831b-6f80-4830-8178-736cd4229e7b "Shivaay - Unleash the Power Within" "Inspired by the strength of Shiva, this plan activates all CPU cores for unmatched performance.."
-powercfg -s 3ff9831b-6f80-4830-8178-736cd4229e7b
-powercfg -setacvalueindex scheme_current sub_processor PERFINCPOL 2
-powercfg -setacvalueindex scheme_current sub_processor PERFDECPOL 1
-powercfg -setacvalueindex scheme_current sub_processor PERFINCTHRESHOLD 10
-powercfg -setacvalueindex scheme_current sub_processor PERFDECTHRESHOLD 8
-powercfg -setacvalueindex scheme_current sub_processor CPMINCORES 100
-powercfg -setacvalueindex scheme_current sub_processor CPMINCORES1 100
-powercfg -setacvalueindex scheme_current sub_processor PROCTHROTTLEMAX 0
-powercfg /setactive scheme_current
-
 Write-Output " - Setting Various Services to Manual..."
 Start-Sleep 2
 

@@ -13,6 +13,25 @@ echo " - Running Powershell Script..."
 timeout 2
 powershell -ExecutionPolicy Bypass -File "%~dp0Post-Install-PowerShell.ps1"
 
+echo " - Creating and applying Custom Power Plan Shivaay..."
+timeout 3
+powercfg -restoredefaultschemes
+powercfg -duplicatescheme e9a42b02-d5df-448d-aa00-03f14749eb61 3ff9831b-6f80-4830-8178-736cd4229e7b
+powercfg -changename 3ff9831b-6f80-4830-8178-736cd4229e7b "Shivaay - Unleash the Power Within" "Inspired by the strength of Shiva, this plan activates all CPU cores for unmatched performance.."
+powercfg -s 3ff9831b-6f80-4830-8178-736cd4229e7b
+powercfg -setacvalueindex scheme_current sub_processor PERFINCPOL 2
+powercfg -setacvalueindex scheme_current sub_processor PERFDECPOL 1
+powercfg -setacvalueindex scheme_current sub_processor PERFINCTHRESHOLD 10
+powercfg -setacvalueindex scheme_current sub_processor PERFDECTHRESHOLD 8
+powercfg -setacvalueindex scheme_current sub_processor CPMINCORES 100
+powercfg -setacvalueindex scheme_current sub_processor CPMINCORES1 100
+
+:: Disable Processor Performance Boost mode (To avoid heating issues or thermal throttling)
+powercfg -setacvalueindex scheme_current sub_processor PROCTHROTTLEMAX 0
+powercfg -setacvalueindex scheme_current sub_processor PERFBOOSTMODE 0
+powercfg -setdcvalueindex scheme_current sub_processor PERFBOOSTMODE 0
+powercfg /setactive scheme_current
+
 echo " - Applying Local Machine Registry Tweaks..."
 timeout 2
 
@@ -70,9 +89,6 @@ reg add "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\OOBE" /v BypassNRO /t RE
 
 :: Hide Settings Home Page
 reg add "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\Explorer" /v SettingsPageVisibility /t REG_SZ /d "hide:home" /f
-
-:: Disable Processor Performance Boost mode (To avoid heat issues or thermal throttling)
-reg add "HKLM\SYSTEM\ControlSet001\Control\Power\PowerSettings\54533251-82be-4824-96c1-47b60b740d00\be337238-0d82-4146-a960-4f3749d470c7" /v "Attributes" /t REG_DWORD /d 0 /f
 
 :: Disable System Restore (Sometimes Ineffictive and Causes Problems)
 reg add "HKLM\SOFTWARE\Policies\Microsoft\Windows NT\SystemRestore" /v DisableSR /t REG_DWORD /d 1 /f
