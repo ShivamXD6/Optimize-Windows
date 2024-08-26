@@ -2,9 +2,9 @@
 echo " - Installation Started..."
 echo " ! Ignore erorrs if you get any..."
 echo " - Please turn off Windows Defender, You can enable it again later..."
-echo 1. Click on "Virus & Threat Protection".
-echo 2. Disable all protections on the page.
-echo 3. Return Back to Terminal.
+echo " 1. Click on 'Virus & Threat Protection'."
+echo " 2. Disable all protections on the page."
+echo " 3. Return Back to Terminal."
 pause
 start %windir%\explorer.exe windowsdefender://threat
 pause
@@ -59,15 +59,15 @@ reg add "HKLM\SOFTWARE\Microsoft\OEM\Device\Capture" /v "NoPhysicalCameraLED" /t
 reg add "HKLM\SYSTEM\CurrentControlSet\Control\CrashControl" /v "AutoReboot" /t REG_DWORD /d 0 /f
 
 :: Add Shivaay OS in OEM Info
-reg add "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\OEMInformation" /v "Model"  /t REG_SZ /d "Shivaay OS - V2.1" /f
+reg add "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\OEMInformation" /v "Model" /t REG_SZ /d "Shivaay OS - V2.1" /f
 reg add "HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion" /v "RegisteredOrganization" /t REG_SZ /d "Shivaay OS - V2.1" /f
  
 :: Disable Multi-Plane Overlay (MPO) (Fixes Lags or Glitches On Nvidia or AMD GPUs)
 reg add "HKLM\SOFTWARE\Microsoft\Windows\Dwm" /v OverlayTestMode /t REG_DWORD /d 5 /f
-      
+
 :: Bypasses Microsoft Account Creation
 reg add "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\OOBE" /v BypassNRO /t REG_DWORD /d 1 /f
-  
+
 :: Hide Settings Home Page
 reg add "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\Explorer" /v SettingsPageVisibility /t REG_SZ /d "hide:home" /f
 

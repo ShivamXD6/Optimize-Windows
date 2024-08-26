@@ -474,26 +474,26 @@ $interfacePath = New-Item -Path $shivaayPath -Name "User Interface" -ItemType Di
 
 # Create WinUtil-CTT and Activate Windows shortcut
 function Create-Shortcut {
-    param (
-        [string]$target,
-        [string]$shortcutName,
-        [string]$shortcutType
-    )
-    $shortcutPath = Join-Path $desktopPath $shortcutName
-    $softPath = Join-Path $softwaresPath $shortcutName
-    if ($shortcutType -eq "url") {
-        $internetShortcut = $shell.CreateShortcut($softPath)
-        $internetShortcut.TargetPath = $target
-        $internetShortcut.Save()
-    } else {
-        $shortcut = $shell.CreateShortcut($shortcutPath)
-        $shortcut.TargetPath = "powershell.exe"
-        $shortcut.Arguments = "-NoProfile -ExecutionPolicy Bypass -Command `"$target`""
-        $shortcut.Save()
-        $bytes = [System.IO.File]::ReadAllBytes($shortcutPath)
-        $bytes[0x15] = $bytes[0x15] -bor 0x20
-        [System.IO.File]::WriteAllBytes($shortcutPath, $bytes)
-    }
+  param (
+    [string]$target,
+    [string]$shortcutName,
+    [string]$shortcutType
+  )
+  $shortcutPath = Join-Path $desktopPath $shortcutName
+  $softPath = Join-Path $softwaresPath $shortcutName
+  if ($shortcutType -eq "url") {
+    $internetShortcut = $shell.CreateShortcut($softPath)
+    $internetShortcut.TargetPath = $target
+    $internetShortcut.Save()
+  } else {
+    $shortcut = $shell.CreateShortcut($shortcutPath)
+    $shortcut.TargetPath = "powershell.exe"
+    $shortcut.Arguments = "-NoProfile -ExecutionPolicy Bypass -Command `"$target`""
+    $shortcut.Save()
+    $bytes = [System.IO.File]::ReadAllBytes($shortcutPath)
+    $bytes[0x15] = $bytes[0x15] -bor 0x20
+    [System.IO.File]::WriteAllBytes($shortcutPath, $bytes)
+  }
 }
 
 $winUtilCommand = "irm https://christitus.com/win | iex"
@@ -1029,7 +1029,7 @@ $folderPath = Get-ChildItem -Path "C:\Windows\WinSxS" -Filter "amd64_microsoft-e
 
 if ($folderPath) {
 & 'takeown' '/f' $folderPath '/r'
-& icacls $folderPath  "/grant"
+& icacls $folderPath "/grant"
 "$($adminGroup.Value):(F)" '/T' '/C'
 Remove-Item -Path $folderPath -Recurse -Force
 } else {
@@ -1040,7 +1040,7 @@ $folderPath = Get-ChildItem -Path "C:\Windows\WinSxS" -Filter "arm64_microsoft-e
 
 if ($folderPath) {
 & 'takeown' '/f' $folderPath '/r'
-& icacls $folderPath  "/grant" "$($adminGroup.Value):(F)" '/T' '/C'
+& icacls $folderPath "/grant" "$($adminGroup.Value):(F)" '/T' '/C'
 Remove-Item -Path $folderPath -Recurse -Force 
 } else {
 Write-Host "Folder not found."
@@ -1412,7 +1412,7 @@ Set-Service -Name 'wlpasvc' -StartupType Manual -ErrorAction Continue
 Set-Service -Name 'wmiApSrv' -StartupType Manual -ErrorAction Continue
 Set-Service -Name 'workfolderssvc' -StartupType Manual -ErrorAction Continue
 Set-Service -Name 'wuauserv' -StartupType Manual -ErrorAction Continue
-Set-Service -Name 'wudfsvc' -StartupType Manual -ErrorAction Continue  
+Set-Service -Name 'wudfsvc' -StartupType Manual -ErrorAction Continue
 Stop-Transcript
    ]]>
   </File>
@@ -1466,7 +1466,7 @@ reg add "HKLM\SOFTWARE\Microsoft\OEM\Device\Capture" /v "NoPhysicalCameraLED" /t
 reg add "HKLM\SYSTEM\CurrentControlSet\Control\CrashControl" /v "AutoReboot" /t REG_DWORD /d 0 /f
 
 :: Add Shivaay OS in OEM Info
-reg add "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\OEMInformation" /v "Model"  /t REG_SZ /d "Shivaay OS - V2.1" /f
+reg add "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\OEMInformation" /v "Model" /t REG_SZ /d "Shivaay OS - V2.1" /f
 reg add "HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion" /v "RegisteredOrganization" /t REG_SZ /d "Shivaay OS - V2.1" /f
  
 :: Disable Multi-Plane Overlay (MPO) (Fixes Lags or Glitches On Nvidia or AMD GPUs)
