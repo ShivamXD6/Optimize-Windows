@@ -1722,9 +1722,10 @@ powercfg -setacvalueindex scheme_current sub_processor PERFINCTHRESHOLD 10
 powercfg -setacvalueindex scheme_current sub_processor PERFDECTHRESHOLD 8
 powercfg -setacvalueindex scheme_current sub_processor CPMINCORES 100
 powercfg -setacvalueindex scheme_current sub_processor CPMINCORES1 100
+powercfg -setacvalueindex scheme_current sub_processor PROCFREQMAX 100
+powercfg -setacvalueindex scheme_current sub_processor PROCTHROTTLEMAX 100
 
 :: Disable Processor Performance Boost mode (To avoid heating issues or thermal throttling)
-powercfg -setacvalueindex scheme_current sub_processor PROCTHROTTLEMAX 0
 powercfg -setacvalueindex scheme_current sub_processor PERFBOOSTMODE 0
 powercfg -setdcvalueindex scheme_current sub_processor PERFBOOSTMODE 0
 powercfg /setactive scheme_current
