@@ -126,6 +126,10 @@ Create-Shortcut -target $gameBar -shortcutName 'Download XBOX GameBar.url' -shor
 $edgeWebview = "https://developer.microsoft.com/en-us/microsoft-edge/webview2/"
 Create-Shortcut -target $edgeWebview -shortcutName 'Download Edge WebView2.url' -shortcutType "url"
 
+# Hi-Bit Uninstaller
+$hibitUninstaller = "https://hibitsoft.ir/"
+Create-Shortcut -target $hibitUninstaller -shortcutName 'Download Hi-Bit Uninstaller.url' -shortcutType "url"
+
 # Security
 # Toggle Windows Defender
 $Defender = @"
