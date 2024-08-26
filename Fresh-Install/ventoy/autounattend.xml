@@ -1975,6 +1975,9 @@ reg add "HKCU\Control Panel\Desktop" /v "JPEGImportQuality" /t REG_DWORD /d 100 
 :: Sets "When Windows Detects Communication Activity" under "System > Sound > More sound settings > Communications" to "Do Nothing"
 reg add "HKCU\Software\Microsoft\Multimedia\Audio" /v "UserDuckingPreference" /t REG_DWORD /d 3 /f
 
+:: Toggle On NumLock
+powershell -ExecutionPolicy Bypass -command "$WshShell = New-Object -ComObject WScript.Shell; $WshShell.SendKeys('{NUMLOCK}')"
+
 :: Enables User Account Control (Without Dimming Desktop)
 reg add "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\System" /v EnableLUA /t REG_DWORD /d 1 /f
 reg add "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\System" /v "PromptOnSecureDesktop" /t REG_DWORD /d "0" /f
