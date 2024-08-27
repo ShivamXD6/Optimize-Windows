@@ -1711,6 +1711,9 @@ powercfg -setacvalueindex scheme_current sub_processor PERFBOOSTMODE 0
 powercfg -setdcvalueindex scheme_current sub_processor PERFBOOSTMODE 0
 powercfg /setactive scheme_current
 
+:: Disable Storage Sense
+reg add "HKCU\Software\Microsoft\Windows\CurrentVersion\StorageSense\Parameters\StoragePolicy" /v "01" /t REG_DWORD /d 0 /f
+
 :: Disabling the Delivery of Personalized or Suggested Content Like App Suggestions, Tips, and Advertisements in Windows
 reg add "HKCU\SOFTWARE\Microsoft\Windows\CurrentVersion\ContentDeliveryManager" /v "ContentDeliveryAllowed" /t REG_DWORD /d 0 /f
 reg add "HKCU\SOFTWARE\Microsoft\Windows\CurrentVersion\ContentDeliveryManager" /v "FeatureManagementEnabled" /t REG_DWORD /d 0 /f
