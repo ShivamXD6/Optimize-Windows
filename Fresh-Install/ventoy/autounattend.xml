@@ -1019,8 +1019,7 @@ $folderPath = Get-ChildItem -Path "C:\Windows\WinSxS" -Filter "amd64_microsoft-e
 
 if ($folderPath) {
 & 'takeown' '/f' $folderPath '/r'
-& icacls $folderPath "/grant"
-"$($adminGroup.Value):(F)" '/T' '/C'
+& icacls $folderPath "/grant" "$($adminGroup.Value):(F)" '/T' '/C'
 Remove-Item -Path $folderPath -Recurse -Force
 } else {
 Write-Host "Folder not found."
