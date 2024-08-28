@@ -211,7 +211,7 @@ echo Please Run as Administrator.
 pause & exit
 )
 set srt=%~n0
-if "%srt%"=="Enable - Fault Tolerant Heap.cmd" (
+if "%srt%"=="Enable - Fault Tolerant Heap" (
 reg add "HKLM\SOFTWARE\Microsoft\FTH" /v "Enabled" /t REG_DWORD /d 1 /f
 set st="Disable - Fault Tolerant Heap.cmd"
 ) else (
