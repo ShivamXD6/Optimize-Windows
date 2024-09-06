@@ -122,6 +122,10 @@ Create-Shortcut -target $activatedCommand -shortcutName 'Activate-Windows.lnk'
 $gameBar = "ms-windows-store://pdp/?productid=9nzkpstsnw4p"
 Create-Shortcut -target $gameBar -shortcutName 'Download XBOX GameBar.url' -shortcutType "url"
 
+# AMD Radeon Software
+$amdRadeon = "ms-windows-store://pdp/?productid=9nz1bjqn6bhl"
+Create-Shortcut -target $amdRadeon -shortcutName 'AMD Radeon Software.url' -shortcutType "url"
+
 # Edge WebView
 $edgeWebview = "https://developer.microsoft.com/en-us/microsoft-edge/webview2/"
 Create-Shortcut -target $edgeWebview -shortcutName 'Download Edge WebView2.url' -shortcutType "url"
