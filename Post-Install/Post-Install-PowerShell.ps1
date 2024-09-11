@@ -223,8 +223,7 @@ $Defender | Out-File -FilePath $toggleDefender -Encoding ASCII
 
 # Toggle Core Isolation - Memory Integrity 
 $memoryIntegrity = @"
-@echo off
-reg query "HKU\S-1-5-19" >nul 2>&1
+@echo off & reg query "HKU\S-1-5-19" >nul 2>&1
 if %errorLevel% neq 0 (
 echo Please Run as Administrator.
 pause & exit
@@ -246,8 +245,7 @@ $memoryIntegrity | Out-File -FilePath $toggleMemoryIntegrity -Encoding ASCII
 
 # Show/Hide Unused Security Pages
 $UnusedSecurityPages = @"
-@echo off
-reg query "HKU\S-1-5-19" >nul 2>&1
+@echo off & reg query "HKU\S-1-5-19" >nul 2>&1
 if %errorLevel% neq 0 (
 echo Please Run as Administrator.
 pause & exit
@@ -273,8 +271,7 @@ $UnusedSecurityPages | Out-File -FilePath $toggleUnusedSecurityPages -Encoding A
 # System Management
 # Toggle Hibernation and Fast Startup
 $hibernationToggle = @"
-@echo off
-reg query "HKU\S-1-5-19" >nul 2>&1
+@echo off & reg query "HKU\S-1-5-19" >nul 2>&1
 if %errorLevel% neq 0 (
 echo Please Run as Administrator.
 pause & exit
@@ -293,8 +290,7 @@ $hibernationToggle | Out-File -FilePath "$toggleHibernation.cmd" -Encoding ASCII
 
 # Toggle GameDVR
 $gameDVR = @"
-@echo off
-reg query "HKU\S-1-5-19" >nul 2>&1
+@echo off & reg query "HKU\S-1-5-19" >nul 2>&1
 if %errorLevel% neq 0 (
 echo Please Run as Administrator.
 pause & exit
@@ -324,8 +320,7 @@ $gameDVR | Out-File -FilePath "$toggleGameDVR.cmd" -Encoding ASCII
 
 # Toggle Windows Search Indexing Service
 $searchService = @"
-@echo off
-reg query "HKU\S-1-5-19" >nul 2>&1
+@echo off & reg query "HKU\S-1-5-19" >nul 2>&1
 if %errorLevel% neq 0 (
 echo Please Run as Administrator.
 pause & exit
@@ -346,8 +341,7 @@ $searchService | Out-File -FilePath "$toggleSearchService.cmd" -Encoding ASCII
 
 # Toggle Notifications and Background Apps
 $notificationToggle = @"
-@echo off
-reg query "HKU\S-1-5-19" >nul 2>&1
+@echo off & reg query "HKU\S-1-5-19" >nul 2>&1
 if %errorLevel% neq 0 (
 echo Please Run as Administrator.
 pause & exit
@@ -373,8 +367,7 @@ $notificationToggle | Out-File -FilePath "$toggleNotification.cmd" -Encoding ASC
 
 # Toggle Windows Printer Spooler Service
 $spoolerService = @"
-@echo off
-reg query "HKU\S-1-5-19" >nul 2>&1
+@echo off & reg query "HKU\S-1-5-19" >nul 2>&1
 if %errorLevel% neq 0 (
 echo Please Run as Administrator.
 pause & exit
@@ -395,8 +388,7 @@ $spoolerService | Out-File -FilePath "$toggleSpoolerService.cmd" -Encoding ASCII
 # Optimizations
 # Toggle Update Notifications
 $updateNotifications = @"
-@echo off
-reg query "HKU\S-1-5-19" >nul 2>&1
+@echo off & reg query "HKU\S-1-5-19" >nul 2>&1
 if %errorLevel% neq 0 (
 echo Please Run as Administrator.
 pause & exit
@@ -420,8 +412,7 @@ $updateNotifications | Out-File -FilePath $toggleUpdateNotifications -Encoding A
 
 # Toggle Automatic Folder Discovery
 $automaticFolder = @"
-@echo off
-reg query "HKU\S-1-5-19" >nul 2>&1
+@echo off & reg query "HKU\S-1-5-19" >nul 2>&1
 if %errorLevel% neq 0 (
 echo Please Run as Administrator.
 pause & exit
@@ -440,8 +431,7 @@ $automaticFolder | Out-File -FilePath $toggleAutomaticFolder -Encoding ASCII
 
 # Toggle Last Access Time Stamp and 8.3 Char Length File Name Creation
 $toggleFileSystemSettings = @"
-@echo off
-reg query "HKU\S-1-5-19" >nul 2>&1
+@echo off & reg query "HKU\S-1-5-19" >nul 2>&1
 if %errorLevel% neq 0 (
 echo Please Run as Administrator.
 pause & exit
@@ -461,8 +451,7 @@ $toggleFileSystemSettings | Out-File -FilePath $toggleFileSystemSettingsPath -En
 
 # Toggle Multi-Plane Overlay
 $toggleOverlayTestMode = @"
-@echo off
-reg query "HKU\S-1-5-19" >nul 2>&1
+@echo off & reg query "HKU\S-1-5-19" >nul 2>&1
 if %errorLevel% neq 0 (
 echo Please Run as Administrator.
 pause & exit
@@ -482,8 +471,7 @@ $toggleOverlayTestMode | Out-File -FilePath $toggleOverlayTestModePath -Encoding
 # User Interface
 # Toggle Gallery in File Explorer
 $toggleGalleryExplorer = @"
-@echo off
-reg query "HKU\S-1-5-19" >nul 2>&1
+@echo off & reg query "HKU\S-1-5-19" >nul 2>&1
 if %errorLevel% neq 0 (
 echo Please Run as Administrator.
 pause & exit
@@ -503,8 +491,7 @@ $toggleGalleryExplorer | Out-File -FilePath $toggleGalleryExplorerPath -Encoding
 
 # Toggle Network Navigation Pane in File Explorer
 $toggleNetworkNavigation = @"
-@echo off
-reg query "HKU\S-1-5-19" >nul 2>&1
+@echo off & reg query "HKU\S-1-5-19" >nul 2>&1
 if %errorLevel% neq 0 (
 echo Please Run as Administrator.
 pause & exit
@@ -524,8 +511,7 @@ $toggleNetworkNavigation | Out-File -FilePath $toggleNetworkNavigationPath -Enco
 
 # Toggle Removable Drives in File Explorer
 $toggleRemovableDrives = @"
-@echo off
-reg query "HKU\S-1-5-19" >nul 2>&1
+@echo off & reg query "HKU\S-1-5-19" >nul 2>&1
 if %errorLevel% neq 0 (
 echo Please Run as Administrator.
 pause & exit
@@ -548,8 +534,7 @@ $toggleRemovableDrives | Out-File -FilePath $toggleRemovableDrivesPath -Encoding
 
 # Toggle Context Menu
 $contextMenu = @"
-@echo off
-reg query "HKU\S-1-5-19" >nul 2>&1
+@echo off & reg query "HKU\S-1-5-19" >nul 2>&1
 if %errorLevel% neq 0 (
 echo Please Run as Administrator.
 pause & exit
@@ -575,8 +560,7 @@ $FolderName | Out-File -FilePath $NewFolderName -Encoding ASCII
 
 # Toggle Recent Items in Windows
 $toggleRecentItems = @"
-@echo off
-reg query "HKU\S-1-5-19" >nul 2>&1
+@echo off & reg query "HKU\S-1-5-19" >nul 2>&1
 if %errorLevel% neq 0 (
 echo Please Run as Administrator.
 pause & exit

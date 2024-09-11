@@ -1,13 +1,18 @@
-@echo off
+@echo off & reg query "HKU\S-1-5-19" >nul 2>&1
+if %errorLevel% neq 0 (
+echo Please Run as Administrator.
+pause & exit
+)
 echo " - Installation Started..."
 echo " ! Ignore erorrs if you get any..."
-echo " - Please turn off Windows Defender, You can enable it again later..."
-echo " 1. Click on 'Virus & Threat Protection'."
-echo " 2. Disable all protections on the page."
-echo " 3. Return Back to Terminal."
+bcdedit | findstr /i "safeboot"
+if %ERRORLEVEL% NEQ 0 (
+echo  1. To Run this Script, I will boot into safemode.
+echo  2. After Booting into safemode run this script again.
 pause
-start %windir%\explorer.exe windowsdefender://threat
-pause
+bcdedit /set {current} safeboot minimal
+shutdown /r /t 3
+)
 
 echo " - Running Powershell Script..."
 timeout 2
@@ -544,5 +549,5 @@ reg import "%~dp0Post-Install-Registry.reg"
 timeout 2
 
 echo " - Restarting PC to Apply All Changes..."
-timeout 2
-shutdown /r -t 1
+bcdedit /deletevalue {current} safeboot
+shutdown /r /t 3
