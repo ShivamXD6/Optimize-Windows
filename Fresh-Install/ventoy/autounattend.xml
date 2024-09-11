@@ -607,46 +607,49 @@ $Defender | Out-File -FilePath $toggleDefender -Encoding ASCII
 
 # Toggle Core Isolation - Memory Integrity 
 $memoryIntegrity = @"
-@echo off & net session >nul 2>&1
+@echo off
+reg query "HKU\S-1-5-19" >nul 2>&1
 if %errorLevel% neq 0 (
 echo Please Run as Administrator.
 pause & exit
 )
-set srt=%~n0
-if "%srt%"=="Enable - Core Isolation" (
-reg add "HKLM\SYSTEM\CurrentControlSet\Control\DeviceGuard\Scenarios\HypervisorEnforcedCodeIntegrity" /v Enabled /t REG_DWORD /d 1 /f
-reg delete "HKLM\SOFTWARE\Policies\Microsoft\Windows Defender Security Center\Device security" /v "UILockdown" /f
-set st="Disable - Core Isolation.cmd"
+set reg1="HKLM\SYSTEM\CurrentControlSet\Control\DeviceGuard\Scenarios\HypervisorEnforcedCodeIntegrity"
+set reg2="HKLM\SOFTWARE\Policies\Microsoft\Windows Defender Security Center\Device security"
+if "%~n0"=="Enable - Core Isolation" (
+reg add %reg1% /v Enabled /t REG_DWORD /d 1 /f
+reg delete %reg2% /v "UILockdown" /f
+ren "%~dpnx0" "Disable - Core Isolation.cmd"
 ) else (
-reg add "HKLM\SYSTEM\CurrentControlSet\Control\DeviceGuard\Scenarios\HypervisorEnforcedCodeIntegrity" /v Enabled /t REG_DWORD /d 0 /f
-reg add "HKLM\SOFTWARE\Policies\Microsoft\Windows Defender Security Center\Device security" /v "UILockdown" /t REG_DWORD /d 1 /f
-set st="Enable - Core Isolation.cmd"
+reg add %reg1% /v Enabled /t REG_DWORD /d 0 /f
+reg add %reg2% /v "UILockdown" /t REG_DWORD /d 1 /f
+ren "%~dpnx0" "Enable - Core Isolation.cmd"
 )
-ren "%~dpnx0" %st% & echo Restart to apply changes.
 "@
 $toggleMemoryIntegrity = [System.IO.Path]::Combine($securityPath, 'Enable - Core Isolation.cmd')
 $memoryIntegrity | Out-File -FilePath $toggleMemoryIntegrity -Encoding ASCII
 
 # Show/Hide Unused Security Pages
 $UnusedSecurityPages = @"
-@echo off & net session >nul 2>&1
+@echo off
+reg query "HKU\S-1-5-19" >nul 2>&1
 if %errorLevel% neq 0 (
 echo Please Run as Administrator.
 pause & exit
 )
-set srt=%~n0
-if "%srt%"=="Hide - Unused Security Pages" (
-reg add "HKLM\SOFTWARE\Policies\Microsoft\Windows Defender Security Center\Device performance and health" /v "UILockdown" /t REG_DWORD /d 1 /f
-reg add "HKLM\SOFTWARE\Policies\Microsoft\Windows Defender Security Center\Family options" /v "UILockdown" /t REG_DWORD /d 1 /f
-reg add "HKLM\SOFTWARE\Policies\Microsoft\Windows Defender Security Center\Account protection" /v "UILockdown" /t REG_DWORD /d 1 /f
-set st="Show - Unused Security Pages.cmd"
+set reg1="HKLM\SOFTWARE\Policies\Microsoft\Windows Defender Security Center\Device performance and health"
+set reg2="HKLM\SOFTWARE\Policies\Microsoft\Windows Defender Security Center\Family options"
+set reg3="HKLM\SOFTWARE\Policies\Microsoft\Windows Defender Security Center\Account protection"
+if "%~n0"=="Hide - Unused Security Pages" (
+reg add %reg1% /v "UILockdown" /t REG_DWORD /d 1 /f
+reg add %reg2% /v "UILockdown" /t REG_DWORD /d 1 /f
+reg add %reg3% /v "UILockdown" /t REG_DWORD /d 1 /f
+ren "%~dpnx0" "Show - Unused Security Pages.cmd"
 ) else (
-reg delete "HKLM\SOFTWARE\Policies\Microsoft\Windows Defender Security Center\Device performance and health" /v "UILockdown" /f
-reg delete "HKLM\SOFTWARE\Policies\Microsoft\Windows Defender Security Center\Family options" /v "UILockdown" /f
-reg delete "HKLM\SOFTWARE\Policies\Microsoft\Windows Defender Security Center\Account protection" /v "UILockdown" /f
-set st="Hide - Unused Security Pages.cmd"
+reg delete %reg1% /v "UILockdown" /f
+reg delete %reg2% /v "UILockdown" /f
+reg delete %reg3% /v "UILockdown" /f
+ren "%~dpnx0" "Hide - Unused Security Pages.cmd"
 )
-ren "%~dpnx0" %st%
 "@
 $toggleUnusedSecurityPages = [System.IO.Path]::Combine($securityPath, 'Show - Unused Security Pages.cmd')
 $UnusedSecurityPages | Out-File -FilePath $toggleUnusedSecurityPages -Encoding ASCII
@@ -654,64 +657,64 @@ $UnusedSecurityPages | Out-File -FilePath $toggleUnusedSecurityPages -Encoding A
 # System Management
 # Toggle Hibernation and Fast Startup
 $hibernationToggle = @"
-@echo off & net session >nul 2>&1
+@echo off
+reg query "HKU\S-1-5-19" >nul 2>&1
 if %errorLevel% neq 0 (
 echo Please Run as Administrator.
 pause & exit
 )
-set srt=%~n0
-if "%srt%"=="Enable Hibernation and Fast Startup" (
+if "%~n0"=="Enable Hibernation and Fast Startup" (
 powercfg /hibernate on
 reg add "HKLM\SYSTEM\CurrentControlSet\Control\Session Manager\Power" /v HiberbootEnabled /t REG_DWORD /d 1 /f
-set st="Disable Hibernation and Fast Startup.cmd"
+ren "%~dpnx0" "Disable Hibernation and Fast Startup.cmd"
 ) else (
 powercfg /hibernate off
-set st="Enable Hibernation and Fast Startup.cmd"
+ren "%~dpnx0" "Enable Hibernation and Fast Startup.cmd"
 )
-ren "%~dpnx0" %st%
 "@
 $toggleHibernation = [System.IO.Path]::Combine($managementPath, 'Enable Hibernation and Fast Startup')
 $hibernationToggle | Out-File -FilePath "$toggleHibernation.cmd" -Encoding ASCII
 
 # Toggle GameDVR
 $gameDVR = @"
-@echo off & net session >nul 2>&1
+@echo off
+reg query "HKU\S-1-5-19" >nul 2>&1
 if %errorLevel% neq 0 (
 echo Please Run as Administrator.
 pause & exit
 )
-set srt=%~n0
-if "%srt%"=="Enable GameDVR" (
-reg add "HKCU\System\GameConfigStore" /v GameDVR_FSEBehavior /t REG_DWORD /d 0 /f
-reg add "HKCU\System\GameConfigStore" /v GameDVR_Enabled /t REG_DWORD /d 1 /f
-reg add "HKCU\System\GameConfigStore" /v GameDVR_DXGIHonorFSEWindowsCompatible /t REG_DWORD /d 0 /f
-reg add "HKCU\System\GameConfigStore" /v GameDVR_HonorUserFSEBehaviorMode /t REG_DWORD /d 0 /f
-reg add "HKCU\System\GameConfigStore" /v GameDVR_EFSEFeatureFlags /t REG_DWORD /d 1 /f
-reg add "HKLM\SOFTWARE\Policies\Microsoft\Windows\GameDVR" /v AllowGameDVR /t REG_DWORD /d 1 /f
-set st="Disable GameDVR.cmd"
+set reg1="HKCU\System\GameConfigStore"
+set reg2="HKLM\SOFTWARE\Policies\Microsoft\Windows\GameDVR"
+if "%~n0"=="Enable GameDVR" (
+reg add %reg1% /v GameDVR_FSEBehavior /t REG_DWORD /d 0 /f
+reg add %reg1% /v GameDVR_Enabled /t REG_DWORD /d 1 /f
+reg add %reg1% /v GameDVR_DXGIHonorFSEWindowsCompatible /t REG_DWORD /d 0 /f
+reg add %reg1% /v GameDVR_HonorUserFSEBehaviorMode /t REG_DWORD /d 0 /f
+reg add %reg1% /v GameDVR_EFSEFeatureFlags /t REG_DWORD /d 1 /f
+reg add %reg2% /v AllowGameDVR /t REG_DWORD /d 1 /f
+    ren "%~dpnx0" "Disable GameDVR.cmd"
 ) else (
-reg delete "HKCU\System\GameConfigStore" /v GameDVR_FSEBehavior /f
-reg delete "HKCU\System\GameConfigStore" /v GameDVR_Enabled /f
-reg delete "HKCU\System\GameConfigStore" /v GameDVR_DXGIHonorFSEWindowsCompatible /f
-reg delete "HKCU\System\GameConfigStore" /v GameDVR_HonorUserFSEBehaviorMode /f
-reg delete "HKCU\System\GameConfigStore" /v GameDVR_EFSEFeatureFlags /f
-reg delete "HKLM\SOFTWARE\Policies\Microsoft\Windows\GameDVR" /v AllowGameDVR /f
-set st="Enable GameDVR.cmd"
+reg delete %reg1% /v GameDVR_FSEBehavior /f
+reg delete %reg1% /v GameDVR_Enabled /f
+reg delete %reg1% /v GameDVR_DXGIHonorFSEWindowsCompatible /f
+reg delete %reg1% /v GameDVR_HonorUserFSEBehaviorMode /f
+reg delete %reg1% /v GameDVR_EFSEFeatureFlags /f
+reg delete %reg2% /v AllowGameDVR /f
+ren "%~dpnx0" "Enable GameDVR.cmd"
 )
-ren "%~dpnx0" %st%
 "@
 $toggleGameDVR = [System.IO.Path]::Combine($managementPath, 'Enable GameDVR')
 $gameDVR | Out-File -FilePath "$toggleGameDVR.cmd" -Encoding ASCII
 
 # Toggle Windows Search Indexing Service
 $searchService = @"
-@echo off & net session >nul 2>&1
+@echo off
+reg query "HKU\S-1-5-19" >nul 2>&1
 if %errorLevel% neq 0 (
 echo Please Run as Administrator.
 pause & exit
 )
-set srt=%~n0
-if "%srt%"=="Enable Search Indexing" (
+if "%~n0"=="Enable Search Indexing" (
 sc config WSearch start=auto
 net start WSearch
 set st="Disable Search Indexing.cmd"
@@ -727,21 +730,24 @@ $searchService | Out-File -FilePath "$toggleSearchService.cmd" -Encoding ASCII
 
 # Toggle Notifications and Background Apps
 $notificationToggle = @"
-@echo off & net session >nul 2>&1
+@echo off
+reg query "HKU\S-1-5-19" >nul 2>&1
 if %errorLevel% neq 0 (
 echo Please Run as Administrator.
 pause & exit
 )
-set srt=%~n0
-if "%srt%"=="Enable Notifications and Background Apps" (
-reg add "HKCU\Software\Policies\Microsoft\Windows\Explorer" /v DisableNotificationCenter /t REG_DWORD /d 0 /f
-reg add "HKCU\Software\Microsoft\Windows\CurrentVersion\PushNotifications" /v ToastEnabled /t REG_DWORD /d 1 /f
-reg add "HKCU\SOFTWARE\Microsoft\Windows\CurrentVersion\BackgroundAccessApplications" /v GlobalUserDisabled /t REG_DWORD /d 0 /f
+set reg1="HKCU\Software\Policies\Microsoft\Windows\Explorer"
+set reg2="HKCU\Software\Microsoft\Windows\CurrentVersion\PushNotifications"
+set reg3="HKCU\SOFTWARE\Microsoft\Windows\CurrentVersion\BackgroundAccessApplications"
+if "%~n0"=="Enable Notifications and Background Apps" (
+reg add %reg1% /v DisableNotificationCenter /t REG_DWORD /d 0 /f
+reg add %reg2% /v ToastEnabled /t REG_DWORD /d 1 /f
+reg add %reg3% /v GlobalUserDisabled /t REG_DWORD /d 0 /f
 set st="Disable Notifications and Background Apps.cmd"
 ) else (
-reg add "HKCU\Software\Policies\Microsoft\Windows\Explorer" /v DisableNotificationCenter /t REG_DWORD /d 1 /f
-reg add "HKCU\Software\Microsoft\Windows\CurrentVersion\PushNotifications" /v ToastEnabled /t REG_DWORD /d 0 /f
-reg add "HKCU\SOFTWARE\Microsoft\Windows\CurrentVersion\BackgroundAccessApplications" /v GlobalUserDisabled /t REG_DWORD /d 1 /f
+reg add %reg1% /v DisableNotificationCenter /t REG_DWORD /d 1 /f
+reg add %reg2% /v ToastEnabled /t REG_DWORD /d 0 /f
+reg add %reg3% /v GlobalUserDisabled /t REG_DWORD /d 1 /f
 set st="Enable Notifications and Background Apps.cmd"
 )
 ren "%~dpnx0" %st% & taskkill /f /im explorer.exe & start explorer.exe
@@ -751,22 +757,21 @@ $notificationToggle | Out-File -FilePath "$toggleNotification.cmd" -Encoding ASC
 
 # Toggle Windows Printer Spooler Service
 $spoolerService = @"
-@echo off & net session >nul 2>&1
+@echo off
+reg query "HKU\S-1-5-19" >nul 2>&1
 if %errorLevel% neq 0 (
 echo Please Run as Administrator.
 pause & exit
 )
-set srt=%~n0
-if "%srt%"=="Enable Printer Spooler" (
+if "%~n0"=="Enable Printer Spooler" (
 sc config Spooler start=auto
 net start Spooler
-set st="Disable Printer Spooler.cmd"
+ren "%~dpnx0" "Disable Printer Spooler.cmd"
 ) else (
 net stop Spooler
 sc config Spooler start=disabled
-set st="Enable Printer Spooler.cmd"
+ren "%~dpnx0" "Enable Printer Spooler.cmd"
 )
-ren "%~dpnx0" %st%
 "@
 $toggleSpoolerService = [System.IO.Path]::Combine($managementPath, 'Enable Printer Spooler')
 $spoolerService | Out-File -FilePath "$toggleSpoolerService.cmd" -Encoding ASCII
@@ -774,86 +779,86 @@ $spoolerService | Out-File -FilePath "$toggleSpoolerService.cmd" -Encoding ASCII
 # Optimizations
 # Toggle Update Notifications
 $updateNotifications = @"
-@echo off & net session >nul 2>&1
+@echo off
+reg query "HKU\S-1-5-19" >nul 2>&1
 if %errorLevel% neq 0 (
 echo Please Run as Administrator.
 pause & exit
 )
-set srt=%~n0
-if "%srt%"=="Enable Update Notifications" (
-reg add "HKLM\SOFTWARE\Policies\Microsoft\Windows\WindowsUpdate" /v SetAutoRestartNotificationDisable /t REG_DWORD /d 0 /f
-reg add "HKLM\SOFTWARE\Microsoft\WindowsUpdate\UX\Settings" /v RestartNotificationsAllowed2 /t REG_DWORD /d 1 /f
-reg add "HKLM\SOFTWARE\Policies\Microsoft\Windows\WindowsUpdate" /v SetUpdateNotificationLevel /t REG_DWORD /d 1 /f
-set st="Disable Update Notifications.cmd"
+set reg1="HKLM\SOFTWARE\Policies\Microsoft\Windows\WindowsUpdate"
+set reg2="HKLM\SOFTWARE\Microsoft\WindowsUpdate\UX\Settings"
+if "%~n0"=="Enable Update Notifications" (
+reg add %reg1% /v SetAutoRestartNotificationDisable /t REG_DWORD /d 0 /f
+reg add %reg2% /v RestartNotificationsAllowed2 /t REG_DWORD /d 1 /f
+reg add %reg1% /v SetUpdateNotificationLevel /t REG_DWORD /d 1 /f
+ren "%~dpnx0" "Disable Update Notifications.cmd"
 ) else (
-reg delete "HKLM\SOFTWARE\Policies\Microsoft\Windows\WindowsUpdate" /v SetAutoRestartNotificationDisable /f
-reg delete "HKLM\SOFTWARE\Microsoft\WindowsUpdate\UX\Settings" /v RestartNotificationsAllowed2 /f
-reg delete "HKLM\SOFTWARE\Policies\Microsoft\Windows\WindowsUpdate" /v SetUpdateNotificationLevel /f
-set st="Enable Update Notifications.cmd"
+reg delete %reg1% /v SetAutoRestartNotificationDisable /f
+reg delete %reg2% /v RestartNotificationsAllowed2 /f
+reg delete %reg1% /v SetUpdateNotificationLevel /f
+ren "%~dpnx0" "Enable Update Notifications.cmd"
 )
-ren "%~dpnx0" %st%
 "@
-$toggleUpdateNotifications = [System.IO.Path]::Combine($optimizationPath, 'Enable Update Notifications.cmd')
+$toggleUpdateNotifications = [System.IO.Path]::Combine($optimizationPath, 'Disable Update Notifications.cmd')
 $updateNotifications | Out-File -FilePath $toggleUpdateNotifications -Encoding ASCII
 
 # Toggle Automatic Folder Discovery
 $automaticFolder = @"
-@echo off & net session >nul 2>&1
+@echo off
+reg query "HKU\S-1-5-19" >nul 2>&1
 if %errorLevel% neq 0 (
 echo Please Run as Administrator.
 pause & exit
 )
-set srt=%~n0
-if "%srt%"=="Enable Automatic Folder Discovery" (
-reg add "HKCU\Software\Classes\Local Settings\Software\Microsoft\Windows\Shell\Bags\AllFolders\Shell" /v FolderType /t REG_DWORD /d 0 /f
-set st="Disable Automatic Folder Discovery.cmd"
+set reg1="HKCU\Software\Classes\Local Settings\Software\Microsoft\Windows\Shell\Bags\AllFolders\Shell"
+if "%~n0"=="Enable Automatic Folder Discovery" (
+reg add %reg1% /v FolderType /t REG_DWORD /d 0 /f
+ren "%~dpnx0" "Disable Automatic Folder Discovery.cmd"
 ) else (
-reg delete "HKCU\Software\Classes\Local Settings\Software\Microsoft\Windows\Shell\Bags\AllFolders\Shell" /v FolderType /f
-set st="Enable Automatic Folder Discovery.cmd"
+reg delete %reg1% /v FolderType /f
+ren "%~dpnx0" "Enable Automatic Folder Discovery.cmd"
 )
-ren "%~dpnx0" %st%
 "@
 $toggleAutomaticFolder = [System.IO.Path]::Combine($optimizationPath, 'Enable Automatic Folder Discovery.cmd')
 $automaticFolder | Out-File -FilePath $toggleAutomaticFolder -Encoding ASCII
 
 # Toggle Last Access Time Stamp and 8.3 Char Length File Name Creation
 $toggleFileSystemSettings = @"
-@echo off & net session >nul 2>&1
+@echo off
+reg query "HKU\S-1-5-19" >nul 2>&1
 if %errorLevel% neq 0 (
 echo Please Run as Administrator.
 pause & exit
 )
-set srt=%~n0
-if "%srt%"=="Disable Last Access Time and 8.3 Name" (
+if "%~n0"=="Disable Last Access Time and 8.3 Name" (
 fsutil behavior set disableLastAccess 1
 fsutil behavior set disable8dot3 1
-set st="Enable Last Access Time and 8.3 Name.cmd"
+ren "%~dpnx0" "Enable Last Access Time and 8.3 Name.cmd"
 ) else (
 fsutil behavior set disableLastAccess 0
 fsutil behavior set disable8dot3 0
-set st="Disable Last Access Time and 8.3 Name.cmd"
+ren "%~dpnx0" "Disable Last Access Time and 8.3 Name.cmd"
 )
-ren "%~dpnx0" %st%
 "@
 $toggleFileSystemSettingsPath = [System.IO.Path]::Combine($optimizationPath, 'Enable Last Access Time and 8.3 Name.cmd')
 $toggleFileSystemSettings | Out-File -FilePath $toggleFileSystemSettingsPath -Encoding ASCII
 
 # Toggle Multi-Plane Overlay
 $toggleOverlayTestMode = @"
-@echo off & net session >nul 2>&1
+@echo off
+reg query "HKU\S-1-5-19" >nul 2>&1
 if %errorLevel% neq 0 (
 echo Please Run as Administrator.
 pause & exit
 )
-set srt=%~n0
-if "%srt%"=="Enable Multi-Plane Overlay" (
-reg delete "HKLM\SOFTWARE\Microsoft\Windows\Dwm" /v OverlayTestMode /f
-set st="Disable Multi-Plane Overlay.cmd"
+set reg1="HKLM\SOFTWARE\Microsoft\Windows\Dwm"
+if "%~n0"=="Enable Multi-Plane Overlay" (
+reg delete %reg1% /v OverlayTestMode /f
+ren "%~dpnx0" "Disable Multi-Plane Overlay.cmd"
 ) else (
-reg add "HKLM\SOFTWARE\Microsoft\Windows\Dwm" /v OverlayTestMode /t REG_DWORD /d 5 /f
-set st="Enable Multi-Plane Overlay.cmd"
+reg add %reg1% /v OverlayTestMode /t REG_DWORD /d 5 /f
+ren "%~dpnx0" "Enable Multi-Plane Overlay.cmd"
 )
-ren "%~dpnx0" %st%
 "@
 $toggleOverlayTestModePath = [System.IO.Path]::Combine($optimizationPath, 'Enable Multi-Plane Overlay.cmd')
 $toggleOverlayTestMode | Out-File -FilePath $toggleOverlayTestModePath -Encoding ASCII
@@ -861,17 +866,18 @@ $toggleOverlayTestMode | Out-File -FilePath $toggleOverlayTestModePath -Encoding
 # User Interface
 # Toggle Gallery in File Explorer
 $toggleGalleryExplorer = @"
-@echo off & net session >nul 2>&1
+@echo off
+reg query "HKU\S-1-5-19" >nul 2>&1
 if %errorLevel% neq 0 (
 echo Please Run as Administrator.
 pause & exit
 )
-set srt=%~n0
-if "%srt%"=="Show - Gallery In File Explorer" (
-reg add "HKCU\Software\Classes\CLSID\{e88865ea-0e1c-4e20-9aa6-edcd0212c87c}" /v System.IsPinnedToNameSpaceTree /t REG_DWORD /d 1 /f
+set reg1="HKCU\Software\Classes\CLSID\{e88865ea-0e1c-4e20-9aa6-edcd0212c87c}"
+if "%~n0"=="Show - Gallery In File Explorer" (
+reg add %reg1% /v System.IsPinnedToNameSpaceTree /t REG_DWORD /d 1 /f
 set st="Hide - Gallery In File Explorer.cmd"
 ) else (
-reg delete "HKCU\Software\Classes\CLSID\{e88865ea-0e1c-4e20-9aa6-edcd0212c87c}" /v System.IsPinnedToNameSpaceTree /f
+reg delete %reg1% /v System.IsPinnedToNameSpaceTree /f
 set st="Show - Gallery In File Explorer.cmd"
 )
 ren "%~dpnx0" %st% & taskkill /f /im explorer.exe & start explorer.exe
@@ -881,17 +887,18 @@ $toggleGalleryExplorer | Out-File -FilePath $toggleGalleryExplorerPath -Encoding
 
 # Toggle Network Navigation Pane in File Explorer
 $toggleNetworkNavigation = @"
-@echo off & net session >nul 2>&1
+@echo off
+reg query "HKU\S-1-5-19" >nul 2>&1
 if %errorLevel% neq 0 (
 echo Please Run as Administrator.
 pause & exit
 )
-set srt=%~n0
-if "%srt%"=="Show - Network Navigation In File Explorer" (
-reg add "HKCU\SOFTWARE\Classes\CLSID\{F02C1A0D-BE21-4350-88B0-7367FC96EF3C}" /v System.IsPinnedToNameSpaceTree /t REG_SZ /d "1" /f
+set reg1="HKCU\SOFTWARE\Classes\CLSID\{F02C1A0D-BE21-4350-88B0-7367FC96EF3C}"
+if "%~n0%"=="Show - Network Navigation In File Explorer" (
+reg add %reg1% /v System.IsPinnedToNameSpaceTree /t REG_SZ /d "1" /f
 set st="Hide - Network Navigation In File Explorer.cmd"
 ) else (
-reg delete "HKCU\SOFTWARE\Classes\CLSID\{F02C1A0D-BE21-4350-88B0-7367FC96EF3C}" /v System.IsPinnedToNameSpaceTree /f
+reg delete %reg1% /v System.IsPinnedToNameSpaceTree /f
 set st="Show - Network Navigation In File Explorer.cmd"
 )
 ren "%~dpnx0" %st% & taskkill /f /im explorer.exe & start explorer.exe
@@ -901,19 +908,21 @@ $toggleNetworkNavigation | Out-File -FilePath $toggleNetworkNavigationPath -Enco
 
 # Toggle Removable Drives in File Explorer
 $toggleRemovableDrives = @"
-@echo off & net session >nul 2>&1
+@echo off
+reg query "HKU\S-1-5-19" >nul 2>&1
 if %errorLevel% neq 0 (
 echo Please Run as Administrator.
 pause & exit
 )
-set srt=%~n0
-if "%srt%"=="Show - Removable Drives In File Explorer Quick Access" (
-reg add "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Desktop\NameSpace\DelegateFolders\{F5FB2C77-0E2F-4A16-A381-3E560C68BC83}" /ve /d "Removable Drives" /f
-reg add "HKLM\SOFTWARE\WOW6432Node\Microsoft\Windows\CurrentVersion\Explorer\Desktop\NameSpace\DelegateFolders\{F5FB2C77-0E2F-4A16-A381-3E560C68BC83}\{F5FB2C77-0E2F-4A16-A381-3E560C68BC83}" /ve /d "Removable Drives" /f
+set reg1="HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Desktop\NameSpace\DelegateFolders\{F5FB2C77-0E2F-4A16-A381-3E560C68BC83}"
+set reg2="HKLM\SOFTWARE\WOW6432Node\Microsoft\Windows\CurrentVersion\Explorer\Desktop\NameSpace\DelegateFolders\{F5FB2C77-0E2F-4A16-A381-3E560C68BC83}\{F5FB2C77-0E2F-4A16-A381-3E560C68BC83}"
+if "%~n0%"=="Show - Removable Drives In File Explorer Quick Access" (
+reg add %reg1% /ve /d "Removable Drives" /f
+reg add %reg2% /ve /d "Removable Drives" /f
 set st="Hide - Removable Drives In File Explorer Quick Access.cmd"
 ) else (
-reg delete "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Desktop\NameSpace\DelegateFolders\{F5FB2C77-0E2F-4A16-A381-3E560C68BC83}" /v /f
-reg delete "HKLM\SOFTWARE\WOW6432Node\Microsoft\Windows\CurrentVersion\Explorer\Desktop\NameSpace\DelegateFolders\{F5FB2C77-0E2F-4A16-A381-3E560C68BC83}\{F5FB2C77-0E2F-4A16-A381-3E560C68BC83}" /v /f
+reg delete %reg1% /f
+reg delete %reg2% /f
 set st="Show - Removable Drives In File Explorer Quick Access.cmd"
 )
 ren "%~dpnx0" %st% & taskkill /f /im explorer.exe & start explorer.exe
@@ -923,13 +932,13 @@ $toggleRemovableDrives | Out-File -FilePath $toggleRemovableDrivesPath -Encoding
 
 # Toggle Context Menu
 $contextMenu = @"
-@echo off & net session >nul 2>&1
+@echo off
+reg query "HKU\S-1-5-19" >nul 2>&1
 if %errorLevel% neq 0 (
 echo Please Run as Administrator.
 pause & exit
 )
-set srt=%~n0
-if "%srt%"=="Enable - NEW Context Menu" (
+if "%~n0"=="Enable - NEW Context Menu" (
 reg delete "HKCU\Software\Classes\CLSID\{86ca1aa0-34aa-4e8b-a509-50c905bae2a2}" /f
 set st="Enable - OLD Context Menu.cmd"
 ) else (
@@ -950,35 +959,40 @@ $FolderName | Out-File -FilePath $NewFolderName -Encoding ASCII
 
 # Toggle Recent Items in Windows
 $toggleRecentItems = @"
-@echo off & net session >nul 2>&1
+@echo off
+reg query "HKU\S-1-5-19" >nul 2>&1
 if %errorLevel% neq 0 (
 echo Please Run as Administrator.
 pause & exit
 )
-set srt=%~n0
-if "%srt%"=="Disable - Recent Items" (
-reg add "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\Explorer" /v "NoStartMenuMFUprogramsList" /t REG_DWORD /d "1" /f
-reg add "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\Explorer" /v "NoRecentDocsHistory" /t REG_DWORD /d "1" /f
-reg add "HKLM\SOFTWARE\Policies\Microsoft\Windows\Explorer" /v "ShowOrHideMostUsedApps" /t REG_DWORD /d "1" /f
-reg add "HKLM\SOFTWARE\Policies\Microsoft\Windows\Explorer" /v "HideRecentlyAddedApps" /t REG_DWORD /d "1" /f
-reg add "HKCU\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\Explorer" /v "NoInstrumentation" /t REG_DWORD /d "1" /f
-reg add "HKCU\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\Explorer" /v "ClearRecentDocsOnExit" /t REG_DWORD /d "1" /f
-reg add "HKCU\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\Explorer" /v "NoRecentDocsHistory" /t REG_DWORD /d "1" /f
-reg add "HKCU\SOFTWARE\Policies\Microsoft\Windows\Explorer" /v "NoRemoteDestinations" /t REG_DWORD /d "1" /f
-reg add "HKCU\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Advanced" /v "Start_TrackProgs" /t REG_DWORD /d "0" /f
-reg add "HKCU\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Advanced" /v "Start_TrackDocs" /t REG_DWORD /d "0" /f
+set reg1="HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\Explorer"
+set reg2="HKLM\SOFTWARE\Policies\Microsoft\Windows\Explorer"
+set reg3="HKCU\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\Explorer"
+set reg4="HKCU\SOFTWARE\Policies\Microsoft\Windows\Explorer"
+set reg5="HKCU\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Advanced"
+if "%~n0%"=="Disable - Recent Items" (
+reg add %reg1% /v "NoStartMenuMFUprogramsList" /t REG_DWORD /d "1" /f
+reg add %reg1% /v "NoRecentDocsHistory" /t REG_DWORD /d "1" /f
+reg add %reg2% /v "ShowOrHideMostUsedApps" /t REG_DWORD /d "1" /f
+reg add %reg2% /v "HideRecentlyAddedApps" /t REG_DWORD /d "1" /f
+reg add %reg3% /v "NoInstrumentation" /t REG_DWORD /d "1" /f
+reg add %reg3% /v "ClearRecentDocsOnExit" /t REG_DWORD /d "1" /f
+reg add %reg3% /v "NoRecentDocsHistory" /t REG_DWORD /d "1" /f
+reg add %reg4% /v "NoRemoteDestinations" /t REG_DWORD /d "1" /f
+reg add %reg5% /v "Start_TrackProgs" /t REG_DWORD /d "0" /f
+reg add %reg5% /v "Start_TrackDocs" /t REG_DWORD /d "0" /f
 set st="Enable - Recent Items.cmd"
 ) else (
-reg delete "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\Explorer" /v "NoStartMenuMFUprogramsList" /f
-reg delete "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\Explorer" /v "NoRecentDocsHistory" /f
-reg delete "HKLM\SOFTWARE\Policies\Microsoft\Windows\Explorer" /v "ShowOrHideMostUsedApps" /f
-reg delete "HKLM\SOFTWARE\Policies\Microsoft\Windows\Explorer" /v "HideRecentlyAddedApps" /f
-reg delete "HKCU\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\Explorer" /v "NoInstrumentation" /f
-reg delete "HKCU\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\Explorer" /v "ClearRecentDocsOnExit" /f
-reg delete "HKCU\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\Explorer" /v "NoRecentDocsHistory" /f
-reg delete "HKCU\SOFTWARE\Policies\Microsoft\Windows\Explorer" /v "NoRemoteDestinations" /f
-reg add "HKCU\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Advanced" /v "Start_TrackProgs" /t REG_DWORD /d "1" /f
-reg add "HKCU\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Advanced" /v "Start_TrackDocs" /t REG_DWORD /d "1" /f
+reg delete %reg1% /v "NoStartMenuMFUprogramsList" /f
+reg delete %reg1% /v "NoRecentDocsHistory" /f
+reg delete %reg2% /v "ShowOrHideMostUsedApps" /f
+reg delete %reg2% /v "HideRecentlyAddedApps" /f
+reg delete %reg3% /v "NoInstrumentation" /f
+reg delete %reg3% /v "ClearRecentDocsOnExit" /f
+reg delete %reg3% /v "NoRecentDocsHistory" /f
+reg delete %reg4% /v "NoRemoteDestinations" /f
+reg add %reg5% /v "Start_TrackProgs" /t REG_DWORD /d "1" /f
+reg add %reg5% /v "Start_TrackDocs" /t REG_DWORD /d "1" /f
 set st="Disable - Recent Items.cmd"
 )
 ren "%~dpnx0" %st% & taskkill /f /im explorer.exe & start explorer.exe
