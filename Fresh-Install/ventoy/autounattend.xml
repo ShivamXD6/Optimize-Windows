@@ -510,6 +510,10 @@ Create-Shortcut -target $gameBar -shortcutName 'XBOX GameBar.url' -shortcutType 
 $amdRadeon = "ms-windows-store://pdp/?productid=9nz1bjqn6bhl"
 Create-Shortcut -target $amdRadeon -shortcutName 'AMD Radeon Software.url' -shortcutType "url"
 
+# Microsoft Tips
+$msTips = "ms-windows-store://pdp/?productid=9wzdncrdtbjj"
+Create-Shortcut -target $msTips -shortcutName 'Microsoft Tips.url' -shortcutType "url"
+
 # Edge WebView
 $edgeWebview = "https://developer.microsoft.com/en-us/microsoft-edge/webview2/"
 Create-Shortcut -target $edgeWebview -shortcutName 'Edge WebView2 Runtime.url' -shortcutType "url"
