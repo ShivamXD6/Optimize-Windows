@@ -143,8 +143,8 @@ Create-Shortcut -target $hibitUninstaller -shortcutName 'Hi-Bit Uninstaller.url'
 $Defender = @"
 @echo off & reg query "HKU\S-1-5-19" >nul 2>&1
 if %errorLevel% neq 0 (
-    echo Please Run as Administrator.
-    pause & exit
+echo Please Run as Administrator.
+pause & exit
 )
 set reg1="HKLM\SYSTEM\CurrentControlSet\Services\Sense"
 set reg2="HKLM\SYSTEM\CurrentControlSet\Services\WdBoot"
@@ -242,26 +242,6 @@ ren "%~dpnx0" %st% & echo Restart to apply changes.
 "@
 $toggleMemoryIntegrity = [System.IO.Path]::Combine($securityPath, 'Enable - Core Isolation.cmd')
 $memoryIntegrity | Out-File -FilePath $toggleMemoryIntegrity -Encoding ASCII
-
-# Toggle Fault Tolerant Heap (FTH)
-$faultHeapToggle = @"
-@echo off & net session >nul 2>&1
-if %errorLevel% neq 0 (
-echo Please Run as Administrator.
-pause & exit
-)
-set srt=%~n0
-if "%srt%"=="Enable - Fault Tolerant Heap" (
-reg add "HKLM\SOFTWARE\Microsoft\FTH" /v "Enabled" /t REG_DWORD /d 1 /f
-set st="Disable - Fault Tolerant Heap.cmd"
-) else (
-reg add "HKLM\SOFTWARE\Microsoft\FTH" /v "Enabled" /t REG_DWORD /d 0 /f
-set st="Enable - Fault Tolerant Heap.cmd"
-)
-ren "%~dpnx0" %st%
-"@
-$faultHeapPath = [System.IO.Path]::Combine($securityPath, 'Enable - Fault Tolerant Heap.cmd')
-$faultHeapToggle | Out-File -FilePath $faultHeapPath -Encoding ASCII
 
 # Show/Hide Unused Security Pages
 $UnusedSecurityPages = @"
