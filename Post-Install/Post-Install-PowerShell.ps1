@@ -603,9 +603,6 @@ $toggleRecentItems | Out-File -FilePath $toggleRecentItemsPath -Encoding ASCII
 Write-Output " - Running Various Tweaks..."
 Start-Sleep 2
 
-# Enables .NET Framework 3.5
-DISM /Online /Enable-Feature /FeatureName:NetFx3 /All /Source:X:\sources\sxs /LimitAccess
-
 # Configure Maximum Password Age in Windows
 net.exe accounts /maxpwage:UNLIMITED
 

@@ -984,9 +984,6 @@ ren "%~dpnx0" %st% & taskkill /f /im explorer.exe & start explorer.exe
 $toggleRecentItemsPath = [System.IO.Path]::Combine($interfacePath, 'Enable - Recent Items.cmd')
 $toggleRecentItems | Out-File -FilePath $toggleRecentItemsPath -Encoding ASCII
 
-# Enables .NET Framework 3.5
-DISM /Online /Enable-Feature /FeatureName:NetFx3 /All /Source:X:\sources\sxs /LimitAccess
-
 # Configure Maximum Password Age in Windows
 net.exe accounts /maxpwage:UNLIMITED
 
