@@ -519,52 +519,84 @@ $hibitUninstaller = "https://hibitsoft.ir/"
 Create-Shortcut -target $hibitUninstaller -shortcutName 'Hi-Bit Uninstaller.url' -shortcutType "url"
 
 # Security
-# Toggle Windows Defender
+# Toggle Defender
 $Defender = @"
-@echo off & net session >nul 2>&1
+@echo off & reg query "HKU\S-1-5-19" >nul 2>&1
 if %errorLevel% neq 0 (
-echo Please Run as Administrator.
-pause & exit
+    echo Please Run as Administrator.
+    pause & exit
 )
-set srt=%~n0
-if "%srt%"=="Enable - Defender" (
-reg add "HKCU\SOFTWARE\Microsoft\Windows\CurrentVersion\Run" /v "Windows Defender" /d "\"C:\\Program Files\\Windows Defender\\MSASCui.exe\" -hide" /f
-reg add "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\StartupApproved\Run" /v "WindowsDefender" /t REG_BINARY /d 060000000000000000000000 /f
-reg add "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Run" /v "WindowsDefender" /t REG_EXPAND_SZ /d "\"%ProgramFiles%\\Windows Defender\\MSASCui.exe\"" /f
-reg delete "HKLM\SOFTWARE\Policies\Microsoft\Windows Defender" /v "DisableAntiSpyware" /f
-reg delete "HKLM\SOFTWARE\Policies\Microsoft\Windows Defender Security Center\Virus and threat protection" /v "UILockdown" /f
-reg delete "HKLM\SOFTWARE\Policies\Microsoft\Windows Defender Security Center\Notifications" /v DisableNotifications /f
-reg add "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Run" /v "SecurityHealth" /t REG_SZ /d "%windir%\system32\SecurityHealthSystray.exe" /f
-reg add "HKCR\*\shellex\ContextMenuHandlers\EPP" /ve /d "{09A47860-11B0-4DA5-AFA5-26D86198A780}" /f
-reg add "HKCR\CLSID\{09A47860-11B0-4DA5-AFA5-26D86198A780}\InprocServer32" /ve /d "C:\\Program Files\\Windows Defender\\shellext.dll" /f
-reg add "HKCR\CLSID\{09A47860-11B0-4DA5-AFA5-26D86198A780}\InprocServer32" /v "ThreadingModel" /d "Apartment" /f
-reg add "HKCR\CLSID\{09A47860-11B0-4DA5-AFA5-26D86198A780}\Version" /ve /d "10.0.18362.1" /f
-reg add "HKCR\Directory\shellex\ContextMenuHandlers\EPP" /ve /d "{09A47860-11B0-4DA5-AFA5-26D86198A780}" /f
-reg add "HKCR\Drive\shellex\ContextMenuHandlers\EPP" /ve /d "{09A47860-11B0-4DA5-AFA5-26D86198A780}" /f
-start %windir%\system32\SecurityHealthSystray.exe
-set st="Disable - Defender.cmd"
+set reg1="HKLM\SYSTEM\CurrentControlSet\Services\Sense"
+set reg2="HKLM\SYSTEM\CurrentControlSet\Services\WdBoot"
+set reg3="HKLM\SYSTEM\CurrentControlSet\Services\WdFilter"
+set reg4="HKLM\SYSTEM\CurrentControlSet\Services\WdNisDrv"
+set reg5="HKLM\SYSTEM\CurrentControlSet\Services\WdNisSvc"
+set reg6="HKLM\SYSTEM\CurrentControlSet\Services\WinDefend"
+set reg7="HKLM\SYSTEM\CurrentControlSet\Services\MDCoreSvc"
+set reg8="HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Run"
+set reg9="HKCR\*\shellex\ContextMenuHandlers\EPP"
+set reg10="HKCR\CLSID\{09A47860-11B0-4DA5-AFA5-26D86198A780}\InprocServer32"
+set reg11="HKCR\CLSID\{09A47860-11B0-4DA5-AFA5-26D86198A780}\Version"
+set reg12="HKCR\Directory\shellex\ContextMenuHandlers\EPP"
+set reg13="HKCR\Drive\shellex\ContextMenuHandlers\EPP"
+set reg14="HKCR\CLSID\{09A47860-11B0-4DA5-AFA5-26D86198A780}"
+set reg15="HKLM\SOFTWARE\Policies\Microsoft\Windows Defender Security Center\Virus and threat protection"
+set reg16="HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer"
+set reg17="HKLM\SOFTWARE\Policies\Microsoft\Windows Defender"
+set reg18="HKLM\SOFTWARE\Policies\Microsoft\Windows Defender\MpEngine"
+set reg19="HKLM\SOFTWARE\Policies\Microsoft\Windows Defender Security Center\App and Browser protection"
+bcdedit | findstr /i "safeboot"
+if %ERRORLEVEL% EQU 0 (
+if "%~n0"=="Enable - Defender" (
+reg add %reg1% /v Start /t REG_DWORD /d 2 /f
+reg add %reg2% /v Start /t REG_DWORD /d 0 /f
+reg add %reg3% /v Start /t REG_DWORD /d 0 /f
+reg add %reg4% /v Start /t REG_DWORD /d 2 /f
+reg add %reg5% /v Start /t REG_DWORD /d 2 /f
+reg add %reg6% /v Start /t REG_DWORD /d 2 /f
+reg add %reg7% /v Start /t REG_DWORD /d 2 /f
+reg add %reg8% /v "SecurityHealth" /t REG_SZ /d "%windir%\system32\SecurityHealthSystray.exe" /f
+reg add %reg9% /ve /d "{09A47860-11B0-4DA5-AFA5-26D86198A780}" /f
+reg add %reg10% /ve /d "C:\\Program Files\\Windows Defender\\shellext.dll" /f
+reg add %reg10% /v "ThreadingModel" /d "Apartment" /f
+reg add %reg11% /ve /d "10.0.18362.1" /f
+reg add %reg12% /ve /d "{09A47860-11B0-4DA5-AFA5-26D86198A780}" /f
+reg add %reg13% /ve /d "{09A47860-11B0-4DA5-AFA5-26D86198A780}" /f
+reg delete %reg15% /v "UILockdown" /f
+reg add %reg16% /v "SmartScreenEnabled" /t REG_SZ /d "Warn" /f
+reg add %reg17% /v "PUAProtection" /t REG_DWORD /d 1 /f
+reg add %reg18% /v "MpEnablePus" /t REG_DWORD /d 1 /f
+reg delete %reg19% /v "UILockdown" /f
+ren "%~dpnx0" "Disable - Defender.cmd"
 ) else (
-echo 1. Click on "Virus & Threat Protection".
-echo 2. Disable all protections on the page.
-echo 3. Return Back to Terminal.
-pause
-start %windir%\explorer.exe windowsdefender://threat
-pause
-reg delete "HKCU\SOFTWARE\Microsoft\Windows\CurrentVersion\Run" /v "Windows Defender" /f
-reg delete "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\StartupApproved\Run" /v "Windows Defender" /f
-reg delete "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Run" /v "WindowsDefender" /f
-reg add "HKLM\SOFTWARE\Policies\Microsoft\Windows Defender" /v DisableAntiSpyware /t REG_DWORD /d 1 /f
-reg add "HKLM\SOFTWARE\Policies\Microsoft\Windows Defender Security Center\Virus and threat protection" /v UILockdown /t REG_DWORD /d 1 /f
-reg add "HKLM\SOFTWARE\Policies\Microsoft\Windows Defender Security Center\Notifications" /v DisableNotifications /t REG_DWORD /d 1 /f
-reg delete "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Run" /v "SecurityHealth" /f
-reg delete "HKCR\*\shellex\ContextMenuHandlers\EPP" /f
-reg delete "HKCR\CLSID\{09A47860-11B0-4DA5-AFA5-26D86198A780}" /f
-reg delete "HKCR\Directory\shellex\ContextMenuHandlers\EPP" /f
-reg delete "HKCR\Drive\shellex\ContextMenuHandlers\EPP" /f
-taskkill /im SecurityHealthSystray.exe /f
-set st="Enable - Defender.cmd"
+reg add %reg1% /v Start /t REG_DWORD /d 4 /f
+reg add %reg2% /v Start /t REG_DWORD /d 4 /f
+reg add %reg3% /v Start /t REG_DWORD /d 4 /f
+reg add %reg4% /v Start /t REG_DWORD /d 4 /f
+reg add %reg5% /v Start /t REG_DWORD /d 4 /f
+reg add %reg6% /v Start /t REG_DWORD /d 4 /f
+reg add %reg7% /v Start /t REG_DWORD /d 4 /f
+reg delete %reg8% /v "SecurityHealth" /f
+reg delete %reg9% /f
+reg delete %reg14% /f
+reg delete %reg12% /f
+reg delete %reg13% /f
+reg add %reg15% /v UILockdown /t REG_DWORD /d 1 /f
+reg add %reg16% /v "SmartScreenEnabled" /t REG_SZ /d "Off" /f
+reg add %reg17% /v "PUAProtection" /t REG_DWORD /d 0 /f
+reg add %reg18% /v "MpEnablePus" /t REG_DWORD /d 0 /f
+reg add %reg19% /v "UILockdown" /t REG_DWORD /d 1 /f
+ren "%~dpnx0" "Enable - Defender.cmd"
 )
-ren "%~dpnx0" %st%
+bcdedit /deletevalue {current} safeboot
+shutdown /r /t 3
+) else (
+echo  1. To Toggle On/Off Defender I will boot into safemode.
+echo  2. After Booting into safemode run this script again.
+pause
+bcdedit /set {current} safeboot minimal
+shutdown /r /t 3
+)
 "@
 $toggleDefender = [System.IO.Path]::Combine($securityPath, 'Enable - Defender.cmd')
 $Defender | Out-File -FilePath $toggleDefender -Encoding ASCII
@@ -1398,18 +1430,24 @@ Stop-Transcript
 <!-- 7+ Windows Local Machine Registry Tweaks (CMD) -->
   <File path="C:\Windows\Setup\Scripts\localmachine.cmd">
    <![CDATA[
-:: Disable Windows Defender
-reg add "HKLM\SOFTWARE\Policies\Microsoft\Windows Defender Security Center\Virus and threat protection" /v UILockdown /t REG_DWORD /d 1 /f
-reg delete "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\StartupApproved\Run" /v "Windows Defender" /f
-reg delete "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Run" /v "WindowsDefender" /f
-reg add "HKLM\SOFTWARE\Policies\Microsoft\Windows Defender" /v DisableAntiSpyware /t REG_DWORD /d 1 /f
-reg add "HKLM\SOFTWARE\Policies\Microsoft\Windows Defender Security Center\Notifications" /v DisableNotifications /t REG_DWORD /d 1 /f
+:: Disable Defender
+reg add "HKLM\SYSTEM\CurrentControlSet\Services\Sense" /v Start /t REG_DWORD /d 4 /f
+reg add "HKLM\SYSTEM\CurrentControlSet\Services\WdBoot" /v Start /t REG_DWORD /d 4 /f
+reg add "HKLM\SYSTEM\CurrentControlSet\Services\WdFilter" /v Start /t REG_DWORD /d 4 /f
+reg add "HKLM\SYSTEM\CurrentControlSet\Services\WdNisDrv" /v Start /t REG_DWORD /d 4 /f
+reg add "HKLM\SYSTEM\CurrentControlSet\Services\WdNisSvc" /v Start /t REG_DWORD /d 4 /f
+reg add "HKLM\SYSTEM\CurrentControlSet\Services\WinDefend" /v Start /t REG_DWORD /d 4 /f
+reg add "HKLM\SYSTEM\CurrentControlSet\Services\MDCoreSvc" /v Start /t REG_DWORD /d 4 /f
 reg delete "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Run" /v "SecurityHealth" /f
 reg delete "HKCR\*\shellex\ContextMenuHandlers\EPP" /f
 reg delete "HKCR\CLSID\{09A47860-11B0-4DA5-AFA5-26D86198A780}" /f
 reg delete "HKCR\Directory\shellex\ContextMenuHandlers\EPP" /f
 reg delete "HKCR\Drive\shellex\ContextMenuHandlers\EPP" /f
-taskkill /IM SecurityHealthSystray.exe /F
+reg add "HKLM\SOFTWARE\Policies\Microsoft\Windows Defender Security Center\Virus and threat protection" /v UILockdown /t REG_DWORD /d 1 /f
+reg add "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer" /v "SmartScreenEnabled" /t REG_SZ /d "Off" /f
+reg add "HKLM\SOFTWARE\Policies\Microsoft\Windows Defender" /v "PUAProtection" /t REG_DWORD /d 0 /f
+reg add "HKLM\SOFTWARE\Policies\Microsoft\Windows Defender\MpEngine" /v "MpEnablePus" /t REG_DWORD /d 0 /f
+reg add "HKLM\SOFTWARE\Policies\Microsoft\Windows Defender Security Center\App and Browser protection" /v "UILockdown" /t REG_DWORD /d 1 /f
 
 :: Disable Smart Screen (Fixes Slow App Loading in Windows 11)
 reg add "HKLM\SYSTEM\CurrentControlSet\Control\CI\Policy" /v "VerifiedAndReputablePolicyState" /t REG_DWORD /d 0 /f
@@ -1737,9 +1775,6 @@ reg add "HKCU\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\Explorer" /v "N
 reg add "HKCU\SOFTWARE\Policies\Microsoft\Windows\Explorer" /v "NoRemoteDestinations" /t REG_DWORD /d "1" /f
 reg add "HKCU\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Advanced" /v "Start_TrackProgs" /t REG_DWORD /d "0" /f
 reg add "HKCU\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Advanced" /v "Start_TrackDocs" /t REG_DWORD /d "0" /f
-
-:: Disable Windows Defender
-reg delete "HKCU\SOFTWARE\Microsoft\Windows\CurrentVersion\Run" /v "Windows Defender" /f
 
 :: Removes Copilot
 reg add "HKCU\SOFTWARE\Microsoft\Windows\CurrentVersion\Runonce" /v "UninstallCopilot" /t REG_SZ /d "" /f
