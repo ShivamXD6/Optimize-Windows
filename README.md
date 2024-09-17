@@ -6,22 +6,17 @@
 
 ## 📑 Table of Contents
 
-- [📂 Included Scripts](#-included-scripts)
+- [📂 Included Script](#-included-script)
 - [🚀 Features](#-features)
 - [🔧 Installation](#-installation)
 - [📸 Screenshots](#-screenshots)
 - [💖 Acknowledgements](#-acknowledgements)
 
-## 📂 Included Scripts
-### 1. Auto Unattend or Answer File
+## 📂 Included Script
+### Auto Unattend or Answer File
 
  - Automates Windows installation with optimized settings, debloating or tweaking Windows etc.
  - Ideal for new setups or reinstalling Windows.
-
-### 2. Update Script (Coming Soon)
-
- - Updates system optimizations without re-running the full setup.
- - Keeps your system current with the latest tweaks and enhancements.
 
 ## 🚀 Features
 ### 1. **🚀 While Installation of Windows***
