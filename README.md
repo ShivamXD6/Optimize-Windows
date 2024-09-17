@@ -1,40 +1,30 @@
 # 🔮 Optimize Windows
 [![Static Badge](https://img.shields.io/badge/Version-V2.1-brightgreen?style=for-the-badge)]() &nbsp;
 
- - This repository contains scripts designed to optimize and streamline your Windows installation or current windows, making it perfect for gaming, power users, and even low-end laptops or PCs. 🎮💻
+ - This repository contains an Answer File designed to optimize and streamline your Windows installation or current windows, making it perfect for gaming, power users, and even low-end laptops or PCs. 🎮💻
+ - For existing Windows it's recommended to use [WinUtil](https://github.com/ChrisTitusTech/winutil) by CTT.
 
 ## 📑 Table of Contents
 
 - [📂 Included Scripts](#-included-scripts)
 - [🚀 Features](#-features)
 - [🔧 Installation with Answer File (Recommended)](#-installation-with-answer-file-recommended)
-- [🎲 Installation with Post Install Scripts](#-installation-with-post-install-scripts)
 - [📸 Screenshots](#-screenshots)
 - [💖 Acknowledgements](#-acknowledgements)
 
-## 📂 Included Scripts
+## 📂 Included Script
 ### 1. Auto Unattend or Answer File
 
  - Automates Windows installation with optimized settings, debloating or tweaking Windows etc.
  - Ideal for new setups or reinstalling Windows.
 
-### 2. Post Install Script
-
- - Optimizes and debloats an existing Windows installation.
- - Suitable for users who don’t want to reinstall Windows.
-
-### 3. Update Script (Coming Soon)
+### 2. Update Script (Coming Soon)
 
  - Updates system optimizations without re-running the full setup.
  - Keeps your system current with the latest tweaks and enhancements.
 
-### 4. Additional Features Script (Coming Soon)
-
- - Adds more features to the "Shivaay" shortcut folder on your desktop.
- - Features like toggling of Bluetooth or adding some context menus.
-
 ## 🚀 Features
-### 1. **🚀 Answer File Only***
+### 1. **🚀 While Installation of Windows***
 - 🚧 Bypass Windows 11 Requirements
 - 🌐 Support for Local Account During Setup
 - 🗂️ Show All Available Windows Editions
@@ -100,11 +90,11 @@
 - 🌑 Don't Dim Windows while User Account Control
 - 🛑 Disable Auto Restart on BSOD (To Capture Detailed Logs)
 
-## 🔧 Installation with Answer File (Recommended)
+## 🔧 Installation with Answer File
 
 ### 1. Prepare Your USB Drive
 1. Create a bootable USB drive using **Ventoy**.
-2. [Download the Fresh-Install.zip](https://github.com/ShivamXD6/Optimize-Windows/blob/main/Fresh-Install/Fresh-Install.zip).
+2. [Download the Fresh-Install.zip](https://github.com/ShivamXD6/Optimize-Windows/blob/main/#Optimize-Windows.zip).
 3. Extract the contents of `Fresh-Install.zip` into your USB drive.
 4. Confirm that the file structure on your USB drive matches the following:
 
@@ -161,19 +151,6 @@
 8. Enter your Name and Password for Local User Account (Use Simple names without Symbols).
 9. Now windows will run some more commands and restart.
 10. Done Enjoy :).
-
-## 🎲 Installation with Post Install Scripts
-1. [Download the Post-Install.zip](https://github.com/ShivamXD6/Optimize-Windows/blob/main/Post-Install/Post-Install.zip).
-2. Extract it anywhere inside your Drive.
-3. Run `Post-Install-CMD.cmd` as Administrator.
-4. It'll Prompt you to Disable Defender, Just Press any key and Disable Defender. (If you want you can enable Defender later.)
-5. After Disabling, Return back to Terminal/Command Prompt.
-6. Press any key to continue Installation.
-
-> [!NOTE]
-> Ignore Errors if you get any.
-
-7. Done, Windows will automatically restart now.
 
 ## 📸 Screenshots
 
