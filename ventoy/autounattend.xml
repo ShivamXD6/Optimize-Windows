@@ -893,6 +893,27 @@ ren "%~dpnx0" %st% & taskkill /f /im explorer.exe & start explorer.exe
 $toggleNetworkNavigationPath = [System.IO.Path]::Combine($interfacePath, 'Show - Network Navigation In File Explorer.cmd')
 $toggleNetworkNavigation | Out-File -FilePath $toggleNetworkNavigationPath -Encoding ASCII
 
+# Toggle Recycle Bin in File Explorer
+$toggleRecycleBin = @"
+@echo off
+reg query "HKU\S-1-5-19" >nul 2>&1
+if %errorLevel% neq 0 (
+echo Please Run as Administrator.
+pause & exit
+)
+set reg1="HKCU\Software\Classes\CLSID\{645FF040-5081-101B-9F08-00AA002F954E}"
+if "%~n0%"=="Pin - Recycle Bin In File Explorer" (
+reg add %reg1% /v System.IsPinnedToNameSpaceTree /t REG_DWORD /d 1 /f
+set st="Unpin - Recycle Bin In File Explorer.cmd"
+) else (
+reg add %reg1% /v System.IsPinnedToNameSpaceTree /t REG_DWORD /d 0 /f
+set st="Pin - Recycle Bin In File Explorer.cmd"
+)
+ren "%~dpnx0" %st% & taskkill /f /im explorer.exe & start explorer.exe
+"@
+$toggleRecycleBinPath = [System.IO.Path]::Combine($interfacePath, 'Unpin - Recycle Bin In File Explorer.cmd')
+$toggleRecycleBin | Out-File -FilePath $toggleRecycleBinPath -Encoding ASCII
+
 # Toggle Removable Drives in File Explorer
 $toggleRemovableDrives = @"
 @echo off & reg query "HKU\S-1-5-19" >nul 2>&1
