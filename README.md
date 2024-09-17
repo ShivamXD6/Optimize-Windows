@@ -1,18 +1,18 @@
 # 🔮 Optimize Windows
 [![Static Badge](https://img.shields.io/badge/Version-V2.1-brightgreen?style=for-the-badge)]() &nbsp;
 
- - This repository contains an Answer File designed to optimize and streamline your Windows installation or current windows, making it perfect for gaming, power users, and even low-end laptops or PCs. 🎮💻
- - For existing Windows it's recommended to use [WinUtil](https://github.com/ChrisTitusTech/winutil) by CTT.
+ - This repository contains an Answer File designed to optimize and streamline your Windows installation, making it perfect for gaming, power users, and even low-end laptops or PCs. 🎮💻
+ - For existing Windows and if you don't want to reinstall then it's recommended to use [WinUtil by CTT.](https://github.com/ChrisTitusTech/winutil)
 
 ## 📑 Table of Contents
 
 - [📂 Included Scripts](#-included-scripts)
 - [🚀 Features](#-features)
-- [🔧 Installation with Answer File (Recommended)](#-installation-with-answer-file-recommended)
+- [🔧 Installation](#-installation)
 - [📸 Screenshots](#-screenshots)
 - [💖 Acknowledgements](#-acknowledgements)
 
-## 📂 Included Script
+## 📂 Included Scripts
 ### 1. Auto Unattend or Answer File
 
  - Automates Windows installation with optimized settings, debloating or tweaking Windows etc.
@@ -90,12 +90,12 @@
 - 🌑 Don't Dim Windows while User Account Control
 - 🛑 Disable Auto Restart on BSOD (To Capture Detailed Logs)
 
-## 🔧 Installation with Answer File
+## 🔧 Installation
 
 ### 1. Prepare Your USB Drive
 1. Create a bootable USB drive using **Ventoy**.
-2. [Download the Fresh-Install.zip](https://github.com/ShivamXD6/Optimize-Windows/blob/main/#Optimize-Windows.zip).
-3. Extract the contents of `Fresh-Install.zip` into your USB drive.
+2. [Download the #Optimize-Windows.zip](https://github.com/ShivamXD6/Optimize-Windows/blob/main/#Optimize-Windows.zip).
+3. Extract the contents of `#Optimize-Windows.zip` into your USB drive.
 4. Confirm that the file structure on your USB drive matches the following:
 
     ```plaintext
