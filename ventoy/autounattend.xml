@@ -1446,8 +1446,9 @@ reg add "HKLM\SOFTWARE\Policies\Microsoft\Windows Defender Security Center\Devic
 :: Displays Camera On/Off Notification for Privacy
 reg add "HKLM\SOFTWARE\Microsoft\OEM\Device\Capture" /v "NoPhysicalCameraLED" /t REG_DWORD /d 1 /f
 
-:: Disable Auto Start on BSOD
+:: Disable Auto Start on BSOD and Enable Detailed BSOD
 reg add "HKLM\SYSTEM\CurrentControlSet\Control\CrashControl" /v "AutoReboot" /t REG_DWORD /d 0 /f
+reg add "HKLM\SYSTEM\CurrentControlSet\Control\CrashControl" /v "DisplayParameters" /t REG_DWORD /d 1 /f
 
 :: Add Shivaay OS in OEM Info
 reg add "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\OEMInformation" /v "Model" /t REG_SZ /d "Shivaay OS - V2.1" /f
