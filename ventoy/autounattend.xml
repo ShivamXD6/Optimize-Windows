@@ -510,6 +510,10 @@ Create-Shortcut -target $gameBar -shortcutName 'XBOX GameBar.url' -shortcutType 
 $amdRadeon = "ms-windows-store://pdp/?productid=9nz1bjqn6bhl"
 Create-Shortcut -target $amdRadeon -shortcutName 'AMD Radeon Software.url' -shortcutType "url"
 
+# Realtek Audio Console
+$realtek = "ms-windows-store://pdp/?productid=9p2b8mcsvpln"
+Create-Shortcut -target $realtek -shortcutName 'Realtek Audio Console.url' -shortcutType "url"
+
 # Microsoft Tips
 $msTips = "ms-windows-store://pdp/?productid=9wzdncrdtbjj"
 Create-Shortcut -target $msTips -shortcutName 'Microsoft Tips.url' -shortcutType "url"
@@ -1579,9 +1583,6 @@ reg add "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\DeliveryOptimization\Con
 
 :: Disable Remote Assistance
 reg add "HKLM\SYSTEM\CurrentControlSet\Control\Remote Assistance" /v fAllowToGetHelp /t REG_DWORD /d 0 /f
-
-:: Search Windows Update for Drivers First
-reg add "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\DriverSearching" /v SearchOrderConfig /t REG_DWORD /d 1 /f
 
 :: Gives Multimedia Applications like Games and Video Editing a Higher Priority
 reg add "HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Multimedia\SystemProfile" /v SystemResponsiveness /t REG_DWORD /d 0 /f
