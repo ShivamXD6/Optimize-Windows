@@ -960,13 +960,6 @@ ren "%~dpnx0" %st% & taskkill /f /im explorer.exe & start explorer.exe
 $toggleContextMenuPath = [System.IO.Path]::Combine($interfacePath, 'Enable - NEW Context Menu.cmd')
 $contextMenu | Out-File -FilePath $toggleContextMenuPath -Encoding ASCII
 
-# Change New Folder Name
-$FolderName = @"
-reg add "HKCU\Software\Microsoft\Windows\CurrentVersion\Explorer\NamingTemplates" /v "RenameNameTemplate" /t REG_SZ /d %~n0 /f
-"@
-$NewFolderName = [System.IO.Path]::Combine($interfacePath, 'Change Me and Run to Change Default New Folder Name.cmd')
-$FolderName | Out-File -FilePath $NewFolderName -Encoding ASCII
-
 # Toggle Recent Items in Windows
 $toggleRecentItems = @"
 @echo off & reg query "HKU\S-1-5-19" >nul 2>&1
