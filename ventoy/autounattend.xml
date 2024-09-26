@@ -424,14 +424,7 @@ Where-Object -Property 'DisplayName' -In -Value @(
 'Microsoft.XboxSpeechToTextOverlay';
 'Microsoft.GamingApp';
 'Microsoft.YourPhone';
-'Microsoft.MicrosoftEdge';
-'Microsoft.MicrosoftEdge.Stable';
-'Microsoft.MicrosoftEdge_8wekyb3d8bbwe';
-'Microsoft.MicrosoftEdgeDevToolsClient_8wekyb3d8bbwe';
-'Microsoft.MicrosoftEdgeDevToolsClient_1000.19041.1023.0_neutral_neutral_8wekyb3d8bbwe';
-'Microsoft.MicrosoftEdge_44.19041.1266.0_neutral__8wekyb3d8bbwe';
 'Microsoft.OneDrive';
-'Microsoft.MicrosoftEdgeDevToolsClient';
 'Microsoft.549981C3F5F10';
 'Microsoft.MixedReality.Portal';
 'Microsoft.Windows.Ai.Copilot.Provider';
@@ -1005,9 +998,6 @@ $toggleRecentItems | Out-File -FilePath $toggleRecentItemsPath -Encoding ASCII
 # Configure Maximum Password Age in Windows
 net.exe accounts /maxpwage:UNLIMITED
 
-# Allow Execution of PowerShell Script Files
-Set-ExecutionPolicy -Scope 'LocalMachine' -ExecutionPolicy 'AllSigned' -Force
-
 # Groups or splits svchost.exe processes based on the amount of physical memory in the system to optimize performance
 $ram = (Get-CimInstance -ClassName Win32_PhysicalMemory | Measure-Object -Property Capacity -Sum).Sum / 1kb
 Set-ItemProperty -Path "HKLM:\SYSTEM\CurrentControlSet\Control" -Name "SvcHostSplitThresholdInKB" -Type DWord -Value $ram -Force
@@ -1021,64 +1011,6 @@ Invoke-Expression $icaclsCommand | Out-Null
 
 # Disable Defender Auto Sample Submission
 Set-MpPreference -SubmitSamplesConsent 2 -ErrorAction Continue | Out-Null
-
-# Removes Microsoft Edge
-foreach ($line in $lines) {
-if ($line -like '*Architecture : *') {
-$architecture = $line -replace 'Architecture : ',''
-# If the architecture is x64, replace it with amd64
-if ($architecture -eq 'x64') {
-$architecture = 'amd64'
-}
-Write-Host "Architecture: $architecture"
-break
-}
-}
-
-if (-not $architecture) {
-Write-Host "Architecture information not found."
-}
-Remove-Item -Path "C:\Program Files (x86)\Microsoft\Edge" -Recurse -Force -ErrorAction Continue
-Remove-Item -Path "C:\Program Files (x86)\Microsoft\EdgeWebView" -Recurse -Force -ErrorAction Continue
-Remove-Item -Path "C:\Program Files (x86)\Microsoft\EdgeUpdate" -Recurse -Force -ErrorAction Continue
-Remove-Item -Path "C:\Program Files (x86)\Microsoft\EdgeCore" -Recurse -Force -ErrorAction Continue
-Remove-Item -Path "C:\Users\Public\Desktop\Microsoft Edge.lnk" -Recurse -Force -ErrorAction Continue
-Remove-Item -Path "C:\ProgramData\Microsoft\Windows\Start Menu\Programs\Microsoft Edge.lnk" -Recurse -Force -ErrorAction Continue
-Remove-Item -Path "C:\Windows\SystemApps\Microsoft.MicrosoftEdge_8wekyb3d8bbwe" -Recurse -Force -ErrorAction Continue
-Remove-Item -Path "C:\Windows\SystemApps\Microsoft.MicrosoftEdgeDevToolsClient_8wekyb3d8bbwe" -Recurse -Force -ErrorAction Continue
-
-if ($architecture -eq 'amd64') {
-$folderPath = Get-ChildItem -Path "C:\Windows\WinSxS" -Filter "amd64_microsoft-edge-webview_31bf3856ad364e35*" -Directory | Select-Object -ExpandProperty FullName
-
-if ($folderPath) {
-& 'takeown' '/f' $folderPath '/r'
-& icacls $folderPath "/grant" "$($adminGroup.Value):(F)" '/T' '/C'
-Remove-Item -Path $folderPath -Recurse -Force
-} else {
-Write-Host "Folder not found."
-}
-} elseif ($architecture -eq 'arm64') {
-$folderPath = Get-ChildItem -Path "C:\Windows\WinSxS" -Filter "arm64_microsoft-edge-webview_31bf3856ad364e35*" -Directory | Select-Object -ExpandProperty FullName
-
-if ($folderPath) {
-& 'takeown' '/f' $folderPath '/r'
-& icacls $folderPath "/grant" "$($adminGroup.Value):(F)" '/T' '/C'
-Remove-Item -Path $folderPath -Recurse -Force 
-} else {
-Write-Host "Folder not found."
-}
-} else {
-Write-Host "Unknown architecture: $architecture"
-}
-& 'takeown' '/f' "C:\Windows\System32\Microsoft-Edge-Webview" '/r'
-& 'icacls' "C:\Windows\System32\Microsoft-Edge-Webview" '/grant' "$($adminGroup.Value):(F)" '/T' '/C'
-Remove-Item -Path "C:\Windows\System32\Microsoft-Edge-Webview" -Recurse -Force
-
-# Removes OneDrive
-Remove-Item "C:\Users\Default\AppData\Roaming\Microsoft\Windows\Start Menu\Programs\OneDrive.lnk" -ErrorAction Continue
-Remove-Item "C:\Users\Default\AppData\Roaming\Microsoft\Windows\Start Menu\Programs\OneDrive.exe" -ErrorAction Continue
-Remove-Item "C:\Windows\System32\OneDriveSetup.exe" -ErrorAction Continue
-Remove-Item "C:\Windows\SysWOW64\OneDriveSetup.exe" -ErrorAction Continue
 
 # Removes Microsoft Teams
 $TeamsPath = [System.IO.Path]::Combine($env:LOCALAPPDATA, 'Microsoft', 'Teams')
@@ -1118,7 +1050,6 @@ netsh interface teredo set state disabled
 # Disable Scheduled Tasks
 $scheduledTasks = @(
 "Microsoft\Windows\Application Experience\Microsoft Compatibility Appraiser",
-"Microsoft\Windows\Application Experience\ProgramDataUpdater",
 "Microsoft\Windows\Autochk\Proxy",
 "Microsoft\Windows\Customer Experience Improvement Program\Consolidator",
 "Microsoft\Windows\Customer Experience Improvement Program\UsbCeip",
@@ -1634,16 +1565,6 @@ reg add "HKLM\SOFTWARE\Policies\Microsoft\Windows\CloudContent" /v "DisableConsu
 :: Disable Cloud Optimized Content
 reg add "HKLM\SOFTWARE\Policies\Microsoft\Windows\CloudContent" /v "DisableCloudOptimizedContent" /t REG_DWORD /d 1 /f
 
-:: Deletes Microsoft Edge Registry Entries
-reg delete "HKLM\SOFTWARE\WOW6432Node\Microsoft\Windows\CurrentVersion\Uninstall\Microsoft Edge" /f
-reg delete "HKLM\SOFTWARE\WOW6432Node\Microsoft\Windows\CurrentVersion\Uninstall\Microsoft Edge Update" /f
-reg delete "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Appx\AppxAllUserStore\Applications\Microsoft.MicrosoftEdge.Stable_124.0.2478.105_neutral__8wekyb3d8bbwe" /f
-reg delete "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Appx\AppxAllUserStore\InboxApplications\Microsoft.MicrosoftEdge_44.19041.1266.0_neutral__8wekyb3d8bbwe" /f
-reg delete "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Appx\AppxAllUserStore\InboxApplications\Microsoft.MicrosoftEdgeDevToolsClient_10.0.19041.1023_neutral__8wekyb3d8bbwe" /f
-reg delete "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Appx\AppxAllUserStore\S-1-5-21-2466455740-832722602-188176761-1001\Microsoft.MicrosoftEdge.Stable_124.0.2478.105_neutral__8wekyb3d8bbwe" /f
-reg delete "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Appx\AppxAllUserStore\S-1-5-21-2466455740-832722602-188176761-1001\Microsoft.MicrosoftEdge_44.19041.1266.0_neutral__8wekyb3d8bbwe" /f
-reg delete "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Appx\AppxAllUserStore\S-1-5-21-2466455740-832722602-188176761-1001\Microsoft.MicrosoftEdgeDevToolsClient_10.0.19041.1023_neutral__8wekyb3d8bbwe" /f
-
 :: Deleting Application Compatibility Appraiser
 reg delete "HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Schedule\TaskCache\Tasks\{0600DD45-FAF2-4131-A006-0B17509B9F78}" /f
 
@@ -1835,7 +1756,7 @@ reg add "HKCU\SOFTWARE\Classes\CLSID\{F02C1A0D-BE21-4350-88B0-7367FC96EF3C}" /v 
 :: Disable Automatic Folder Discovery (Improves Responsiveness)
 reg delete "HKCU\Software\Classes\Local Settings\Software\Microsoft\Windows\Shell\Bags\AllFolders\Shell" /v FolderType /f
 
-:: Hide Gallary From File Explorer
+:: Hide Gallery From File Explorer
 reg add "HKCU\Software\Classes\CLSID\{e88865ea-0e1c-4e20-9aa6-edcd0212c87c}" /v System.IsPinnedToNameSpaceTree /t REG_DWORD /d 0 /f
 
 :: Use Full App Name on Desktop Shortcuts (Like Firefox not Firefox - Shortcut)
