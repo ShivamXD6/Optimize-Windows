@@ -519,6 +519,32 @@ Create-Shortcut -target $edgeWebview -shortcutName 'Edge WebView2 Runtime.url' -
 $hibitUninstaller = "https://hibitsoft.ir/"
 Create-Shortcut -target $hibitUninstaller -shortcutName 'Hi-Bit Uninstaller.url' -shortcutType "url"
 
+# Uninstall Microsoft Edge
+$MSEdge = @"
+@echo off & reg query "HKU\S-1-5-19" >nul 2>&1
+if %errorLevel% neq 0 (
+echo Please Run as Administrator.
+pause & exit
+)
+cd "%PROGRAMFILES(X86)%\Microsoft\Edge\Application" || (
+    exit /b
+)
+for /d %%i in (*) do (
+    set "MSEdgeVer=%%i"
+    goto :found
+)
+:found
+if "%MSEdgeVer%"=="" (
+    exit /b
+)
+cd "%PROGRAMFILES(X86)%\Microsoft\Edge\Application\%MSEdgeVer%\Installer"
+setup.exe --uninstall --system-level --verbose-logging --force-uninstall
+echo Microsoft Edge has been uninstalled.
+pause
+"@
+$UninstallEdge = [System.IO.Path]::Combine($softwaresPath, 'Uninstall Edge')
+$MSEdge | Out-File -FilePath "$UninstallEdge.cmd" -Encoding ASCII
+
 # Security
 # Toggle Defender
 $Defender = @"
