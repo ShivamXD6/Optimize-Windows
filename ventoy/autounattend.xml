@@ -1021,6 +1021,9 @@ ren "%~dpnx0" %st% & taskkill /f /im explorer.exe & start explorer.exe
 $toggleRecentItemsPath = [System.IO.Path]::Combine($interfacePath, 'Enable - Recent Items.cmd')
 $toggleRecentItems | Out-File -FilePath $toggleRecentItemsPath -Encoding ASCII
 
+# Make Edge Uninstallable
+$ErrorActionPreference = 'Stop'; & { try { $params = @{ LiteralPath = 'C:\Windows\System32\IntegratedServicesRegionPolicySet.json'; Encoding = 'Utf8'; }; $o = Get-Content @params | ConvertFrom-Json; $o.policies | ForEach-Object -Process { if( $_.guid -eq '{1bca278a-5d11-4acf-ad2f-f9ab6d7f93a6}' ) { $_.defaultState = 'enabled'; } }; $o | ConvertTo-Json -Depth 9 | Out-File @params; } catch { $_; } } *>&1 >> 'C:\Windows\Setup\Scripts\MakeEdgeUninstallable.log';
+
 # Configure Maximum Password Age in Windows
 net.exe accounts /maxpwage:UNLIMITED
 
