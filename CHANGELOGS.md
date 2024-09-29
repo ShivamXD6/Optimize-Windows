@@ -1,3 +1,41 @@
+# Shivaay - V3
+## Shivaay Folder
+ Software :-
+ - Added Microsoft Store link for Following Apps
+ + AMD Radeon Software 
+ + Microsoft Tips
+ + Realtek Audio Console 
+ - Added Download Link for Following Apps
+ + Edge Webview. 
+ + Hi-Bit Uninstaller.
+ - Added Install Microsoft Store Script
+
+ User Interface :-
+ - Added a Toggle script to Pin/Unpin Recycle bin in file explorer. 
+ - Removed Script for Changing Default Folder Name.
+
+## User Based Preferences
+ - Enable item Check boxes in file explorer for quickly select files or folders.
+ - Reverted Taskbar alignment to Center.
+ - Removed Recycle Bin From Desktop.
+ - Pin Recycle bin In File Explorer.
+
+## Optimization and Improvements
+ - Disabled Processor Performance Boost Mode by Default (To reduce temperature in some cases)
+ - Optimized Script and Removed Unnecessary spaces from Scripts.
+ - Using New Method to Toggle On or Off Windows Defender along with Smart Screen.
+ - Using Variables to avoid repetition of reg paths in Shivaay Folder Scripts.
+ - Disabled Storage Sense (You can enable it again from settings if you want)
+ - To Improve Stability, Removed taking ownership of some C Drives Folders.
+ - Removed FTH from Toggle option and Not Disabling it By Default (As some faced Crashing issues)
+ - Reverted Enabling Hardware GPU Scheduling (Fixes random freeze)
+ - Turn on NumLock after Windows Installation.
+ - Enable Detailed BSOD by default.
+ - Not changing Default Folder Name to Eternal Vault.
+ - Change Script Shortcuts path under Shivaay Folder.
+ - Removed Microsoft Store.
+ - Miscellaneous Changes (I Forgot)
+
 # Shivaay - V2.1
 ## 1) User Based Customizations
  - Hide Gallery and Network Navigation From Quick Access (Clutter for those who don't use)
