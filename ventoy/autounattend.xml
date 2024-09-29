@@ -429,6 +429,7 @@ Where-Object -Property 'DisplayName' -In -Value @(
 'Microsoft.MixedReality.Portal';
 'Microsoft.Windows.Ai.Copilot.Provider';
 'Microsoft.WindowsMeetNow';
+'Microsoft.WindowsStore';
 ) | Remove-AppxProvisionedPackage -AllUsers -Online
 
 Get-WindowsCapability -Online |
@@ -519,31 +520,17 @@ Create-Shortcut -target $edgeWebview -shortcutName 'Edge WebView2 Runtime.url' -
 $hibitUninstaller = "https://hibitsoft.ir/"
 Create-Shortcut -target $hibitUninstaller -shortcutName 'Hi-Bit Uninstaller.url' -shortcutType "url"
 
-# Uninstall Microsoft Edge
-$MSEdge = @"
+# Install Microsoft Store
+$MSStore = @"
 @echo off & reg query "HKU\S-1-5-19" >nul 2>&1
 if %errorLevel% neq 0 (
 echo Please Run as Administrator.
 pause & exit
 )
-cd "%PROGRAMFILES(X86)%\Microsoft\Edge\Application" || (
-    exit /b
-)
-for /d %%i in (*) do (
-    set "MSEdgeVer=%%i"
-    goto :found
-)
-:found
-if "%MSEdgeVer%"=="" (
-    exit /b
-)
-cd "%PROGRAMFILES(X86)%\Microsoft\Edge\Application\%MSEdgeVer%\Installer"
-setup.exe --uninstall --system-level --verbose-logging --force-uninstall
-echo Microsoft Edge has been uninstalled.
-pause
+PowerShell -Command "Get-AppxPackage -allusers Microsoft.WindowsStore | Foreach {Add-AppxPackage -DisableDevelopmentMode -Register '$($_.InstallLocation)\AppXManifest.xml'}"
 "@
-$UninstallEdge = [System.IO.Path]::Combine($softwaresPath, 'Uninstall Edge')
-$MSEdge | Out-File -FilePath "$UninstallEdge.cmd" -Encoding ASCII
+$InstallStore = [System.IO.Path]::Combine($softwaresPath, 'Install Microsoft Store')
+$MSStore | Out-File -FilePath "$InstallStore.cmd" -Encoding ASCII
 
 # Security
 # Toggle Defender
@@ -1021,9 +1008,6 @@ ren "%~dpnx0" %st% & taskkill /f /im explorer.exe & start explorer.exe
 $toggleRecentItemsPath = [System.IO.Path]::Combine($interfacePath, 'Enable - Recent Items.cmd')
 $toggleRecentItems | Out-File -FilePath $toggleRecentItemsPath -Encoding ASCII
 
-# Make Edge Uninstallable
-$ErrorActionPreference = 'Stop'; & { try { $params = @{ LiteralPath = 'C:\Windows\System32\IntegratedServicesRegionPolicySet.json'; Encoding = 'Utf8'; }; $o = Get-Content @params | ConvertFrom-Json; $o.policies | ForEach-Object -Process { if( $_.guid -eq '{1bca278a-5d11-4acf-ad2f-f9ab6d7f93a6}' ) { $_.defaultState = 'enabled'; } }; $o | ConvertTo-Json -Depth 9 | Out-File @params; } catch { $_; } } *>&1 >> 'C:\Windows\Setup\Scripts\MakeEdgeUninstallable.log';
-
 # Configure Maximum Password Age in Windows
 net.exe accounts /maxpwage:UNLIMITED
 
@@ -1040,6 +1024,22 @@ Invoke-Expression $icaclsCommand | Out-Null
 
 # Disable Defender Auto Sample Submission
 Set-MpPreference -SubmitSamplesConsent 2 -ErrorAction Continue | Out-Null
+
+# Remove Edge
+Remove-Item -Path "C:\Program Files (x86)\Microsoft\Edge" -Recurse -Force -ErrorAction Continue
+Remove-Item -Path "C:\Program Files (x86)\Microsoft\EdgeWebView" -Recurse -Force -ErrorAction Continue
+Remove-Item -Path "C:\Program Files (x86)\Microsoft\EdgeUpdate" -Recurse -Force -ErrorAction Continue
+Remove-Item -Path "C:\Program Files (x86)\Microsoft\EdgeCore" -Recurse -Force -ErrorAction Continue
+Remove-Item -Path "C:\Users\Public\Desktop\Microsoft Edge.lnk" -Recurse -Force -ErrorAction Continue
+Remove-Item -Path "C:\ProgramData\Microsoft\Windows\Start Menu\Programs\Microsoft Edge.lnk" -Recurse -Force -ErrorAction Continue
+Remove-Item -Path "C:\Windows\SystemApps\Microsoft.MicrosoftEdge_8wekyb3d8bbwe" -Recurse -Force -ErrorAction Continue
+Remove-Item -Path "C:\Windows\SystemApps\Microsoft.MicrosoftEdgeDevToolsClient_8wekyb3d8bbwe" -Recurse -Force -ErrorAction Continue
+
+# Removes OneDrive
+Remove-Item "C:\Users\Default\AppData\Roaming\Microsoft\Windows\Start Menu\Programs\OneDrive.lnk" -ErrorAction Continue
+Remove-Item "C:\Users\Default\AppData\Roaming\Microsoft\Windows\Start Menu\Programs\OneDrive.exe" -ErrorAction Continue
+Remove-Item "C:\Windows\System32\OneDriveSetup.exe" -ErrorAction Continue
+Remove-Item "C:\Windows\SysWOW64\OneDriveSetup.exe" -ErrorAction Continue
 
 # Removes Microsoft Teams
 $TeamsPath = [System.IO.Path]::Combine($env:LOCALAPPDATA, 'Microsoft', 'Teams')
@@ -1066,7 +1066,7 @@ $proc = Start-Process -FilePath $FilePath -Args $ProcessArgs -PassThru
 $proc.WaitForExit()
 }
 
-#Disable Teredo
+# Disable Teredo
 $registryKeysTeredo = @(
 @{Path = "HKLM:\SYSTEM\CurrentControlSet\Services\Tcpip6\Parameters"; Name = "DisabledComponents"; Type = "DWord"; Value = 1}
 )
@@ -1075,10 +1075,10 @@ New-ItemProperty -Path $key.Path -Name $key.Name -PropertyType $key.Type -Value 
 }
 netsh interface teredo set state disabled
 
-#Disable Telemetry
 # Disable Scheduled Tasks
 $scheduledTasks = @(
 "Microsoft\Windows\Application Experience\Microsoft Compatibility Appraiser",
+"Microsoft\Windows\Application Experience\ProgramDataUpdater",
 "Microsoft\Windows\Autochk\Proxy",
 "Microsoft\Windows\Customer Experience Improvement Program\Consolidator",
 "Microsoft\Windows\Customer Experience Improvement Program\UsbCeip",
@@ -1089,7 +1089,9 @@ $scheduledTasks = @(
 "Microsoft\Windows\Application Experience\MareBackup",
 "Microsoft\Windows\Application Experience\StartupAppTask",
 "Microsoft\Windows\Application Experience\PcaPatchDbTask",
-"Microsoft\Windows\Maps\MapsUpdateTask"
+"Microsoft\Windows\Maps\MapsUpdateTask",
+"Microsoft\EdgeUpdate\EdgeUpdateTaskMachineCore",
+"Microsoft\EdgeUpdate\EdgeUpdateTaskMachineUA"
 )
 foreach ($task in $scheduledTasks) {
 schtasks /Change /TN $task /Disable
@@ -1441,6 +1443,16 @@ reg add "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\OOBE" /v BypassNRO /t RE
 :: Hide Settings Home Page
 reg add "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\Explorer" /v SettingsPageVisibility /t REG_SZ /d "hide:home" /f
 
+:: Delete Microsoft Edge Registry Entries
+reg delete "HKLM\SOFTWARE\WOW6432Node\Microsoft\Windows\CurrentVersion\Uninstall\Microsoft Edge" /f
+reg delete "HKLM\SOFTWARE\WOW6432Node\Microsoft\Windows\CurrentVersion\Uninstall\Microsoft Edge Update" /f
+reg delete "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Appx\AppxAllUserStore\Applications\Microsoft.MicrosoftEdge.Stable_124.0.2478.105_neutral__8wekyb3d8bbwe" /f
+reg delete "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Appx\AppxAllUserStore\InboxApplications\Microsoft.MicrosoftEdge_44.19041.1266.0_neutral__8wekyb3d8bbwe" /f
+reg delete "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Appx\AppxAllUserStore\InboxApplications\Microsoft.MicrosoftEdgeDevToolsClient_10.0.19041.1023_neutral__8wekyb3d8bbwe" /f
+reg delete "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Appx\AppxAllUserStore\S-1-5-21-2466455740-832722602-188176761-1001\Microsoft.MicrosoftEdge.Stable_124.0.2478.105_neutral__8wekyb3d8bbwe" /f
+reg delete "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Appx\AppxAllUserStore\S-1-5-21-2466455740-832722602-188176761-1001\Microsoft.MicrosoftEdge_44.19041.1266.0_neutral__8wekyb3d8bbwe" /f
+reg delete "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Appx\AppxAllUserStore\S-1-5-21-2466455740-832722602-188176761-1001\Microsoft.MicrosoftEdgeDevToolsClient_10.0.19041.1023_neutral__8wekyb3d8bbwe" /f
+
 :: Disable User Account Control Temporarily
 reg add "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\System" /v EnableLUA /t REG_DWORD /d 0 /f
 
@@ -1449,10 +1461,6 @@ reg add "HKLM\SOFTWARE\Policies\Microsoft\Windows\CloudContent" /v DisableWindow
 reg add "HKLM\SOFTWARE\Policies\Microsoft\Windows\CloudContent" /v DisableWindowsConsumerFeatures /t REG_DWORD /d 1 /f
 :: Disable Windows Spotlight on Settings
 reg add "HKLM\SOFTWARE\Policies\Microsoft\Windows\CloudContent" /v DisableWindowsSpotlightActiveUser /t REG_DWORD /d 1 /f
-:: Set desktop background to a normal Windows picture
-reg add "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\System" /v Wallpaper /t REG_SZ /d "C:\Windows\Web\Wallpaper\Windows\img19.jpg" /f
-:: Ensure the wallpaper style is set to fill (2 is for fill, 10 is for fit)
-reg add "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\System" /v WallpaperStyle /t REG_SZ /d "2" /f
 
 :: Prevents Dev Home Installation
 reg delete "HKLM\SOFTWARE\Microsoft\WindowsUpdate\Orchestrator\UScheduler_Oobe\DevHomeUpdate" /f
@@ -1687,8 +1695,6 @@ powercfg -setacvalueindex scheme_current sub_processor PERFINCTHRESHOLD 10
 powercfg -setacvalueindex scheme_current sub_processor PERFDECTHRESHOLD 8
 powercfg -setacvalueindex scheme_current sub_processor CPMINCORES 100
 powercfg -setacvalueindex scheme_current sub_processor CPMINCORES1 100
-powercfg -setacvalueindex scheme_current sub_processor PROCFREQMAX 100
-powercfg -setacvalueindex scheme_current sub_processor PROCTHROTTLEMAX 100
 
 :: Disable Processor Performance Boost mode (To avoid heating issues or thermal throttling)
 powercfg -setacvalueindex scheme_current sub_processor PERFBOOSTMODE 0
@@ -1785,7 +1791,7 @@ reg add "HKCU\SOFTWARE\Classes\CLSID\{F02C1A0D-BE21-4350-88B0-7367FC96EF3C}" /v 
 :: Disable Automatic Folder Discovery (Improves Responsiveness)
 reg delete "HKCU\Software\Classes\Local Settings\Software\Microsoft\Windows\Shell\Bags\AllFolders\Shell" /v FolderType /f
 
-:: Hide Home, Gallery From File Explorer and Set This PC as Default
+:: Hide Gallery From File Explorer and Set This PC as Default
 reg add "HKCU\Software\Classes\CLSID\{e88865ea-0e1c-4e20-9aa6-edcd0212c87c}" /v System.IsPinnedToNameSpaceTree /t REG_DWORD /d 0 /f
 reg add "HKCU\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Advanced" /v LaunchTo /t REG_DWORD /d 1 /f
 
@@ -1887,15 +1893,6 @@ reg add "HKCU\SOFTWARE\Microsoft\Windows\CurrentVersion\Themes\Personalize" /v C
 reg add "HKCU\SOFTWARE\Microsoft\Windows\CurrentVersion\Themes\Personalize" /v EnableTransparency /t REG_DWORD /d 1 /f
 reg add "HKCU\SOFTWARE\Microsoft\Windows\CurrentVersion\Themes\Personalize" /v SystemUsesLightTheme /t REG_DWORD /d 0 /f
 
-:: Set Desktop Background Dark Mode Wallpaper
-reg add "HKCU\Control Panel\Desktop" /v Wallpaper /t REG_SZ /d "C:\Windows\Web\Wallpaper\Windows\img19.jpg" /f
-
-:: WINDOWS 10 TASKBAR CUSTOMIZATIONS
-:: Makes Taskbar Transparent in Windows 10
-reg add "HKCU\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Advanced" /v "TaskbarAcrylicOpacity" /t REG_DWORD /d 0 /f
-:: Makes Taskbar Small in Windows 10
-reg add "HKCU\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Advanced" /v "TaskbarSmallIcons" /t REG_DWORD /d 1 /f
-
 :: Disable Last Access Time Stamp and Legacy 8.3 Char Length File Name Creation - This Can Improve File System Performance
 fsutil behavior set disableLastAccess 1
 fsutil behavior set disable8dot3 1
@@ -1937,6 +1934,9 @@ reg add "HKCU\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\FileExts\.wdp\O
 reg add "HKCU\Software\Policies\Microsoft\Windows\WindowsAI" /f
 reg add "HKCU\Software\Policies\Microsoft\Windows\WindowsAI" /v "DisableAIDataAnalysis" /t REG_DWORD /d 1 /f
 reg add "HKCU\Software\Policies\Microsoft\Windows\Windows AI" /v "TurnOffSavingSnapshots" /t REG_DWORD /d 1 /f
+
+:: Makes Taskbar Transparent in Windows 10
+reg add "HKCU\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Advanced" /v "TaskbarAcrylicOpacity" /t REG_DWORD /d 0 /f
 
 :: Disable Wallpaper JPEG Quality Reduction in Windows 10 
 reg add "HKCU\Control Panel\Desktop" /v "JPEGImportQuality" /t REG_DWORD /d 100 /f

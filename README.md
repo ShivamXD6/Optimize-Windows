@@ -1,5 +1,5 @@
 # 🔮 Optimize Windows
-[![Static Badge](https://img.shields.io/badge/Version-V2.1-brightgreen?style=for-the-badge)]() &nbsp;
+[![Static Badge](https://img.shields.io/badge/Version-V3-brightgreen?style=for-the-badge)]() &nbsp;
 
  - This repository contains an Answer File designed to optimize and streamline your Windows installation, making it perfect for gaming, power users, and even low-end laptops or PCs. 🎮💻
  - For existing Windows and if you don't want to reinstall then it's recommended to use [WinUtil by CTT.](https://github.com/ChrisTitusTech/winutil)
@@ -32,7 +32,8 @@
 - ❌ Disable Error Reporting, Delivery Optimization, and Remote Assistance
 - 🚀 Various Services Optimization
 - 🚫 Disable Automatic File Discovery
-- 🎮 Turn on Game Mode & GPU Scheduling
+- 🎮 Turn on Game Mode
+- 📊 Enable Detailed BSOD
 
 ### 3. **🔐 Privacy & Security**
 - 👁️ Disable Telemetry and Tracking
@@ -41,8 +42,10 @@
 - 🔒 Prevent Installation of Dev Home, New Outlook, Chat, Bitlocker Auto-Encryption
 
 ### 4. **👤 User-Based Customizations**
-- 📁 Hide Gallery and Network Navigation (In Explorer)
-- 🔄 Hide Removable Drives (In Explorer)
+- 📁 Hide Gallery and Network Navigation (In File Explorer)
+- 🔄 Hide Removable Drives (In File Explorer)
+- ✔️ Enable item Check boxes in file explorer for quickly select files or folders.
+- ♻️ Pin Recycle bin In File Explorer.
 - ⚙️ Hide Homepage(In Settings)
 - 🛡️Hide Unused Security Pages(In Windows Security)
 - 📊 Show More Details on File Transfer
@@ -53,14 +56,22 @@
 - 💤 Disable Hibernation and Reserved Storage
 - 🖨️ Disable Printer Spooler
 - 🔍 Disable Search Indexing
-- 🛡️ Fully Disable Windows Defender
+- 💿 Disable Storage Sense
+- 🛡️ Fully Disable Windows Defender (Along with SmartScreen)
 
 ### 6. **📂 Shivaay's Folder Options**
 #### 🔐 **Security**
-- 🛡️ Toggle Windows Defender, Core Isolation, Unused Security Pages and Fault Torrent Heap
+- 🛡️ Toggle Windows Defender (Along with SmartScreen), Core Isolation and Unused Security Pages
 
 #### 📦 **Software**
-- 🎮 Install Game Bar (Without Xbox Bloats)
+- Those are links only to install, doesn't included any of them by Default.
+- 🎮 Game Bar (Without Xbox Bloats)
+- 🔴 AMD Radeon Software (Without Bloats, also not available in Microsoft Store search)
+- 💡 Microsoft Tips (Fixes Safe Mode and Troubleshooting)
+- 🎧 Realtek Audio Console (As it's not available in Microsoft search)
+- 🌐 Edge Webview (Some Apps Requires)
+- ♻️ Hi-Bit Uninstaller (Free and good for fully uninstalling any app)
+- 📂 Microsoft Store (As it's removed by default)
 
 #### 🛠️ **System Management**
 - 💤 Toggle Hibernation, Fast Startup
@@ -75,7 +86,7 @@
 
 #### 🖥️ **User Interface**
 - 📁 Toggle Gallery, Network Pane and Removable Drives in File Explorer
-- 📝 Change Default New Folder Name
+- ♻️ Pin/Unpin Recycle bin in file explorer.
 - 📜 Toggle Recent Items (Recent Apps, Recent Documents, Files etc)
 - 🔄 Toggle Windows Old/New Context Menu
 
