@@ -429,8 +429,9 @@ Where-Object -Property 'DisplayName' -In -Value @(
 'Microsoft.MixedReality.Portal';
 'Microsoft.Windows.Ai.Copilot.Provider';
 'Microsoft.WindowsMeetNow';
-'Microsoft.WindowsStore';
 ) | Remove-AppxProvisionedPackage -AllUsers -Online
+
+Get-AppxPackage -allusers Microsoft.WindowsStore | Remove-AppxPackage
 
 Get-WindowsCapability -Online |
 Where-Object -FilterScript {
@@ -520,15 +521,29 @@ Create-Shortcut -target $edgeWebview -shortcutName 'Edge WebView2 Runtime.url' -
 $hibitUninstaller = "https://hibitsoft.ir/"
 Create-Shortcut -target $hibitUninstaller -shortcutName 'Hi-Bit Uninstaller.url' -shortcutType "url"
 
-# Install Microsoft Store
-$MSStore = @"
+# Install/Uninstall Microsoft Store
+$MSStore = @'
 @echo off & reg query "HKU\S-1-5-19" >nul 2>&1
 if %errorLevel% neq 0 (
 echo Please Run as Administrator.
 pause & exit
 )
-PowerShell -Command "Get-AppxPackage -allusers Microsoft.WindowsStore | Foreach {Add-AppxPackage -DisableDevelopmentMode -Register '$($_.InstallLocation)\AppXManifest.xml'}"
-"@
+if "%~n0"=="Install Microsoft Store" (
+call :INMS
+) else (
+call :UNMS
+)
+
+:INMS
+PowerShell -ExecutionPolicy Bypass -Command "Get-AppxPackage -AllUsers Microsoft.WindowsStore | Foreach {Add-AppxPackage -DisableDevelopmentMode -Register \"$($_.InstallLocation)\AppXManifest.xml\"}"
+ren "%~dpnx0" "Uninstall Microsoft Store.cmd"
+exit /b
+
+:UNMS
+PowerShell -ExecutionPolicy Bypass -Command "Get-AppxPackage -Allusers Microsoft.WindowsStore | Remove-AppxPackage"
+ren "%~dpnx0" "Install Microsoft Store.cmd"
+exit /b
+'@
 $InstallStore = [System.IO.Path]::Combine($softwaresPath, 'Install Microsoft Store')
 $MSStore | Out-File -FilePath "$InstallStore.cmd" -Encoding ASCII
 

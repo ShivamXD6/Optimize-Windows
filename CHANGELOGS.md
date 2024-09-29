@@ -8,7 +8,7 @@
  - Added Download Link for Following Apps
  + Edge Webview. 
  + Hi-Bit Uninstaller.
- - Added Install Microsoft Store Script
+ - Added Install/Uninstall Microsoft Store Script
 
  User Interface :-
  - Added a Toggle script to Pin/Unpin Recycle bin in file explorer. 
