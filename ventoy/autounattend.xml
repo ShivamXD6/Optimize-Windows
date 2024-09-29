@@ -431,8 +431,6 @@ Where-Object -Property 'DisplayName' -In -Value @(
 'Microsoft.WindowsMeetNow';
 ) | Remove-AppxProvisionedPackage -AllUsers -Online
 
-Get-AppxPackage -allusers Microsoft.WindowsStore | Remove-AppxPackage
-
 Get-WindowsCapability -Online |
 Where-Object -FilterScript {
   ($_.Name -split '~')[0] -in @(
@@ -544,7 +542,7 @@ PowerShell -ExecutionPolicy Bypass -Command "Get-AppxPackage -Allusers Microsoft
 ren "%~dpnx0" "Install Microsoft Store.cmd"
 exit /b
 '@
-$InstallStore = [System.IO.Path]::Combine($softwaresPath, 'Install Microsoft Store')
+$InstallStore = [System.IO.Path]::Combine($softwaresPath, 'Uninstall Microsoft Store')
 $MSStore | Out-File -FilePath "$InstallStore.cmd" -Encoding ASCII
 
 # Security
