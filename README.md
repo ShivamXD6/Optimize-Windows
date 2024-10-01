@@ -71,7 +71,7 @@
 - 🎧 Realtek Audio Console (As it's not available in Microsoft search)
 - 🌐 Edge Webview (Some Apps Requires)
 - ♻️ Hi-Bit Uninstaller (Free and good for fully uninstalling any app)
-- 📂 Microsoft Store (As it's removed by default)
+- 📂 Microsoft Store (To uninstall/install it again)
 
 #### 🛠️ **System Management**
 - 💤 Toggle Hibernation, Fast Startup
@@ -99,7 +99,7 @@
 ## 🔧 Installation
 
 ### 1. Prepare Your USB Drive
-1. Create a bootable USB drive using **Ventoy**.
+1. Create a bootable USB drive using [Ventoy](https://ventoy.net/).
 2. [Download the Optimize-Windows.zip](https://github.com/ShivamXD6/Optimize-Windows/blob/main/Optimize-Windows.zip).
 3. Extract the contents of `Optimize-Windows.zip` into your USB drive.
 4. Confirm that the file structure on your USB drive matches the following:
@@ -119,6 +119,9 @@
     ```
 
 5. Add your Windows ISO into WinISO, then Move on to Next Section.
+
+> [!NOTE]
+> Only Official Windows 10/11 ISO are supported. 
 
 ### 2. Optional: Adding Drivers
 1. Create a folder named `Drivers` on your C: drive.
@@ -156,7 +159,7 @@
 
 8. Enter your Name and Password for Local User Account (Use Simple names without Symbols).
 9. Now windows will run some more commands and restart.
-10. Done Enjoy :).
+10. Done Enjoy :)
 
 ## 📸 Screenshots
 
