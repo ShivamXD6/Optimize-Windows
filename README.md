@@ -100,12 +100,12 @@
 
 ### 1. Prepare Your USB Drive
 1. Create a bootable USB drive using [Ventoy](https://ventoy.net/).
-2. [Download the Optimize-Windows.zip](https://github.com/ShivamXD6/Optimize-Windows/blob/main/Optimize-Windows.zip).
+2. Download the [Optimize-Windows.zip](https://github.com/ShivamXD6/Optimize-Windows/blob/main/Optimize-Windows.zip).
 3. Extract the contents of `Optimize-Windows.zip` into your USB drive.
 4. Confirm that the file structure on your USB drive matches the following:
 
     ```plaintext
-    D: (Your USB Drive)
+    D: (Your USB-Drive)
     │
     ├───$WinpeDriver$
     │   └───Add or Export Your Drivers Here

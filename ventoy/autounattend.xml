@@ -683,16 +683,16 @@ if %errorLevel% neq 0 (
 echo Please Run as Administrator.
 pause & exit
 )
-if "%~n0"=="Enable Hibernation and Fast Startup" (
+if "%~n0"=="Enable - Hibernation and Fast Startup" (
 powercfg /hibernate on
 reg add "HKLM\SYSTEM\CurrentControlSet\Control\Session Manager\Power" /v HiberbootEnabled /t REG_DWORD /d 1 /f
-ren "%~dpnx0" "Disable Hibernation and Fast Startup.cmd"
+ren "%~dpnx0" "Disable - Hibernation and Fast Startup.cmd"
 ) else (
 powercfg /hibernate off
-ren "%~dpnx0" "Enable Hibernation and Fast Startup.cmd"
+ren "%~dpnx0" "Enable - Hibernation and Fast Startup.cmd"
 )
 "@
-$toggleHibernation = [System.IO.Path]::Combine($managementPath, 'Enable Hibernation and Fast Startup')
+$toggleHibernation = [System.IO.Path]::Combine($managementPath, 'Enable - Hibernation and Fast Startup')
 $hibernationToggle | Out-File -FilePath "$toggleHibernation.cmd" -Encoding ASCII
 
 # Toggle GameDVR
@@ -704,14 +704,14 @@ pause & exit
 )
 set reg1="HKCU\System\GameConfigStore"
 set reg2="HKLM\SOFTWARE\Policies\Microsoft\Windows\GameDVR"
-if "%~n0"=="Enable GameDVR" (
+if "%~n0"=="Enable - GameDVR" (
 reg add %reg1% /v GameDVR_FSEBehavior /t REG_DWORD /d 0 /f
 reg add %reg1% /v GameDVR_Enabled /t REG_DWORD /d 1 /f
 reg add %reg1% /v GameDVR_DXGIHonorFSEWindowsCompatible /t REG_DWORD /d 0 /f
 reg add %reg1% /v GameDVR_HonorUserFSEBehaviorMode /t REG_DWORD /d 0 /f
 reg add %reg1% /v GameDVR_EFSEFeatureFlags /t REG_DWORD /d 1 /f
 reg add %reg2% /v AllowGameDVR /t REG_DWORD /d 1 /f
-    ren "%~dpnx0" "Disable GameDVR.cmd"
+    ren "%~dpnx0" "Disable - GameDVR.cmd"
 ) else (
 reg delete %reg1% /v GameDVR_FSEBehavior /f
 reg delete %reg1% /v GameDVR_Enabled /f
@@ -719,10 +719,10 @@ reg delete %reg1% /v GameDVR_DXGIHonorFSEWindowsCompatible /f
 reg delete %reg1% /v GameDVR_HonorUserFSEBehaviorMode /f
 reg delete %reg1% /v GameDVR_EFSEFeatureFlags /f
 reg delete %reg2% /v AllowGameDVR /f
-ren "%~dpnx0" "Enable GameDVR.cmd"
+ren "%~dpnx0" "Enable - GameDVR.cmd"
 )
 "@
-$toggleGameDVR = [System.IO.Path]::Combine($managementPath, 'Enable GameDVR')
+$toggleGameDVR = [System.IO.Path]::Combine($managementPath, 'Enable - GameDVR')
 $gameDVR | Out-File -FilePath "$toggleGameDVR.cmd" -Encoding ASCII
 
 # Toggle Windows Search Indexing Service
@@ -732,18 +732,18 @@ if %errorLevel% neq 0 (
 echo Please Run as Administrator.
 pause & exit
 )
-if "%~n0"=="Enable Search Indexing" (
+if "%~n0"=="Enable - Search Indexing" (
 sc config WSearch start=auto
 net start WSearch
-set st="Disable Search Indexing.cmd"
+set st="Disable - Search Indexing.cmd"
 ) else (
 net stop WSearch
 sc config WSearch start=disabled
-set st="Enable Search Indexing.cmd"
+set st="Enable - Search Indexing.cmd"
 )
 ren "%~dpnx0" %st% & taskkill /f /im explorer.exe & start explorer.exe
 "@
-$toggleSearchService = [System.IO.Path]::Combine($managementPath, 'Enable Search Indexing')
+$toggleSearchService = [System.IO.Path]::Combine($managementPath, 'Enable - Search Indexing')
 $searchService | Out-File -FilePath "$toggleSearchService.cmd" -Encoding ASCII
 
 # Toggle Notifications and Background Apps
@@ -756,20 +756,20 @@ pause & exit
 set reg1="HKCU\Software\Policies\Microsoft\Windows\Explorer"
 set reg2="HKCU\Software\Microsoft\Windows\CurrentVersion\PushNotifications"
 set reg3="HKCU\SOFTWARE\Microsoft\Windows\CurrentVersion\BackgroundAccessApplications"
-if "%~n0"=="Enable Notifications and Background Apps" (
+if "%~n0"=="Enable - Notifications and Background Apps" (
 reg add %reg1% /v DisableNotificationCenter /t REG_DWORD /d 0 /f
 reg add %reg2% /v ToastEnabled /t REG_DWORD /d 1 /f
 reg add %reg3% /v GlobalUserDisabled /t REG_DWORD /d 0 /f
-set st="Disable Notifications and Background Apps.cmd"
+set st="Disable - Notifications and Background Apps.cmd"
 ) else (
 reg add %reg1% /v DisableNotificationCenter /t REG_DWORD /d 1 /f
 reg add %reg2% /v ToastEnabled /t REG_DWORD /d 0 /f
 reg add %reg3% /v GlobalUserDisabled /t REG_DWORD /d 1 /f
-set st="Enable Notifications and Background Apps.cmd"
+set st="Enable - Notifications and Background Apps.cmd"
 )
 ren "%~dpnx0" %st% & taskkill /f /im explorer.exe & start explorer.exe
 "@
-$toggleNotification = [System.IO.Path]::Combine($managementPath, 'Enable Notifications and Background Apps')
+$toggleNotification = [System.IO.Path]::Combine($managementPath, 'Enable - Notifications and Background Apps')
 $notificationToggle | Out-File -FilePath "$toggleNotification.cmd" -Encoding ASCII
 
 # Toggle Windows Printer Spooler Service
@@ -779,17 +779,17 @@ if %errorLevel% neq 0 (
 echo Please Run as Administrator.
 pause & exit
 )
-if "%~n0"=="Enable Printer Spooler" (
+if "%~n0"=="Enable - Printer Spooler" (
 sc config Spooler start=auto
 net start Spooler
-ren "%~dpnx0" "Disable Printer Spooler.cmd"
+ren "%~dpnx0" "Disable - Printer Spooler.cmd"
 ) else (
 net stop Spooler
 sc config Spooler start=disabled
-ren "%~dpnx0" "Enable Printer Spooler.cmd"
+ren "%~dpnx0" "Enable - Printer Spooler.cmd"
 )
 "@
-$toggleSpoolerService = [System.IO.Path]::Combine($managementPath, 'Enable Printer Spooler')
+$toggleSpoolerService = [System.IO.Path]::Combine($managementPath, 'Enable - Printer Spooler')
 $spoolerService | Out-File -FilePath "$toggleSpoolerService.cmd" -Encoding ASCII
 
 # Optimizations
@@ -802,19 +802,19 @@ pause & exit
 )
 set reg1="HKLM\SOFTWARE\Policies\Microsoft\Windows\WindowsUpdate"
 set reg2="HKLM\SOFTWARE\Microsoft\WindowsUpdate\UX\Settings"
-if "%~n0"=="Enable Update Notifications" (
+if "%~n0"=="Enable - Update Notifications" (
 reg add %reg1% /v SetAutoRestartNotificationDisable /t REG_DWORD /d 0 /f
 reg add %reg2% /v RestartNotificationsAllowed2 /t REG_DWORD /d 1 /f
 reg add %reg1% /v SetUpdateNotificationLevel /t REG_DWORD /d 1 /f
-ren "%~dpnx0" "Disable Update Notifications.cmd"
+ren "%~dpnx0" "Disable - Update Notifications.cmd"
 ) else (
 reg delete %reg1% /v SetAutoRestartNotificationDisable /f
 reg delete %reg2% /v RestartNotificationsAllowed2 /f
 reg delete %reg1% /v SetUpdateNotificationLevel /f
-ren "%~dpnx0" "Enable Update Notifications.cmd"
+ren "%~dpnx0" "Enable - Update Notifications.cmd"
 )
 "@
-$toggleUpdateNotifications = [System.IO.Path]::Combine($optimizationPath, 'Disable Update Notifications.cmd')
+$toggleUpdateNotifications = [System.IO.Path]::Combine($optimizationPath, 'Disable - Update Notifications.cmd')
 $updateNotifications | Out-File -FilePath $toggleUpdateNotifications -Encoding ASCII
 
 # Toggle Automatic Folder Discovery
@@ -827,13 +827,13 @@ pause & exit
 set reg1="HKCU\Software\Classes\Local Settings\Software\Microsoft\Windows\Shell\Bags\AllFolders\Shell"
 if "%~n0"=="Enable Automatic Folder Discovery" (
 reg add %reg1% /v FolderType /t REG_DWORD /d 0 /f
-ren "%~dpnx0" "Disable Automatic Folder Discovery.cmd"
+ren "%~dpnx0" "Disable - Automatic Folder Discovery.cmd"
 ) else (
 reg delete %reg1% /v FolderType /f
-ren "%~dpnx0" "Enable Automatic Folder Discovery.cmd"
+ren "%~dpnx0" "Enable - Automatic Folder Discovery.cmd"
 )
 "@
-$toggleAutomaticFolder = [System.IO.Path]::Combine($optimizationPath, 'Enable Automatic Folder Discovery.cmd')
+$toggleAutomaticFolder = [System.IO.Path]::Combine($optimizationPath, 'Enable - Automatic Folder Discovery.cmd')
 $automaticFolder | Out-File -FilePath $toggleAutomaticFolder -Encoding ASCII
 
 # Toggle Last Access Time Stamp and 8.3 Char Length File Name Creation
@@ -843,17 +843,17 @@ if %errorLevel% neq 0 (
 echo Please Run as Administrator.
 pause & exit
 )
-if "%~n0"=="Disable Last Access Time and 8.3 Name" (
+if "%~n0"=="Disable - Last Access Time and 8.3 Name" (
 fsutil behavior set disableLastAccess 1
 fsutil behavior set disable8dot3 1
-ren "%~dpnx0" "Enable Last Access Time and 8.3 Name.cmd"
+ren "%~dpnx0" "Enable - Last Access Time and 8.3 Name.cmd"
 ) else (
 fsutil behavior set disableLastAccess 0
 fsutil behavior set disable8dot3 0
-ren "%~dpnx0" "Disable Last Access Time and 8.3 Name.cmd"
+ren "%~dpnx0" "Disable - Last Access Time and 8.3 Name.cmd"
 )
 "@
-$toggleFileSystemSettingsPath = [System.IO.Path]::Combine($optimizationPath, 'Enable Last Access Time and 8.3 Name.cmd')
+$toggleFileSystemSettingsPath = [System.IO.Path]::Combine($optimizationPath, 'Enable - Last Access Time and 8.3 Name.cmd')
 $toggleFileSystemSettings | Out-File -FilePath $toggleFileSystemSettingsPath -Encoding ASCII
 
 # Toggle Multi-Plane Overlay
@@ -864,15 +864,15 @@ echo Please Run as Administrator.
 pause & exit
 )
 set reg1="HKLM\SOFTWARE\Microsoft\Windows\Dwm"
-if "%~n0"=="Enable Multi-Plane Overlay" (
+if "%~n0"=="Enable - Multi-Plane Overlay" (
 reg delete %reg1% /v OverlayTestMode /f
-ren "%~dpnx0" "Disable Multi-Plane Overlay.cmd"
+ren "%~dpnx0" "Disable - Multi-Plane Overlay.cmd"
 ) else (
 reg add %reg1% /v OverlayTestMode /t REG_DWORD /d 5 /f
-ren "%~dpnx0" "Enable Multi-Plane Overlay.cmd"
+ren "%~dpnx0" "Enable - Multi-Plane Overlay.cmd"
 )
 "@
-$toggleOverlayTestModePath = [System.IO.Path]::Combine($optimizationPath, 'Enable Multi-Plane Overlay.cmd')
+$toggleOverlayTestModePath = [System.IO.Path]::Combine($optimizationPath, 'Enable - Multi-Plane Overlay.cmd')
 $toggleOverlayTestMode | Out-File -FilePath $toggleOverlayTestModePath -Encoding ASCII
 
 # User Interface
