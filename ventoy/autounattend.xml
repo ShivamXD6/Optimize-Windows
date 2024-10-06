@@ -826,10 +826,10 @@ pause & exit
 )
 set reg1="HKCU\Software\Classes\Local Settings\Software\Microsoft\Windows\Shell\Bags\AllFolders\Shell"
 if "%~n0"=="Enable Automatic Folder Discovery" (
-reg add %reg1% /v FolderType /t REG_DWORD /d 0 /f
+reg delete %reg1% /f
 ren "%~dpnx0" "Disable - Automatic Folder Discovery.cmd"
 ) else (
-reg delete %reg1% /v FolderType /f
+reg add %reg1% /v "FolderType" /t REG_SZ /d "NotSpecified" /f
 ren "%~dpnx0" "Enable - Automatic Folder Discovery.cmd"
 )
 "@
@@ -1437,7 +1437,7 @@ reg add "HKLM\SYSTEM\CurrentControlSet\Control\DeviceGuard\Scenarios\HypervisorE
 reg add "HKLM\SOFTWARE\Policies\Microsoft\Windows Defender Security Center\Device security" /v "UILockdown" /t REG_DWORD /d 1 /f
 
 :: Disable Malicious Software Removal Tool From Installing 
-reg add "HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\MRT" /v "DontOfferThroughWUAU" /t REG_DWORD /d 1 /f
+reg add "HKLM\SOFTWARE\Policies\Microsoft\MRT" /v "DontOfferThroughWUAU" /t REG_DWORD /d 1 /f
 
 :: Displays Camera On/Off Notification for Privacy
 reg add "HKLM\SOFTWARE\Microsoft\OEM\Device\Capture" /v "NoPhysicalCameraLED" /t REG_DWORD /d 1 /f
@@ -1816,7 +1816,7 @@ reg add "HKCU\SOFTWARE\Microsoft\Windows\CurrentVersion\Privacy" /v SettingSyncE
 reg add "HKCU\SOFTWARE\Classes\CLSID\{F02C1A0D-BE21-4350-88B0-7367FC96EF3C}" /v System.IsPinnedToNameSpaceTree /t REG_DWORD /d 0 /f
 
 :: Disable Automatic Folder Discovery (Improves Responsiveness)
-reg delete "HKCU\Software\Classes\Local Settings\Software\Microsoft\Windows\Shell\Bags\AllFolders\Shell" /v FolderType /f
+reg add "HKCU\Software\Classes\Local Settings\Software\Microsoft\Windows\Shell\Bags\AllFolders\Shell" /v "FolderType" /t REG_SZ /d "NotSpecified" /f
 
 :: Hide Gallery From File Explorer and Set This PC as Default
 reg add "HKCU\Software\Classes\CLSID\{e88865ea-0e1c-4e20-9aa6-edcd0212c87c}" /v System.IsPinnedToNameSpaceTree /t REG_DWORD /d 0 /f
