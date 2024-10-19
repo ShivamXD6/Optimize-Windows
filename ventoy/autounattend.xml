@@ -108,7 +108,7 @@
     </RunSynchronousCommand>
     <RunSynchronousCommand wcm:action="add">
      <Order>9</Order>
-     <Path>cmd.exe /c echo Retail >> X:\Sources\ei.cfg</Path>
+     <Path>cmd.exe /c echo _Default >> X:\Sources\ei.cfg</Path>
     </RunSynchronousCommand>
     <RunSynchronousCommand wcm:action="add">
      <Order>10</Order>
