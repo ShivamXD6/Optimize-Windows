@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <unattend xmlns="urn:schemas-microsoft-com:unattend" xmlns:wcm="http://schemas.microsoft.com/WMIConfig/2002/State">
 <!-- Shivaay (Optimised for Power Users) -->
-<!-- Modified by FlaxCube Gaming -->
+<!-- Modified by FlaxCube Gaming / ShivamXD6 -->
 <!-- Originally Compiled by MemoryTechTips -->
 <!-- Credits to Atlas, Schneegans.de, ChrisTitusTech, MajorGeeks and Revi for Tweaks used in this answer File -->
 
-<!-- 1+ Windows Setup (Before Installing Windows) -->
+<!-- 1+ Pre-Installation (Offline Updates & Windows PE Setup) -->
  <settings pass="offlineServicing"></settings>
  <settings pass="windowsPE">
   <component name="Microsoft-Windows-Setup" processorArchitecture="x86" publicKeyToken="31bf3856ad364e35" language="neutral" versionScope="nonSxS">
@@ -177,49 +177,49 @@
   </component>
  </settings>
 
-<!-- 2+ Windows Deployment (While Installing Windows) -->
+<!-- 2+ System Setup (Hardware Independence & System Configuration) -->
  <settings pass="generalize"></settings>
  <settings pass="specialize">
   <component name="Microsoft-Windows-Deployment" processorArchitecture="x86" publicKeyToken="31bf3856ad364e35" language="neutral" versionScope="nonSxS">
    <RunSynchronous>
+<!-- Extracts and Executes Scripts in this XML File -->
     <RunSynchronousCommand wcm:action="add">
      <Order>1</Order>
-     <Description>Extracts and Executes Scripts in this XML File</Description>
      <Path>powershell.exe -NoProfile -WindowStyle Hidden -Command "$xml = [xml]::new(); $xml.Load('C:\Windows\Panther\unattend.xml'); $sb = [scriptblock]::Create( $xml.unattend.Extensions.ExtractScript ); Invoke-Command -ScriptBlock $sb -ArgumentList $xml;"</Path>
     </RunSynchronousCommand>
+<!-- Executes the remove-packages Powershell Script -->
     <RunSynchronousCommand wcm:action="add">
      <Order>2</Order>
-     <Description>Executes the remove-packages Powershell Script</Description>
      <Path>powershell.exe -NoProfile -WindowStyle Hidden -ExecutionPolicy Bypass -Command "Get-Content -LiteralPath 'C:\Windows\Setup\Scripts\remove-packages.ps1' -Raw | Invoke-Expression;"</Path>
     </RunSynchronousCommand>
+<!-- Run PowerShell Tweaks -->
     <RunSynchronousCommand wcm:action="add">
      <Order>3</Order>
-     <Description>Run PowerShell Tweaks</Description>
      <Path>powershell.exe -NoProfile -WindowStyle Hidden -ExecutionPolicy Bypass -Command "Get-Content -LiteralPath 'C:\Windows\Setup\Scripts\wintweaks.ps1' -Raw | Invoke-Expression;"</Path>
     </RunSynchronousCommand>
+<!-- Executes the HKLM Registry Entries Script -->
     <RunSynchronousCommand wcm:action="add">
      <Order>4</Order>
-     <Description>Executes the HKLM Registry Entries Script</Description>
      <Path>cmd.exe /c "C:\Windows\Setup\Scripts\localmachine.cmd &gt;&gt;"C:\Windows\Setup\Scripts\localmachine.log" 2&gt;&amp;1"</Path>
     </RunSynchronousCommand>
+<!-- Adds Items to Right-Click Context Menu -->
     <RunSynchronousCommand wcm:action="add">
      <Order>5</Order>
-     <Description>Adds Items to Right-Click Context Menu</Description>
      <Path>cmd.exe /c "reg import "C:\Windows\Setup\Scripts\contextmenu.reg" &gt;&gt;"C:\Windows\Setup\Scripts\contextmenu.log" 2&gt;&amp;1"</Path>
     </RunSynchronousCommand>
+<!-- Loads the Default User Registry Hive so Changes Can be Made to It -->
     <RunSynchronousCommand wcm:action="add">
      <Order>6</Order>
-     <Description>Loads the Default User Registry Hive so Changes Can be Made to It</Description>
      <Path>reg load "HKU\DefaultUser" "C:\Users\Default\NTUSER.DAT"</Path>
     </RunSynchronousCommand>
+<!-- Registry Entry to Execute the HKCU Registry Entry Script the First Time a New User Logs In -->
     <RunSynchronousCommand wcm:action="add">
      <Order>7</Order>
-     <Description>Registry Entry to Execute the HKCU Registry Entry Script the First Time a New User Logs In</Description>
      <Path>reg add "HKU\DefaultUser\Software\Microsoft\Windows\CurrentVersion\Runonce" /v "currentuser" /t REG_SZ /d "C:\Windows\Setup\Scripts\currentuser.cmd" /f</Path>
     </RunSynchronousCommand>
+<!-- Unloads the Default User Registry Hive -->
     <RunSynchronousCommand wcm:action="add">
      <Order>8</Order>
-     <Description>Unloads the Default User Registry Hive</Description>
      <Path>reg unload "HKU\DefaultUser"</Path>
     </RunSynchronousCommand>
    </RunSynchronous>
@@ -228,42 +228,34 @@
    <RunSynchronous>
     <RunSynchronousCommand wcm:action="add">
      <Order>1</Order>
-     <Description>Extracts and Executes Scripts in this XML File</Description>
      <Path>powershell.exe -NoProfile -WindowStyle Hidden -Command "$xml = [xml]::new(); $xml.Load('C:\Windows\Panther\unattend.xml'); $sb = [scriptblock]::Create( $xml.unattend.Extensions.ExtractScript ); Invoke-Command -ScriptBlock $sb -ArgumentList $xml;"</Path>
     </RunSynchronousCommand>
     <RunSynchronousCommand wcm:action="add">
      <Order>2</Order>
-     <Description>Executes the remove-packages Powershell Script</Description>
      <Path>powershell.exe -NoProfile -WindowStyle Hidden -ExecutionPolicy Bypass -Command "Get-Content -LiteralPath 'C:\Windows\Setup\Scripts\remove-packages.ps1' -Raw | Invoke-Expression;"</Path>
     </RunSynchronousCommand>
     <RunSynchronousCommand wcm:action="add">
      <Order>3</Order>
-     <Description>Run PowerShell Tweaks</Description>
      <Path>powershell.exe -NoProfile -WindowStyle Hidden -ExecutionPolicy Bypass -Command "Get-Content -LiteralPath 'C:\Windows\Setup\Scripts\wintweaks.ps1' -Raw | Invoke-Expression;"</Path>
     </RunSynchronousCommand>
     <RunSynchronousCommand wcm:action="add">
      <Order>4</Order>
-     <Description>Executes the HKLM Registry Entries Script</Description>
      <Path>cmd.exe /c "C:\Windows\Setup\Scripts\localmachine.cmd &gt;&gt;"C:\Windows\Setup\Scripts\localmachine.log" 2&gt;&amp;1"</Path>
     </RunSynchronousCommand>
     <RunSynchronousCommand wcm:action="add">
      <Order>5</Order>
-     <Description>Adds Items to Right-Click Context Menu</Description>
      <Path>cmd.exe /c "reg import "C:\Windows\Setup\Scripts\contextmenu.reg" &gt;&gt;"C:\Windows\Setup\Scripts\contextmenu.log" 2&gt;&amp;1"</Path>
     </RunSynchronousCommand>
     <RunSynchronousCommand wcm:action="add">
      <Order>6</Order>
-     <Description>Loads the Default User Registry Hive so Changes Can be Made to It</Description>
      <Path>reg load "HKU\DefaultUser" "C:\Users\Default\NTUSER.DAT"</Path>
     </RunSynchronousCommand>
     <RunSynchronousCommand wcm:action="add">
      <Order>7</Order>
-     <Description>Registry Entry to Execute the HKCU Registry Entry Script the First Time a New User Logs In</Description>
      <Path>reg add "HKU\DefaultUser\Software\Microsoft\Windows\CurrentVersion\Runonce" /v "currentuser" /t REG_SZ /d "C:\Windows\Setup\Scripts\currentuser.cmd" /f</Path>
     </RunSynchronousCommand>
     <RunSynchronousCommand wcm:action="add">
      <Order>8</Order>
-     <Description>Unloads the Default User Registry Hive</Description>
      <Path>reg unload "HKU\DefaultUser"</Path>
     </RunSynchronousCommand>
    </RunSynchronous>
@@ -272,49 +264,41 @@
    <RunSynchronous>
     <RunSynchronousCommand wcm:action="add">
      <Order>1</Order>
-     <Description>Extracts and Executes Scripts in this XML File</Description>
      <Path>powershell.exe -NoProfile -WindowStyle Hidden -Command "$xml = [xml]::new(); $xml.Load('C:\Windows\Panther\unattend.xml'); $sb = [scriptblock]::Create( $xml.unattend.Extensions.ExtractScript ); Invoke-Command -ScriptBlock $sb -ArgumentList $xml;"</Path>
     </RunSynchronousCommand>
     <RunSynchronousCommand wcm:action="add">
      <Order>2</Order>
-     <Description>Executes the remove-packages Powershell Script</Description>
      <Path>powershell.exe -NoProfile -WindowStyle Hidden -ExecutionPolicy Bypass -Command "Get-Content -LiteralPath 'C:\Windows\Setup\Scripts\remove-packages.ps1' -Raw | Invoke-Expression;"</Path>
     </RunSynchronousCommand>
     <RunSynchronousCommand wcm:action="add">
      <Order>3</Order>
-     <Description>Run PowerShell Tweaks</Description>
      <Path>powershell.exe -NoProfile -WindowStyle Hidden -ExecutionPolicy Bypass -Command "Get-Content -LiteralPath 'C:\Windows\Setup\Scripts\wintweaks.ps1' -Raw | Invoke-Expression;"</Path>
     </RunSynchronousCommand>
     <RunSynchronousCommand wcm:action="add">
      <Order>4</Order>
-     <Description>Executes the HKLM Registry Entries Script</Description>
      <Path>cmd.exe /c "C:\Windows\Setup\Scripts\localmachine.cmd &gt;&gt;"C:\Windows\Setup\Scripts\localmachine.log" 2&gt;&amp;1"</Path>
     </RunSynchronousCommand>
     <RunSynchronousCommand wcm:action="add">
      <Order>5</Order>
-     <Description>Adds Items to Right-Click Context Menu</Description>
      <Path>cmd.exe /c "reg import "C:\Windows\Setup\Scripts\contextmenu.reg" &gt;&gt;"C:\Windows\Setup\Scripts\contextmenu.log" 2&gt;&amp;1"</Path>
     </RunSynchronousCommand>
     <RunSynchronousCommand wcm:action="add">
      <Order>6</Order>
-     <Description>Loads the Default User Registry Hive so Changes Can be Made to It</Description>
      <Path>reg load "HKU\DefaultUser" "C:\Users\Default\NTUSER.DAT"</Path>
     </RunSynchronousCommand>
     <RunSynchronousCommand wcm:action="add">
      <Order>7</Order>
-     <Description>Registry Entry to Execute the HKCU Registry Entry Script the First Time a New User Logs In</Description>
      <Path>reg add "HKU\DefaultUser\Software\Microsoft\Windows\CurrentVersion\Runonce" /v "currentuser" /t REG_SZ /d "C:\Windows\Setup\Scripts\currentuser.cmd" /f</Path>
     </RunSynchronousCommand>
     <RunSynchronousCommand wcm:action="add">
      <Order>8</Order>
-     <Description>Unloads the Default User Registry Hive</Description>
      <Path>reg unload "HKU\DefaultUser"</Path>
     </RunSynchronousCommand>
    </RunSynchronous>
   </component>
  </settings>
 
-<!-- 3+ Windows Shell Setup (After Installing Windows) -->
+<!-- 3+ Post-Installation (Audit & OOBE Configuration) -->
  <settings pass="auditSystem"></settings>
  <settings pass="auditUser"></settings>
  <settings pass="oobeSystem">
@@ -1039,6 +1023,9 @@ Invoke-Expression $icaclsCommand | Out-Null
 Set-MpPreference -SubmitSamplesConsent 2 -ErrorAction Continue | Out-Null
 
 # Remove Edge
+Stop-Service -Name edgeupdate -Force
+Stop-Service -Name edgeupdatem -Force
+Get-Process *edge* | Stop-Process -Force -ErrorAction SilentlyContinue
 Remove-Item -Path "C:\Program Files (x86)\Microsoft\Edge" -Recurse -Force -ErrorAction Continue
 Remove-Item -Path "C:\Program Files (x86)\Microsoft\EdgeWebView" -Recurse -Force -ErrorAction Continue
 Remove-Item -Path "C:\Program Files (x86)\Microsoft\EdgeUpdate" -Recurse -Force -ErrorAction Continue

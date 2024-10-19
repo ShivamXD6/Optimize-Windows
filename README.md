@@ -33,7 +33,6 @@
 - 🚀 Various Services Optimization
 - 🚫 Disable Automatic File Discovery
 - 🎮 Turn on Game Mode
-- 📊 Enable Detailed BSOD
 
 ### 3. **🔐 Privacy & Security**
 - 👁️ Disable Telemetry and Tracking
