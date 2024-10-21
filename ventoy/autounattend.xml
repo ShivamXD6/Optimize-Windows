@@ -2,8 +2,7 @@
 <unattend xmlns="urn:schemas-microsoft-com:unattend" xmlns:wcm="http://schemas.microsoft.com/WMIConfig/2002/State">
 <!-- Shivaay (Optimised for Power Users) -->
 <!-- Modified by FlaxCube Gaming / ShivamXD6 -->
-<!-- Originally Compiled by MemoryTechTips -->
-<!-- Credits to Atlas, Schneegans.de, ChrisTitusTech, MajorGeeks and Revi for Tweaks used in this answer File -->
+<!-- Credits to MemoryTechTips, Atlas, ChrisTitusTech and Revi for Tweaks used in this answer File -->
 
 <!-- 1+ Pre-Installation (Offline Updates & Windows PE Setup) -->
  <settings pass="offlineServicing"></settings>
@@ -90,7 +89,7 @@
     </RunSynchronousCommand>
     <RunSynchronousCommand wcm:action="add">
      <Order>18</Order>
-     <Path>cmd /c "&gt;&gt;"X:\disable-defender.cmd" echo 		FOR ^%^%s IN (Sense WdBoot WdFilter WdNisDrv WdNisSvc WinDefend) DO reg ADD HKLM\mount\ControlSet001\Services\^%^%s /v Start /t REG_DWORD /d 4 /f"</Path>
+     <Path>cmd /c "&gt;&gt;"X:\disable-defender.cmd" echo 		FOR ^%^%s IN (Sense WdBoot WdFilter WdNisDrv WdNisSvc WinDefend MDCoreSvc) DO reg ADD HKLM\mount\ControlSet001\Services\^%^%s /v Start /t REG_DWORD /d 4 /f"</Path>
     </RunSynchronousCommand>
     <RunSynchronousCommand wcm:action="add">
      <Order>19</Order>
@@ -217,7 +216,7 @@
     </RunSynchronousCommand>
     <RunSynchronousCommand wcm:action="add">
      <Order>18</Order>
-     <Path>cmd /c "&gt;&gt;"X:\disable-defender.cmd" echo 		FOR ^%^%s IN (Sense WdBoot WdFilter WdNisDrv WdNisSvc WinDefend) DO reg ADD HKLM\mount\ControlSet001\Services\^%^%s /v Start /t REG_DWORD /d 4 /f"</Path>
+     <Path>cmd /c "&gt;&gt;"X:\disable-defender.cmd" echo 		FOR ^%^%s IN (Sense WdBoot WdFilter WdNisDrv WdNisSvc WinDefend MDCoreSvc) DO reg ADD HKLM\mount\ControlSet001\Services\^%^%s /v Start /t REG_DWORD /d 4 /f"</Path>
     </RunSynchronousCommand>
     <RunSynchronousCommand wcm:action="add">
      <Order>19</Order>
@@ -344,7 +343,7 @@
     </RunSynchronousCommand>
     <RunSynchronousCommand wcm:action="add">
      <Order>18</Order>
-     <Path>cmd /c "&gt;&gt;"X:\disable-defender.cmd" echo 		FOR ^%^%s IN (Sense WdBoot WdFilter WdNisDrv WdNisSvc WinDefend) DO reg ADD HKLM\mount\ControlSet001\Services\^%^%s /v Start /t REG_DWORD /d 4 /f"</Path>
+     <Path>cmd /c "&gt;&gt;"X:\disable-defender.cmd" echo 		FOR ^%^%s IN (Sense WdBoot WdFilter WdNisDrv WdNisSvc WinDefend MDCoreSvc) DO reg ADD HKLM\mount\ControlSet001\Services\^%^%s /v Start /t REG_DWORD /d 4 /f"</Path>
     </RunSynchronousCommand>
     <RunSynchronousCommand wcm:action="add">
      <Order>19</Order>
