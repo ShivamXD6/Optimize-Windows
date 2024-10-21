@@ -45,96 +45,96 @@
 <!--Prevent auto detection of Windows Edition-->
     <RunSynchronousCommand wcm:action="add">
      <Order>7</Order>
-     <Path>cmd.exe /c del /f /q X:\Sources\ei.cfg</Path>
+     <Path>cmd /c del /f /q X:\Sources\ei.cfg</Path>
     </RunSynchronousCommand>
     <RunSynchronousCommand wcm:action="add">
      <Order>8</Order>
-     <Path>cmd.exe /c echo [Channel] > X:\Sources\ei.cfg</Path>
+     <Path>cmd /c echo [Channel] > X:\Sources\ei.cfg</Path>
     </RunSynchronousCommand>
     <RunSynchronousCommand wcm:action="add">
      <Order>9</Order>
-     <Path>cmd.exe /c echo _Default >> X:\Sources\ei.cfg</Path>
+     <Path>cmd /c echo _Default >> X:\Sources\ei.cfg</Path>
     </RunSynchronousCommand>
     <RunSynchronousCommand wcm:action="add">
      <Order>10</Order>
-     <Path>cmd.exe /c echo [VL] >> X:\Sources\ei.cfg</Path>
+     <Path>cmd /c echo [VL] >> X:\Sources\ei.cfg</Path>
     </RunSynchronousCommand>
     <RunSynchronousCommand wcm:action="add">
      <Order>11</Order>
-     <Path>cmd.exe /c echo 0 >> X:\Sources\ei.cfg</Path>
+     <Path>cmd /c echo 0 >> X:\Sources\ei.cfg</Path>
     </RunSynchronousCommand>
 <!--Disable Defender-->
     <RunSynchronousCommand wcm:action="add">
      <Order>12</Order>
-     <Path>cmd.exe /c "&gt;&gt;"X:\disable-defender.cmd" echo @ECHO OFF"</Path>
+     <Path>cmd /c "&gt;&gt;"X:\disable-defender.cmd" echo @ECHO OFF"</Path>
     </RunSynchronousCommand>
     <RunSynchronousCommand wcm:action="add">
      <Order>13</Order>
-     <Path>cmd.exe /c "&gt;&gt;"X:\disable-defender.cmd" echo SET file=C:\$Windows.~BT\NewOS\Windows\System32\config\SYSTEM"</Path>
+     <Path>cmd /c "&gt;&gt;"X:\disable-defender.cmd" echo SET file=C:\$Windows.~BT\NewOS\Windows\System32\config\SYSTEM"</Path>
     </RunSynchronousCommand>
     <RunSynchronousCommand wcm:action="add">
      <Order>14</Order>
-     <Path>cmd.exe /c "&gt;&gt;"X:\disable-defender.cmd" echo FOR /L ^%^%i IN (0) DO ("</Path>
+     <Path>cmd /c "&gt;&gt;"X:\disable-defender.cmd" echo FOR /L ^%^%i IN (0) DO ("</Path>
     </RunSynchronousCommand>
     <RunSynchronousCommand wcm:action="add">
      <Order>15</Order>
-     <Path>cmd.exe /c "&gt;&gt;"X:\disable-defender.cmd" echo 	CALL :sleep"</Path>
+     <Path>cmd /c "&gt;&gt;"X:\disable-defender.cmd" echo 	CALL :sleep"</Path>
     </RunSynchronousCommand>
     <RunSynchronousCommand wcm:action="add">
      <Order>16</Order>
-     <Path>cmd.exe /c "&gt;&gt;"X:\disable-defender.cmd" echo 	IF EXIST ^%file^% ("</Path>
+     <Path>cmd /c "&gt;&gt;"X:\disable-defender.cmd" echo 	IF EXIST ^%file^% ("</Path>
     </RunSynchronousCommand>
     <RunSynchronousCommand wcm:action="add">
      <Order>17</Order>
-     <Path>cmd.exe /c "&gt;&gt;"X:\disable-defender.cmd" echo 		CALL :load"</Path>
+     <Path>cmd /c "&gt;&gt;"X:\disable-defender.cmd" echo 		CALL :load"</Path>
     </RunSynchronousCommand>
     <RunSynchronousCommand wcm:action="add">
      <Order>18</Order>
-     <Path>cmd.exe /c "&gt;&gt;"X:\disable-defender.cmd" echo 		FOR ^%^%s IN (Sense WdBoot WdFilter WdNisDrv WdNisSvc WinDefend) DO reg.exe ADD HKLM\mount\ControlSet001\Services\^%^%s /v Start /t REG_DWORD /d 4 /f"</Path>
+     <Path>cmd /c "&gt;&gt;"X:\disable-defender.cmd" echo 		FOR ^%^%s IN (Sense WdBoot WdFilter WdNisDrv WdNisSvc WinDefend) DO reg ADD HKLM\mount\ControlSet001\Services\^%^%s /v Start /t REG_DWORD /d 4 /f"</Path>
     </RunSynchronousCommand>
     <RunSynchronousCommand wcm:action="add">
      <Order>19</Order>
-     <Path>cmd.exe /c "&gt;&gt;"X:\disable-defender.cmd" echo 		reg.exe UNLOAD HKLM\mount"</Path>
+     <Path>cmd /c "&gt;&gt;"X:\disable-defender.cmd" echo 		reg UNLOAD HKLM\mount"</Path>
     </RunSynchronousCommand>
     <RunSynchronousCommand wcm:action="add">
      <Order>20</Order>
-     <Path>cmd.exe /c "&gt;&gt;"X:\disable-defender.cmd" echo 		EXIT ) )"</Path>
+     <Path>cmd /c "&gt;&gt;"X:\disable-defender.cmd" echo 		EXIT ) )"</Path>
     </RunSynchronousCommand>
     <RunSynchronousCommand wcm:action="add">
      <Order>21</Order>
-     <Path>cmd.exe /c "&gt;&gt;"X:\disable-defender.cmd" echo GOTO :eof"</Path>
+     <Path>cmd /c "&gt;&gt;"X:\disable-defender.cmd" echo GOTO :eof"</Path>
     </RunSynchronousCommand>
     <RunSynchronousCommand wcm:action="add">
      <Order>22</Order>
-     <Path>cmd.exe /c "&gt;&gt;"X:\disable-defender.cmd" echo :load"</Path>
+     <Path>cmd /c "&gt;&gt;"X:\disable-defender.cmd" echo :load"</Path>
     </RunSynchronousCommand>
     <RunSynchronousCommand wcm:action="add">
      <Order>23</Order>
-     <Path>cmd.exe /c "&gt;&gt;"X:\disable-defender.cmd" echo 	reg.exe LOAD HKLM\mount ^%file^%"</Path>
+     <Path>cmd /c "&gt;&gt;"X:\disable-defender.cmd" echo 	reg LOAD HKLM\mount ^%file^%"</Path>
     </RunSynchronousCommand>
     <RunSynchronousCommand wcm:action="add">
      <Order>24</Order>
-     <Path>cmd.exe /c "&gt;&gt;"X:\disable-defender.cmd" echo 	IF ^%errorlevel^% GTR 0 GOTO load"</Path>
+     <Path>cmd /c "&gt;&gt;"X:\disable-defender.cmd" echo 	IF ^%errorlevel^% GTR 0 GOTO load"</Path>
     </RunSynchronousCommand>
     <RunSynchronousCommand wcm:action="add">
      <Order>25</Order>
-     <Path>cmd.exe /c "&gt;&gt;"X:\disable-defender.cmd" echo GOTO :eof"</Path>
+     <Path>cmd /c "&gt;&gt;"X:\disable-defender.cmd" echo GOTO :eof"</Path>
     </RunSynchronousCommand>
     <RunSynchronousCommand wcm:action="add">
      <Order>26</Order>
-     <Path>cmd.exe /c "&gt;&gt;"X:\disable-defender.cmd" echo :sleep"</Path>
+     <Path>cmd /c "&gt;&gt;"X:\disable-defender.cmd" echo :sleep"</Path>
     </RunSynchronousCommand>
     <RunSynchronousCommand wcm:action="add">
      <Order>27</Order>
-     <Path>cmd.exe /c "&gt;&gt;"X:\disable-defender.cmd" echo 	ping.exe -n 1 127.0.0.1 ^&gt; NUL"</Path>
+     <Path>cmd /c "&gt;&gt;"X:\disable-defender.cmd" echo 	ping -n 1 127.0.0.1 ^&gt; NUL"</Path>
     </RunSynchronousCommand>
     <RunSynchronousCommand wcm:action="add">
      <Order>28</Order>
-     <Path>cmd.exe /c "&gt;&gt;"X:\disable-defender.cmd" echo GOTO :eof"</Path>
+     <Path>cmd /c "&gt;&gt;"X:\disable-defender.cmd" echo GOTO :eof"</Path>
     </RunSynchronousCommand>
     <RunSynchronousCommand wcm:action="add">
      <Order>29</Order>
-     <Path>cmd.exe /c "start /MIN X:\disable-defender.cmd"</Path>
+     <Path>cmd /c "start /MIN X:\disable-defender.cmd"</Path>
     </RunSynchronousCommand>
    </RunSynchronous>
   </component>
@@ -173,95 +173,95 @@
     </RunSynchronousCommand>
     <RunSynchronousCommand wcm:action="add">
      <Order>7</Order>
-     <Path>cmd.exe /c del /f /q X:\Sources\ei.cfg</Path>
+     <Path>cmd /c del /f /q X:\Sources\ei.cfg</Path>
     </RunSynchronousCommand>
     <RunSynchronousCommand wcm:action="add">
      <Order>8</Order>
-     <Path>cmd.exe /c echo [Channel] > X:\Sources\ei.cfg</Path>
+     <Path>cmd /c echo [Channel] > X:\Sources\ei.cfg</Path>
     </RunSynchronousCommand>
     <RunSynchronousCommand wcm:action="add">
      <Order>9</Order>
-     <Path>cmd.exe /c echo _Default >> X:\Sources\ei.cfg</Path>
+     <Path>cmd /c echo _Default >> X:\Sources\ei.cfg</Path>
     </RunSynchronousCommand>
     <RunSynchronousCommand wcm:action="add">
      <Order>10</Order>
-     <Path>cmd.exe /c echo [VL] >> X:\Sources\ei.cfg</Path>
+     <Path>cmd /c echo [VL] >> X:\Sources\ei.cfg</Path>
     </RunSynchronousCommand>
     <RunSynchronousCommand wcm:action="add">
      <Order>11</Order>
-     <Path>cmd.exe /c echo 0 >> X:\Sources\ei.cfg</Path>
+     <Path>cmd /c echo 0 >> X:\Sources\ei.cfg</Path>
     </RunSynchronousCommand>
     <RunSynchronousCommand wcm:action="add">
      <Order>12</Order>
-     <Path>cmd.exe /c "&gt;&gt;"X:\disable-defender.cmd" echo @ECHO OFF"</Path>
+     <Path>cmd /c "&gt;&gt;"X:\disable-defender.cmd" echo @ECHO OFF"</Path>
     </RunSynchronousCommand>
     <RunSynchronousCommand wcm:action="add">
      <Order>13</Order>
-     <Path>cmd.exe /c "&gt;&gt;"X:\disable-defender.cmd" echo SET file=C:\$Windows.~BT\NewOS\Windows\System32\config\SYSTEM"</Path>
+     <Path>cmd /c "&gt;&gt;"X:\disable-defender.cmd" echo SET file=C:\$Windows.~BT\NewOS\Windows\System32\config\SYSTEM"</Path>
     </RunSynchronousCommand>
     <RunSynchronousCommand wcm:action="add">
      <Order>14</Order>
-     <Path>cmd.exe /c "&gt;&gt;"X:\disable-defender.cmd" echo FOR /L ^%^%i IN (0) DO ("</Path>
+     <Path>cmd /c "&gt;&gt;"X:\disable-defender.cmd" echo FOR /L ^%^%i IN (0) DO ("</Path>
     </RunSynchronousCommand>
     <RunSynchronousCommand wcm:action="add">
      <Order>15</Order>
-     <Path>cmd.exe /c "&gt;&gt;"X:\disable-defender.cmd" echo 	CALL :sleep"</Path>
+     <Path>cmd /c "&gt;&gt;"X:\disable-defender.cmd" echo 	CALL :sleep"</Path>
     </RunSynchronousCommand>
     <RunSynchronousCommand wcm:action="add">
      <Order>16</Order>
-     <Path>cmd.exe /c "&gt;&gt;"X:\disable-defender.cmd" echo 	IF EXIST ^%file^% ("</Path>
+     <Path>cmd /c "&gt;&gt;"X:\disable-defender.cmd" echo 	IF EXIST ^%file^% ("</Path>
     </RunSynchronousCommand>
     <RunSynchronousCommand wcm:action="add">
      <Order>17</Order>
-     <Path>cmd.exe /c "&gt;&gt;"X:\disable-defender.cmd" echo 		CALL :load"</Path>
+     <Path>cmd /c "&gt;&gt;"X:\disable-defender.cmd" echo 		CALL :load"</Path>
     </RunSynchronousCommand>
     <RunSynchronousCommand wcm:action="add">
      <Order>18</Order>
-     <Path>cmd.exe /c "&gt;&gt;"X:\disable-defender.cmd" echo 		FOR ^%^%s IN (Sense WdBoot WdFilter WdNisDrv WdNisSvc WinDefend) DO reg.exe ADD HKLM\mount\ControlSet001\Services\^%^%s /v Start /t REG_DWORD /d 4 /f"</Path>
+     <Path>cmd /c "&gt;&gt;"X:\disable-defender.cmd" echo 		FOR ^%^%s IN (Sense WdBoot WdFilter WdNisDrv WdNisSvc WinDefend) DO reg ADD HKLM\mount\ControlSet001\Services\^%^%s /v Start /t REG_DWORD /d 4 /f"</Path>
     </RunSynchronousCommand>
     <RunSynchronousCommand wcm:action="add">
      <Order>19</Order>
-     <Path>cmd.exe /c "&gt;&gt;"X:\disable-defender.cmd" echo 		reg.exe UNLOAD HKLM\mount"</Path>
+     <Path>cmd /c "&gt;&gt;"X:\disable-defender.cmd" echo 		reg UNLOAD HKLM\mount"</Path>
     </RunSynchronousCommand>
     <RunSynchronousCommand wcm:action="add">
      <Order>20</Order>
-     <Path>cmd.exe /c "&gt;&gt;"X:\disable-defender.cmd" echo 		EXIT ) )"</Path>
+     <Path>cmd /c "&gt;&gt;"X:\disable-defender.cmd" echo 		EXIT ) )"</Path>
     </RunSynchronousCommand>
     <RunSynchronousCommand wcm:action="add">
      <Order>21</Order>
-     <Path>cmd.exe /c "&gt;&gt;"X:\disable-defender.cmd" echo GOTO :eof"</Path>
+     <Path>cmd /c "&gt;&gt;"X:\disable-defender.cmd" echo GOTO :eof"</Path>
     </RunSynchronousCommand>
     <RunSynchronousCommand wcm:action="add">
      <Order>22</Order>
-     <Path>cmd.exe /c "&gt;&gt;"X:\disable-defender.cmd" echo :load"</Path>
+     <Path>cmd /c "&gt;&gt;"X:\disable-defender.cmd" echo :load"</Path>
     </RunSynchronousCommand>
     <RunSynchronousCommand wcm:action="add">
      <Order>23</Order>
-     <Path>cmd.exe /c "&gt;&gt;"X:\disable-defender.cmd" echo 	reg.exe LOAD HKLM\mount ^%file^%"</Path>
+     <Path>cmd /c "&gt;&gt;"X:\disable-defender.cmd" echo 	reg LOAD HKLM\mount ^%file^%"</Path>
     </RunSynchronousCommand>
     <RunSynchronousCommand wcm:action="add">
      <Order>24</Order>
-     <Path>cmd.exe /c "&gt;&gt;"X:\disable-defender.cmd" echo 	IF ^%errorlevel^% GTR 0 GOTO load"</Path>
+     <Path>cmd /c "&gt;&gt;"X:\disable-defender.cmd" echo 	IF ^%errorlevel^% GTR 0 GOTO load"</Path>
     </RunSynchronousCommand>
     <RunSynchronousCommand wcm:action="add">
      <Order>25</Order>
-     <Path>cmd.exe /c "&gt;&gt;"X:\disable-defender.cmd" echo GOTO :eof"</Path>
+     <Path>cmd /c "&gt;&gt;"X:\disable-defender.cmd" echo GOTO :eof"</Path>
     </RunSynchronousCommand>
     <RunSynchronousCommand wcm:action="add">
      <Order>26</Order>
-     <Path>cmd.exe /c "&gt;&gt;"X:\disable-defender.cmd" echo :sleep"</Path>
+     <Path>cmd /c "&gt;&gt;"X:\disable-defender.cmd" echo :sleep"</Path>
     </RunSynchronousCommand>
     <RunSynchronousCommand wcm:action="add">
      <Order>27</Order>
-     <Path>cmd.exe /c "&gt;&gt;"X:\disable-defender.cmd" echo 	ping.exe -n 1 127.0.0.1 ^&gt; NUL"</Path>
+     <Path>cmd /c "&gt;&gt;"X:\disable-defender.cmd" echo 	ping -n 1 127.0.0.1 ^&gt; NUL"</Path>
     </RunSynchronousCommand>
     <RunSynchronousCommand wcm:action="add">
      <Order>28</Order>
-     <Path>cmd.exe /c "&gt;&gt;"X:\disable-defender.cmd" echo GOTO :eof"</Path>
+     <Path>cmd /c "&gt;&gt;"X:\disable-defender.cmd" echo GOTO :eof"</Path>
     </RunSynchronousCommand>
     <RunSynchronousCommand wcm:action="add">
      <Order>29</Order>
-     <Path>cmd.exe /c "start /MIN X:\disable-defender.cmd"</Path>
+     <Path>cmd /c "start /MIN X:\disable-defender.cmd"</Path>
     </RunSynchronousCommand>
    </RunSynchronous>
   </component>
@@ -300,95 +300,95 @@
     </RunSynchronousCommand>
     <RunSynchronousCommand wcm:action="add">
      <Order>7</Order>
-     <Path>cmd.exe /c del /f /q X:\Sources\ei.cfg</Path>
+     <Path>cmd /c del /f /q X:\Sources\ei.cfg</Path>
     </RunSynchronousCommand>
     <RunSynchronousCommand wcm:action="add">
      <Order>8</Order>
-     <Path>cmd.exe /c echo [Channel] > X:\Sources\ei.cfg</Path>
+     <Path>cmd /c echo [Channel] > X:\Sources\ei.cfg</Path>
     </RunSynchronousCommand>
     <RunSynchronousCommand wcm:action="add">
      <Order>9</Order>
-     <Path>cmd.exe /c echo _Default >> X:\Sources\ei.cfg</Path>
+     <Path>cmd /c echo _Default >> X:\Sources\ei.cfg</Path>
     </RunSynchronousCommand>
     <RunSynchronousCommand wcm:action="add">
      <Order>10</Order>
-     <Path>cmd.exe /c echo [VL] >> X:\Sources\ei.cfg</Path>
+     <Path>cmd /c echo [VL] >> X:\Sources\ei.cfg</Path>
     </RunSynchronousCommand>
     <RunSynchronousCommand wcm:action="add">
      <Order>11</Order>
-     <Path>cmd.exe /c echo 0 >> X:\Sources\ei.cfg</Path>
+     <Path>cmd /c echo 0 >> X:\Sources\ei.cfg</Path>
     </RunSynchronousCommand>
     <RunSynchronousCommand wcm:action="add">
      <Order>12</Order>
-     <Path>cmd.exe /c "&gt;&gt;"X:\disable-defender.cmd" echo @ECHO OFF"</Path>
+     <Path>cmd /c "&gt;&gt;"X:\disable-defender.cmd" echo @ECHO OFF"</Path>
     </RunSynchronousCommand>
     <RunSynchronousCommand wcm:action="add">
      <Order>13</Order>
-     <Path>cmd.exe /c "&gt;&gt;"X:\disable-defender.cmd" echo SET file=C:\$Windows.~BT\NewOS\Windows\System32\config\SYSTEM"</Path>
+     <Path>cmd /c "&gt;&gt;"X:\disable-defender.cmd" echo SET file=C:\$Windows.~BT\NewOS\Windows\System32\config\SYSTEM"</Path>
     </RunSynchronousCommand>
     <RunSynchronousCommand wcm:action="add">
      <Order>14</Order>
-     <Path>cmd.exe /c "&gt;&gt;"X:\disable-defender.cmd" echo FOR /L ^%^%i IN (0) DO ("</Path>
+     <Path>cmd /c "&gt;&gt;"X:\disable-defender.cmd" echo FOR /L ^%^%i IN (0) DO ("</Path>
     </RunSynchronousCommand>
     <RunSynchronousCommand wcm:action="add">
      <Order>15</Order>
-     <Path>cmd.exe /c "&gt;&gt;"X:\disable-defender.cmd" echo 	CALL :sleep"</Path>
+     <Path>cmd /c "&gt;&gt;"X:\disable-defender.cmd" echo 	CALL :sleep"</Path>
     </RunSynchronousCommand>
     <RunSynchronousCommand wcm:action="add">
      <Order>16</Order>
-     <Path>cmd.exe /c "&gt;&gt;"X:\disable-defender.cmd" echo 	IF EXIST ^%file^% ("</Path>
+     <Path>cmd /c "&gt;&gt;"X:\disable-defender.cmd" echo 	IF EXIST ^%file^% ("</Path>
     </RunSynchronousCommand>
     <RunSynchronousCommand wcm:action="add">
      <Order>17</Order>
-     <Path>cmd.exe /c "&gt;&gt;"X:\disable-defender.cmd" echo 		CALL :load"</Path>
+     <Path>cmd /c "&gt;&gt;"X:\disable-defender.cmd" echo 		CALL :load"</Path>
     </RunSynchronousCommand>
     <RunSynchronousCommand wcm:action="add">
      <Order>18</Order>
-     <Path>cmd.exe /c "&gt;&gt;"X:\disable-defender.cmd" echo 		FOR ^%^%s IN (Sense WdBoot WdFilter WdNisDrv WdNisSvc WinDefend) DO reg.exe ADD HKLM\mount\ControlSet001\Services\^%^%s /v Start /t REG_DWORD /d 4 /f"</Path>
+     <Path>cmd /c "&gt;&gt;"X:\disable-defender.cmd" echo 		FOR ^%^%s IN (Sense WdBoot WdFilter WdNisDrv WdNisSvc WinDefend) DO reg ADD HKLM\mount\ControlSet001\Services\^%^%s /v Start /t REG_DWORD /d 4 /f"</Path>
     </RunSynchronousCommand>
     <RunSynchronousCommand wcm:action="add">
      <Order>19</Order>
-     <Path>cmd.exe /c "&gt;&gt;"X:\disable-defender.cmd" echo 		reg.exe UNLOAD HKLM\mount"</Path>
+     <Path>cmd /c "&gt;&gt;"X:\disable-defender.cmd" echo 		reg UNLOAD HKLM\mount"</Path>
     </RunSynchronousCommand>
     <RunSynchronousCommand wcm:action="add">
      <Order>20</Order>
-     <Path>cmd.exe /c "&gt;&gt;"X:\disable-defender.cmd" echo 		EXIT ) )"</Path>
+     <Path>cmd /c "&gt;&gt;"X:\disable-defender.cmd" echo 		EXIT ) )"</Path>
     </RunSynchronousCommand>
     <RunSynchronousCommand wcm:action="add">
      <Order>21</Order>
-     <Path>cmd.exe /c "&gt;&gt;"X:\disable-defender.cmd" echo GOTO :eof"</Path>
+     <Path>cmd /c "&gt;&gt;"X:\disable-defender.cmd" echo GOTO :eof"</Path>
     </RunSynchronousCommand>
     <RunSynchronousCommand wcm:action="add">
      <Order>22</Order>
-     <Path>cmd.exe /c "&gt;&gt;"X:\disable-defender.cmd" echo :load"</Path>
+     <Path>cmd /c "&gt;&gt;"X:\disable-defender.cmd" echo :load"</Path>
     </RunSynchronousCommand>
     <RunSynchronousCommand wcm:action="add">
      <Order>23</Order>
-     <Path>cmd.exe /c "&gt;&gt;"X:\disable-defender.cmd" echo 	reg.exe LOAD HKLM\mount ^%file^%"</Path>
+     <Path>cmd /c "&gt;&gt;"X:\disable-defender.cmd" echo 	reg LOAD HKLM\mount ^%file^%"</Path>
     </RunSynchronousCommand>
     <RunSynchronousCommand wcm:action="add">
      <Order>24</Order>
-     <Path>cmd.exe /c "&gt;&gt;"X:\disable-defender.cmd" echo 	IF ^%errorlevel^% GTR 0 GOTO load"</Path>
+     <Path>cmd /c "&gt;&gt;"X:\disable-defender.cmd" echo 	IF ^%errorlevel^% GTR 0 GOTO load"</Path>
     </RunSynchronousCommand>
     <RunSynchronousCommand wcm:action="add">
      <Order>25</Order>
-     <Path>cmd.exe /c "&gt;&gt;"X:\disable-defender.cmd" echo GOTO :eof"</Path>
+     <Path>cmd /c "&gt;&gt;"X:\disable-defender.cmd" echo GOTO :eof"</Path>
     </RunSynchronousCommand>
     <RunSynchronousCommand wcm:action="add">
      <Order>26</Order>
-     <Path>cmd.exe /c "&gt;&gt;"X:\disable-defender.cmd" echo :sleep"</Path>
+     <Path>cmd /c "&gt;&gt;"X:\disable-defender.cmd" echo :sleep"</Path>
     </RunSynchronousCommand>
     <RunSynchronousCommand wcm:action="add">
      <Order>27</Order>
-     <Path>cmd.exe /c "&gt;&gt;"X:\disable-defender.cmd" echo 	ping.exe -n 1 127.0.0.1 ^&gt; NUL"</Path>
+     <Path>cmd /c "&gt;&gt;"X:\disable-defender.cmd" echo 	ping -n 1 127.0.0.1 ^&gt; NUL"</Path>
     </RunSynchronousCommand>
     <RunSynchronousCommand wcm:action="add">
      <Order>28</Order>
-     <Path>cmd.exe /c "&gt;&gt;"X:\disable-defender.cmd" echo GOTO :eof"</Path>
+     <Path>cmd /c "&gt;&gt;"X:\disable-defender.cmd" echo GOTO :eof"</Path>
     </RunSynchronousCommand>
     <RunSynchronousCommand wcm:action="add">
      <Order>29</Order>
-     <Path>cmd.exe /c "start /MIN X:\disable-defender.cmd"</Path>
+     <Path>cmd /c "start /MIN X:\disable-defender.cmd"</Path>
     </RunSynchronousCommand>
    </RunSynchronous>
   </component>
@@ -417,12 +417,12 @@
 <!-- Executes the HKLM Registry Entries Script -->
     <RunSynchronousCommand wcm:action="add">
      <Order>4</Order>
-     <Path>cmd.exe /c "C:\Windows\Setup\Scripts\localmachine.cmd &gt;&gt;"C:\Windows\Setup\Scripts\localmachine.log" 2&gt;&amp;1"</Path>
+     <Path>cmd /c "C:\Windows\Setup\Scripts\localmachine.cmd &gt;&gt;"C:\Windows\Setup\Scripts\localmachine.log" 2&gt;&amp;1"</Path>
     </RunSynchronousCommand>
 <!-- Adds Items to Right-Click Context Menu -->
     <RunSynchronousCommand wcm:action="add">
      <Order>5</Order>
-     <Path>cmd.exe /c "reg import "C:\Windows\Setup\Scripts\contextmenu.reg" &gt;&gt;"C:\Windows\Setup\Scripts\contextmenu.log" 2&gt;&amp;1"</Path>
+     <Path>cmd /c "reg import "C:\Windows\Setup\Scripts\contextmenu.reg" &gt;&gt;"C:\Windows\Setup\Scripts\contextmenu.log" 2&gt;&amp;1"</Path>
     </RunSynchronousCommand>
 <!-- Loads the Default User Registry Hive so Changes Can be Made to It -->
     <RunSynchronousCommand wcm:action="add">
@@ -457,11 +457,11 @@
     </RunSynchronousCommand>
     <RunSynchronousCommand wcm:action="add">
      <Order>4</Order>
-     <Path>cmd.exe /c "C:\Windows\Setup\Scripts\localmachine.cmd &gt;&gt;"C:\Windows\Setup\Scripts\localmachine.log" 2&gt;&amp;1"</Path>
+     <Path>cmd /c "C:\Windows\Setup\Scripts\localmachine.cmd &gt;&gt;"C:\Windows\Setup\Scripts\localmachine.log" 2&gt;&amp;1"</Path>
     </RunSynchronousCommand>
     <RunSynchronousCommand wcm:action="add">
      <Order>5</Order>
-     <Path>cmd.exe /c "reg import "C:\Windows\Setup\Scripts\contextmenu.reg" &gt;&gt;"C:\Windows\Setup\Scripts\contextmenu.log" 2&gt;&amp;1"</Path>
+     <Path>cmd /c "reg import "C:\Windows\Setup\Scripts\contextmenu.reg" &gt;&gt;"C:\Windows\Setup\Scripts\contextmenu.log" 2&gt;&amp;1"</Path>
     </RunSynchronousCommand>
     <RunSynchronousCommand wcm:action="add">
      <Order>6</Order>
@@ -493,11 +493,11 @@
     </RunSynchronousCommand>
     <RunSynchronousCommand wcm:action="add">
      <Order>4</Order>
-     <Path>cmd.exe /c "C:\Windows\Setup\Scripts\localmachine.cmd &gt;&gt;"C:\Windows\Setup\Scripts\localmachine.log" 2&gt;&amp;1"</Path>
+     <Path>cmd /c "C:\Windows\Setup\Scripts\localmachine.cmd &gt;&gt;"C:\Windows\Setup\Scripts\localmachine.log" 2&gt;&amp;1"</Path>
     </RunSynchronousCommand>
     <RunSynchronousCommand wcm:action="add">
      <Order>5</Order>
-     <Path>cmd.exe /c "reg import "C:\Windows\Setup\Scripts\contextmenu.reg" &gt;&gt;"C:\Windows\Setup\Scripts\contextmenu.log" 2&gt;&amp;1"</Path>
+     <Path>cmd /c "reg import "C:\Windows\Setup\Scripts\contextmenu.reg" &gt;&gt;"C:\Windows\Setup\Scripts\contextmenu.log" 2&gt;&amp;1"</Path>
     </RunSynchronousCommand>
     <RunSynchronousCommand wcm:action="add">
      <Order>6</Order>
@@ -1899,8 +1899,8 @@ Windows Registry Editor Version 5.00
 "Position"="middle"
 "AppliesTo"="NOT (System.ItemPathDisplay:=\"C:\\\")"
 [HKEY_CLASSES_ROOT\Drive\shell\runas\command]
-@="cmd.exe /c takeown /f \"%1\\\" /r /d y && icacls \"%1\\\" /grant *S-1-3-4:F /t /c"
-"IsolatedCommand"="cmd.exe /c takeown /f \"%1\\\" /r /d y && icacls \"%1\\\" /grant *S-1-3-4:F /t /c"
+@="cmd /c takeown /f \"%1\\\" /r /d y && icacls \"%1\\\" /grant *S-1-3-4:F /t /c"
+"IsolatedCommand"="cmd /c takeown /f \"%1\\\" /r /d y && icacls \"%1\\\" /grant *S-1-3-4:F /t /c"
 
 ; Add Compress to.. in Old Context Menu
 [HKEY_CLASSES_ROOT\*\shell\CompressToFullMenu_ForOldContextMenu]
