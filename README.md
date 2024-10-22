@@ -90,7 +90,7 @@
 - 🔄 Toggle Windows Old/New Context Menu
 
 ### 7. **🔄 Miscellaneous**
-- 🖥️ Create Shortcuts on Desktop of CTT Winutil and Activate Windows.
+- 🖥️ Create Shortcuts in Shivaay Folder of CTT Winutil and Activate Windows.
 - ⚡ Added a Custom Power Plan (Shivaay - Power Within)
 - 🌑 Don't Dim Windows while User Account Control
 - 🛑 Disable Auto Restart on BSOD (To Capture Detailed Logs)
