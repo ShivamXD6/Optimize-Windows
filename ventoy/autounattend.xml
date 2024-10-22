@@ -715,6 +715,10 @@ Create-Shortcut -target $msTips -shortcutName 'Microsoft Tips.url' -shortcutType
 $edgeWebview = "https://developer.microsoft.com/en-us/microsoft-edge/webview2/"
 Create-Shortcut -target $edgeWebview -shortcutName 'Edge WebView2 Runtime.url' -shortcutType "url"
 
+# Memory Reduct
+$memReduct = "https://github.com/henrypp/memreduct"
+Create-Shortcut -target $memReduct -shortcutName 'Memory Reduct.url' -shortcutType "url"
+
 # Hi-Bit Uninstaller
 $hibitUninstaller = "https://hibitsoft.ir/"
 Create-Shortcut -target $hibitUninstaller -shortcutName 'Hi-Bit Uninstaller.url' -shortcutType "url"
