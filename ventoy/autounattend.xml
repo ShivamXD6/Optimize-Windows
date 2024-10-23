@@ -671,7 +671,8 @@ function Create-Shortcut {
     [string]$target,
     [string]$shortcutName,
     [string]$shortcutType
-  )
+    )
+  $shell = New-Object -ComObject WScript.Shell
   $shortcutPath = Join-Path $shivaayPath $shortcutName
   $softPath = Join-Path $softwaresPath $shortcutName
   if ($shortcutType -eq "url") {
@@ -681,12 +682,9 @@ function Create-Shortcut {
   } else {
     $shortcut = $shell.CreateShortcut($shortcutPath)
     $shortcut.TargetPath = "powershell.exe"
-    $shortcut.Arguments = "-NoProfile -ExecutionPolicy Bypass -Command `"$target`""
+    $shortcut.Arguments = "-NoProfile -ExecutionPolicy RemoteSigned -Command `"$target`""
     $shortcut.Save()
-    $bytes = [System.IO.File]::ReadAllBytes($shortcutPath)
-    $bytes[0x15] = $bytes[0x15] -bor 0x20
-    [System.IO.File]::WriteAllBytes($shortcutPath, $bytes)
-  }
+    }
 }
 
 $winUtilCommand = "irm https://christitus.com/win | iex"
