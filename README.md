@@ -174,6 +174,11 @@
 
 ### 1. Prepare Your USB Drive
 1. Create a bootable USB drive using [Rufus](https://rufus.ie).
+
+> [!IMPORTANT]
+> Don't tick any options while making bootable drive
+> ![Rufus Answer File](./Screenshots/RF-XML.png)
+
 2. Download the [autounattend.xml](https://github.com/ShivamXD6/Optimize-Windows/blob/main/ventoy/autounattend.xml).
 3. Now you have two ways:-
 
