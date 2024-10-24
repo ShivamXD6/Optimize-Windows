@@ -1,14 +1,16 @@
 # 🔮 Optimize Windows
 [![Static Badge](https://img.shields.io/badge/Version-V3-brightgreen?style=for-the-badge)]() &nbsp;
 
- - This repository contains an Answer File designed to optimize and streamline your Windows installation, making it perfect for gaming, power users, and even low-end laptops or PCs. 🎮💻
+ - This repository contains an Answer File designed to optimize and streamline your Windows installation, making it ideal for gaming, power users, and even low-end laptops or PCs. 🎮💻
  - For existing Windows and if you don't want to reinstall then it's recommended to use [WinUtil by CTT.](https://github.com/ChrisTitusTech/winutil)
 
 ## 📑 Table of Contents
 
 - [📂 Included Script](#-included-script)
 - [🚀 Features](#-features)
-- [🔧 Installation](#-installation)
+- [❓ What to choose for installation](#-what-to-choose-for-installation)
+- [🔧 Installation with Ventoy](#-installation-with-ventoy)
+- [🔧 Installation with Rufus](#-installation-with-rufus)
 - [📸 Screenshots](#-screenshots)
 - [💖 Acknowledgements](#-acknowledgements)
 
@@ -95,7 +97,12 @@
 - 🌑 Don't Dim Windows while User Account Control
 - 🛑 Disable Auto Restart on BSOD (To Capture Detailed Logs)
 
-## 🔧 Installation
+## ❓ What to choose for installation?
+> [!TIP]  
+> **Ventoy** is recommended for users who don't frequently format their USB drives or want to include drivers during installation.  
+> **Rufus**, on the other hand, is ideal for those who prefer a quick and simple installation and don't mind formatting the drive and installing drivers afterward.
+
+## 🔧 Installation with Ventoy
 
 ### 1. Prepare Your USB Drive
 1. Create a bootable USB drive using [Ventoy](https://ventoy.net/).
@@ -137,7 +144,7 @@
 > Drivers should be placed in their respective subfolders with `.inf` files included. `.exe` driver files are not supported.
 
 ### 3. Installing Windows via Ventoy
-1. Now Restart into Boot Selection Menu (By Pressing F12, F8 or ESC Repeatedly).
+1. Now Restart into Boot Selection Menu (By Pressing F12, F9, or ESC Repeatedly).
 2. Select your USB Drive.
 3. If it Says "Verification Failed: (0x1A) Security Violation" Then, Follow this :-
 
@@ -148,7 +155,7 @@
 6. Select Your Language, Region and Windows Version.
 
 > [!NOTE]
-> If you don't see many windows version. Click back once and again next then you will get all Windows Versions.
+> If you don't see many Windows versions, click **Back** once, then click **Next** again. This should display all available Windows versions.
 
 7. You'll be Redirected to Custom Installation. Now Do any one method according to your condition.
 
@@ -156,10 +163,54 @@
 
 - If you want to Clean Install :- Delete all partitions. Then select Unallocated Space and click Next.
 
-8. Enter your Name and Password for Local User Account (Use Simple names without Symbols).
+> [!NOTE]
+> If installation failed it's recommended to use Rufus method given below. As 24H2 having new setup issues with Ventoy.
+
+8. Proceeed Installation as usual windows Installation.
 9. Now windows will run some more commands and restart.
 10. Done Enjoy :)
 
+## 🔧 Installation with Rufus
+
+### 1. Prepare Your USB Drive
+1. Create a bootable USB drive using [Rufus](https://rufus.ie).
+2. Download the [autounattend.xml](https://github.com/ShivamXD6/Optimize-Windows/blob/main/ventoy/autounattend.xml).
+3. Now you have two ways:-
+
+#### Short way (Recommended if you're directly installing it on Main Machine)
+ 1. Move the downloaded `autounattend.xml` to your Rufus USB drive (the one containing `setup.exe`)
+
+#### Long way (Recommended Only if you want to test it out on VM)
+ 1. Download [AnyBurn](https://anyburn.com/download.php).
+ 2. Open and click on `Edit Image`
+ 3. Select Windows ISO.
+ 4. Click on `Add` at Top Left Corner.
+ 5. Select `autounattend.xml`
+ 6. Click Next, and Modify name to something else to keep original ISO Untouched.
+ 7. Done, now test it on VM or Directly Use it on Rufus.
+ 
+> [!NOTE]
+> Only Official Windows 10/11 ISO are supported. 
+ 
+### 2. Installing Windows via Rufus
+1. Now Restart into Boot Selection Menu (By Pressing F12, F9, or ESC Repeatedly).
+2. Select your USB Drive.
+3. Now you'll see some commands running.
+4. Select Your Language, Region and Windows Version.
+
+> [!NOTE]
+> If you don't see many Windows versions, click **Back** once, then click **Next** again. This should display all available Windows versions.
+
+7. You'll be Redirected to Custom Installation. Now Do any one method according to your condition.
+
+-  If you want to keep your data :- Just select partition where your windows is installed and click next. Don't delete any other partition.
+
+- If you want to Clean Install :- Delete all partitions. Then select Unallocated Space and click Next.
+
+8. Proceeed Installation as usual windows Installation.
+9. Now windows will run some more commands and restart.
+10. Done Enjoy :)
+ 
 ## 📸 Screenshots
 
 ### 🧪 Benchmarks
