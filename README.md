@@ -146,7 +146,7 @@
 ### 3. Installing Windows via Ventoy
 1. Now Restart into Boot Selection Menu (By Pressing F12, F9, or ESC Repeatedly).
 2. Select your USB Drive.
-3. If it Says "Verification Failed: (0x1A) Security Violation" Then, Follow this :-
+3. If it Says "Verification Failed: (0x1A) Security Violation" Then, Follow this, or Simply Disable secure boot from BIOS:-
 
 ![Ventoy Enroll Key](https://www.ventoy.net/static/img/secure_key.gif)
 
