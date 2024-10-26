@@ -1068,6 +1068,73 @@ ren "%~dpnx0" "Enable - Biometric.cmd"
 Create-File -fileContent $biometric -fileName 'Enable - Biometric' -fileDirectory $managementPath
 
 # Optimizations
+# Cleanup
+$cleanup = @"
+@echo off & reg query "HKU\S-1-5-19" >nul 2>&1
+if %errorLevel% neq 0 (
+echo Please Run as Administrator.
+pause & exit
+)
+
+goto START
+
+:SHOW
+echo ===========================================
+echo   %1
+echo ===========================================
+timeout /t 3 >nul
+goto :EOF
+
+:START
+for /f "tokens=*" %%A in ('powershell -command "(Get-PSDrive C).Free / 1MB"') do set "bmb=%%A" & set /a bgb=bmb/1024
+call :SHOW "Clearing DNS Cache"
+ipconfig /flushdns
+
+call :SHOW "Clearing Windows Run History"
+reg delete "HKCU\Software\Microsoft\Windows\CurrentVersion\Explorer\RunMRU" /f
+
+call :SHOW "Removing Temp, Log, CHK, Old and Prefetch Files"
+for %%e in (tmp log chk old) do for /r C:\ %%f in (*%%e) do (del /f /q "%%f" 2>nul && echo Deleted: "%%f")
+for /r %windir%\prefetch %%f in (*) do (del /f /q "%%f" 2>nul && echo Deleted: "%%f")
+
+call :SHOW "Cleaning Windows Update Cache"
+del /q /f /s "%SystemRoot%\SoftwareDistribution\Download\*"
+
+call :SHOW "Clearing Event Logs"
+for /f "tokens=*" %%G in ('wevtutil el') do (
+echo Clearing Event Log %%G...
+wevtutil cl "%%G"
+)
+
+call :SHOW "Cleaning further with Disk Cleanup"
+cleanmgr /d C: /VERYLOWDISK
+
+call :SHOW "Repairing System Image"
+dism /online /Cleanup-Image /StartComponentCleanup /ResetBase
+
+call :SHOW "Fixing All Corrupted Files"
+sfc /scannow
+
+call :SHOW "Cleaning Empty Folders"
+for /d /r C:\ %%d in (*) do rd "%%d" 2>nul && echo Deleted: %%d
+
+call :SHOW "Cleaning Recycle Bin and System Restore Points"
+vssadmin delete shadows /all /quiet
+powershell -command "Clear-RecycleBin -Force" >nul 2>&1
+
+call :SHOW "Before Cleanup: %bmb% MB (~ %bgb% GB) Free"
+for /f "tokens=*" %%A in ('powershell -command "(Get-PSDrive C).Free / 1MB"') do set "amb=%%A" & set /a agb=amb/1024
+call :SHOW "After Cleanup: %amb% MB (~ %agb% GB) Free"
+
+for /f "tokens=*" %%D in ('powershell -command "%amb% - %bmb%"') do set "tot=%%D" & set /a tgb=tot/1024
+call :SHOW "Freed Space: %tot% MB (~ %tgb% GB)"
+
+pause
+goto :EOF
+
+"@
+Create-File -fileContent $cleanup -fileName 'Cleanup' -fileDirectory $optimizationPath
+
 # Toggle Update Notifications
 $updateNotifications = @"
 @echo off & reg query "HKU\S-1-5-19" >nul 2>&1
