@@ -1471,6 +1471,13 @@ Stop-Transcript
 <!-- 7+ Windows Local Machine Registry Tweaks (CMD) -->
   <File path="C:\Windows\Setup\Scripts\localmachine.cmd">
    <![CDATA[
+:: Remove Some Files & Directories to free up space
+del /s /q "C:\ProgramData\Microsoft\Windows Defender\Scans\*.*"
+del /s /q "C:\Windows\assembly\NativeImages_v4.0.30319_64\*.*"
+del /s /q "C:\Windows\assembly\NativeImages_v4.0.30319_32\*.*"
+del /s /q "C:\Windows\Containers\*.*"
+del /s /q "C:\Windows\System32\Microsoft-Edge-WebView"
+
 :: Disable Defender
 reg add "HKLM\SYSTEM\CurrentControlSet\Services\Sense" /v Start /t REG_DWORD /d 4 /f
 reg add "HKLM\SYSTEM\CurrentControlSet\Services\WdBoot" /v Start /t REG_DWORD /d 4 /f
