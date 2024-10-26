@@ -9,10 +9,10 @@
  - Added Script to Toggle Compact OS (Compress / Decompress Windows Binary Files) in System Management and save upto 2-3 GB.
  - Fixed Network Navigation Toggle in File Explorer.
  - Updated Core Isolation Script, added some more parts of core Isolation.
- - Added Additional Features Script (Requires Internet to Download it from GitHub).
  - Updated Edge Webview link (No browser needed to download).
  - Added Some browsers, Chrome, Brave, Firefox, Zen (Normal and Portable) to directly download from Software.
  - Fixed Update Notifications Toggle.
+ - Fixed Automatic Folder Discovery Script.
 
 ## Improvements and Fixes
  - Added Full Support for 24H2.
@@ -40,6 +40,9 @@
  - Removed Drivers Searching through Windows Update registry, as it's already enabled by Windows by default.
  - Removed Show Detailed BSOD, as it can be scary for some users.
  - Removed MouseHover registry as it's already set to 400.
+ - Prevent Installation of Edge Browser with Windows update.
+ - Removed Edge Scheduled tasks (tested and not getting installed by Windows Update)
+ - Using Registry for disabling Defender Auto Sample Submission, cause Powershell gives error if defender gets disabled in Pre-installation stage
  - Changed Update branch from Current to Semi-Annual to receive more stable and tested updates.
  - Reduced duration for Features Updates to 6 Months, as Semi-Annual channel will get only stable updates so delaying it much longer doesn't make sense.
  - Reduced duration of security updates from 1 year to 7 days, because Security Updates can be delayed between 0-30 days.
