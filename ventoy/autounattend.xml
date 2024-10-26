@@ -984,8 +984,8 @@ ren "%~dpnx0" "Enable - Compact OS.cmd"
 "@
 Create-File -fileContent $compactOS -fileName 'Enable - Compact OS' -fileDirectory $managementPath
 
-# Toggle Windows Search Indexing Service
-$searchService = @"
+# Toggle Search Indexing Service
+$searchIndex = @"
 @echo off & reg query "HKU\S-1-5-19" >nul 2>&1
 if %errorLevel% neq 0 (
 echo Please Run as Administrator.
@@ -1002,11 +1002,10 @@ set st="Enable - Search Indexing.cmd"
 )
 ren "%~dpnx0" %st% & taskkill /f /im explorer.exe & start explorer.exe
 "@
-$toggleSearchService = [System.IO.Path]::Combine($managementPath, 'Enable - Search Indexing')
-$searchService | Out-File -FilePath "$toggleSearchService.cmd" -Encoding ASCII
+Create-File -fileContent $searchIndex -fileName 'Enable - Search Indexing' -fileDirectory $managementPath
 
 # Toggle Notifications and Background Apps
-$notificationToggle = @"
+$notification = @"
 @echo off & reg query "HKU\S-1-5-19" >nul 2>&1
 if %errorLevel% neq 0 (
 echo Please Run as Administrator.
@@ -1028,11 +1027,10 @@ set st="Enable - Notifications and Background Apps.cmd"
 )
 ren "%~dpnx0" %st% & taskkill /f /im explorer.exe & start explorer.exe
 "@
-$toggleNotification = [System.IO.Path]::Combine($managementPath, 'Enable - Notifications and Background Apps')
-$notificationToggle | Out-File -FilePath "$toggleNotification.cmd" -Encoding ASCII
+Create-File -fileContent $notification -fileName 'Enable - Notifications and Background Apps' -fileDirectory $managementPath
 
-# Toggle Windows Printer Spooler Service
-$spoolerService = @"
+# Toggle Printer Service
+$printer = @"
 @echo off & reg query "HKU\S-1-5-19" >nul 2>&1
 if %errorLevel% neq 0 (
 echo Please Run as Administrator.
@@ -1048,8 +1046,7 @@ sc config Spooler start=disabled
 ren "%~dpnx0" "Enable - Printer Spooler.cmd"
 )
 "@
-$toggleSpoolerService = [System.IO.Path]::Combine($managementPath, 'Enable - Printer Spooler')
-$spoolerService | Out-File -FilePath "$toggleSpoolerService.cmd" -Encoding ASCII
+Create-File -fileContent $printer -fileName 'Enable - Printer Spooler' -fileDirectory $managementPath
 
 # Optimizations
 # Toggle Update Notifications
