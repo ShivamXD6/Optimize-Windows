@@ -692,6 +692,16 @@ Create-Shortcut -target $winUtilCommand -shortcutName 'WinUtil-CTT.lnk'
 $activatedCommand = "irm https://get.activated.win | iex"
 Create-Shortcut -target $activatedCommand -shortcutName 'Activate-Windows.lnk'
 
+function Create-File {
+  param (
+    [string]$fileContent,
+    [string]$fileName,
+    [string]$fileDirectory
+    )
+  $outputFilePath = [System.IO.Path]::Combine($fileDirectory, "$fileName.cmd")
+  $fileContent | Out-File -FilePath $outputFilePath -Encoding ASCII
+}
+
 # Softwares
 # Game Bar
 $gameBar = "ms-windows-store://pdp/?productid=9nzkpstsnw4p"
