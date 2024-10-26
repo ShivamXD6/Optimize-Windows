@@ -896,7 +896,7 @@ ren "%~dpnx0" "Enable - Core Isolation.cmd"
 Create-File -fileContent $memoryIntegrity -fileName 'Enable - Core Isolation' -fileDirectory $securityPath
 
 # Show/Hide Unused Security Pages
-$UnusedSecurityPages = @"
+$unusedSecurityPages = @"
 @echo off & reg query "HKU\S-1-5-19" >nul 2>&1
 if %errorLevel% neq 0 (
 echo Please Run as Administrator.
@@ -917,12 +917,11 @@ reg delete %reg3% /v "UILockdown" /f
 ren "%~dpnx0" "Hide - Unused Security Pages.cmd"
 )
 "@
-$toggleUnusedSecurityPages = [System.IO.Path]::Combine($securityPath, 'Show - Unused Security Pages.cmd')
-$UnusedSecurityPages | Out-File -FilePath $toggleUnusedSecurityPages -Encoding ASCII
+Create-File -fileContent $unusedSecurityPages -fileName 'Show - Unused Security Pages' -fileDirectory $securityPath
 
 # System Management
 # Toggle Hibernation and Fast Startup
-$hibernationToggle = @"
+$hibernation = @"
 @echo off & reg query "HKU\S-1-5-19" >nul 2>&1
 if %errorLevel% neq 0 (
 echo Please Run as Administrator.
@@ -937,8 +936,7 @@ powercfg /hibernate off
 ren "%~dpnx0" "Enable - Hibernation and Fast Startup.cmd"
 )
 "@
-$toggleHibernation = [System.IO.Path]::Combine($managementPath, 'Enable - Hibernation and Fast Startup')
-$hibernationToggle | Out-File -FilePath "$toggleHibernation.cmd" -Encoding ASCII
+Create-File -fileContent $hibernation -fileName 'Enable - Hibernation and Fast Startup' -fileDirectory $managementPath
 
 # Toggle GameDVR
 $gameDVR = @"
@@ -967,8 +965,7 @@ reg delete %reg2% /v AllowGameDVR /f
 ren "%~dpnx0" "Enable - GameDVR.cmd"
 )
 "@
-$toggleGameDVR = [System.IO.Path]::Combine($managementPath, 'Enable - GameDVR')
-$gameDVR | Out-File -FilePath "$toggleGameDVR.cmd" -Encoding ASCII
+Create-File -fileContent $gameDVR -fileName 'Enable - GameDVR' -fileDirectory $managementPath
 
 # Toggle Windows Search Indexing Service
 $searchService = @"
