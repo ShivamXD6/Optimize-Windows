@@ -1367,9 +1367,6 @@ Remove-Item "$autoLoggerDir\AutoLogger-Diagtrack-Listener.etl"
 $icaclsCommand = "icacls `"$autoLoggerDir`" /deny SYSTEM:`"(OI)(CI)F`""
 Invoke-Expression $icaclsCommand | Out-Null
 
-# Disable Defender Auto Sample Submission
-Set-MpPreference -SubmitSamplesConsent 2 -ErrorAction Continue | Out-Null
-
 # Get the OS build number
 $buildNumber = (Get-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\Windows NT\CurrentVersion").CurrentBuild
 
@@ -1492,6 +1489,9 @@ reg delete "HKCR\CLSID\{09A47860-11B0-4DA5-AFA5-26D86198A780}" /f
 reg delete "HKCR\Directory\shellex\ContextMenuHandlers\EPP" /f
 reg delete "HKCR\Drive\shellex\ContextMenuHandlers\EPP" /f
 reg add "HKLM\SOFTWARE\Policies\Microsoft\Windows Defender Security Center\Virus and threat protection" /v UILockdown /t REG_DWORD /d 1 /f
+
+:: Disable Defender Auto Sample Submission
+reg add "HKLM\SOFTWARE\Microsoft\Windows Defender\Spynet" /v SubmitSamplesConsent /t REG_DWORD /d 2 /f
 
 :: Disable Smart Screen (Fixes Slow App Loading in Windows 11)
 reg add "HKLM\SYSTEM\CurrentControlSet\Control\CI\Policy" /v "VerifiedAndReputablePolicyState" /t REG_DWORD /d 0 /f
