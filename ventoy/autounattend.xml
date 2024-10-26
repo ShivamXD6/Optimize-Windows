@@ -656,7 +656,7 @@ $logFile = "C:\Windows\Setup\Scripts\wintweaks.log"
 Start-Transcript -Path $logFile
 
 # Create Shivaay Folders in Desktop
-$desktopPath = "C:\Users\Default\Desktop"
+$desktopPath = "C:\Users\Public\Desktop"
 $shell = New-Object -ComObject WScript.Shell
 $shivaayPath = New-Item -Path $desktopPath -Name "Shivaay" -ItemType Directory -Force
 $optimizationPath = New-Item -Path $shivaayPath -Name "Optimizations" -ItemType Directory -Force
