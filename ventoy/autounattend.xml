@@ -1424,12 +1424,6 @@ $proc.WaitForExit()
 }
 
 # Disable Teredo
-$registryKeysTeredo = @(
-@{Path = "HKLM:\SYSTEM\CurrentControlSet\Services\Tcpip6\Parameters"; Name = "DisabledComponents"; Type = "DWord"; Value = 1}
-)
-foreach ($key in $registryKeysTeredo) {
-New-ItemProperty -Path $key.Path -Name $key.Name -PropertyType $key.Type -Value $key.Value -Force
-}
 netsh interface teredo set state disabled
 
 # Disable Scheduled Tasks
