@@ -1545,6 +1545,9 @@ reg delete "HKLM\SOFTWARE\Classes\MSEdgeHTM" /f
 reg delete "HKLM\SOFTWARE\Classes\MSEdgeMHT" /f
 reg delete "HKLM\SOFTWARE\Classes\MSEdgePDF" /f
 
+:: Prevent Installation of Edge Browser with Windows update
+reg add "HKLM\SOFTWARE\Microsoft\EdgeUpdate" /v "DoNotUpdateToEdgeWithChromium" /t REG_DWORD /d 1 /f
+
 :: Disable User Account Control Temporarily
 reg add "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\System" /v EnableLUA /t REG_DWORD /d 0 /f
 
