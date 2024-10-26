@@ -724,8 +724,8 @@ $edgeBrowser = "iwr -Uri 'https://go.microsoft.com/fwlink/?linkid=2109047&Channe
 Create-Shortcut -target $edgeBrowser -shortcutName 'Edge Browser Installer.lnk' -shortcutPath $softwaresPath
 
 # Edge WebView
-$edgeWebview = "https://developer.microsoft.com/en-us/microsoft-edge/webview2/"
-Create-Shortcut -target $edgeWebview -shortcutName 'Edge WebView2 Runtime.url' -shortcutType "url"
+$edgeWebview = "iwr -Uri 'https://go.microsoft.com/fwlink/p/?LinkId=2124703' -OutFile C:\Users\Public\Desktop\EdgeWebview.exe"
+Create-Shortcut -target $edgeWebview -shortcutName 'Edge WebView2 Runtime.lnk' -shortcutPath $softwaresPath
 
 # Google Chrome Browser 
 $chrome = "iwr -Uri 'https://dl.google.com/chrome/install/latest/chrome_installer.exe' -OutFile C:\Users\Public\Desktop\Chrome.exe"
