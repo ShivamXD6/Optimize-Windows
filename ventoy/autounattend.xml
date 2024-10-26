@@ -1177,7 +1177,7 @@ ren "%~dpnx0" "Enable - Automatic Folder Discovery.cmd"
 Create-File -fileContent $automaticFolder -fileName 'Enable - Automatic Folder Discovery' -fileDirectory $optimizationPath
 
 # Toggle Last Access Time Stamp and 8.3 Char Length File Name Creation
-$toggleFileSystemSettings = @"
+$timeChar = @"
 @echo off & reg query "HKU\S-1-5-19" >nul 2>&1
 if %errorLevel% neq 0 (
 echo Please Run as Administrator.
@@ -1193,11 +1193,10 @@ fsutil behavior set disable8dot3 0
 ren "%~dpnx0" "Disable - Last Access Time and 8.3 Name.cmd"
 )
 "@
-$toggleFileSystemSettingsPath = [System.IO.Path]::Combine($optimizationPath, 'Enable - Last Access Time and 8.3 Name.cmd')
-$toggleFileSystemSettings | Out-File -FilePath $toggleFileSystemSettingsPath -Encoding ASCII
+Create-File -fileContent $timeChar -fileName 'Enable - Last Access Time and 8.3 Name' -fileDirectory $optimizationPath
 
 # Toggle Multi-Plane Overlay
-$toggleOverlayTestMode = @"
+$MPO = @"
 @echo off & reg query "HKU\S-1-5-19" >nul 2>&1
 if %errorLevel% neq 0 (
 echo Please Run as Administrator.
@@ -1212,12 +1211,11 @@ reg add %reg1% /v OverlayTestMode /t REG_DWORD /d 5 /f
 ren "%~dpnx0" "Enable - Multi-Plane Overlay.cmd"
 )
 "@
-$toggleOverlayTestModePath = [System.IO.Path]::Combine($optimizationPath, 'Enable - Multi-Plane Overlay.cmd')
-$toggleOverlayTestMode | Out-File -FilePath $toggleOverlayTestModePath -Encoding ASCII
+Create-File -fileContent $MPO -fileName 'Enable - Multi-Plane Overlay' -fileDirectory $optimizationPath
 
 # User Interface
 # Toggle Gallery in File Explorer
-$toggleGalleryExplorer = @"
+$gallery = @"
 @echo off & reg query "HKU\S-1-5-19" >nul 2>&1
 if %errorLevel% neq 0 (
 echo Please Run as Administrator.
@@ -1233,8 +1231,7 @@ set st="Show - Gallery In File Explorer.cmd"
 )
 ren "%~dpnx0" %st% & taskkill /f /im explorer.exe & start explorer.exe
 "@
-$toggleGalleryExplorerPath = [System.IO.Path]::Combine($interfacePath, 'Show - Gallery In File Explorer.cmd')
-$toggleGalleryExplorer | Out-File -FilePath $toggleGalleryExplorerPath -Encoding ASCII
+Create-File -fileContent $gallery -fileName 'Show - Gallery In File Explorer' -fileDirectory $interfacePath
 
 # Toggle Network Navigation Pane in File Explorer
 $toggleNetworkNavigation = @"
