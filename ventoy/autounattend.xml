@@ -1166,7 +1166,7 @@ echo Please Run as Administrator.
 pause & exit
 )
 set reg1="HKCU\Software\Classes\Local Settings\Software\Microsoft\Windows\Shell\Bags\AllFolders\Shell"
-if "%~n0"=="Enable Automatic Folder Discovery" (
+if "%~n0"=="Enable - Automatic Folder Discovery" (
 reg delete %reg1% /f
 ren "%~dpnx0" "Disable - Automatic Folder Discovery.cmd"
 ) else (
@@ -1174,8 +1174,7 @@ reg add %reg1% /v "FolderType" /t REG_SZ /d "NotSpecified" /f
 ren "%~dpnx0" "Enable - Automatic Folder Discovery.cmd"
 )
 "@
-$toggleAutomaticFolder = [System.IO.Path]::Combine($optimizationPath, 'Enable - Automatic Folder Discovery.cmd')
-$automaticFolder | Out-File -FilePath $toggleAutomaticFolder -Encoding ASCII
+Create-File -fileContent $automaticFolder -fileName 'Enable - Automatic Folder Discovery' -fileDirectory $optimizationPath
 
 # Toggle Last Access Time Stamp and 8.3 Char Length File Name Creation
 $toggleFileSystemSettings = @"
