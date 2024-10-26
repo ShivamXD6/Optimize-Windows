@@ -1048,6 +1048,25 @@ ren "%~dpnx0" "Enable - Printer Spooler.cmd"
 "@
 Create-File -fileContent $printer -fileName 'Enable - Printer Spooler' -fileDirectory $managementPath
 
+# Toggle Biometric Service
+$biometric = @"
+@echo off & reg query "HKU\S-1-5-19" >nul 2>&1
+if %errorLevel% neq 0 (
+echo Please Run as Administrator.
+pause & exit
+)
+if "%~n0"=="Enable - Biometric" (
+sc config WbioSrvc start=auto
+net start WbioSrvc
+ren "%~dpnx0" "Disable - Biometric.cmd"
+) else (
+net stop WbioSrvc
+sc config WbioSrvc start=disabled
+ren "%~dpnx0" "Enable - Biometric.cmd"
+)
+"@
+Create-File -fileContent $biometric -fileName 'Enable - Biometric' -fileDirectory $managementPath
+
 # Optimizations
 # Toggle Update Notifications
 $updateNotifications = @"
