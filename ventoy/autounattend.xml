@@ -1253,7 +1253,7 @@ ren "%~dpnx0" %st% & taskkill /f /im explorer.exe & start explorer.exe
 Create-File -fileContent $netNavigation -fileName 'Show - Network Navigation In File Explorer' -fileDirectory $interfacePath
 
 # Toggle Recycle Bin in File Explorer
-$toggleRecycleBin = @"
+$recycleBin = @"
 @echo off
 reg query "HKU\S-1-5-19" >nul 2>&1
 if %errorLevel% neq 0 (
@@ -1270,11 +1270,10 @@ set st="Pin - Recycle Bin In File Explorer.cmd"
 )
 ren "%~dpnx0" %st% & taskkill /f /im explorer.exe & start explorer.exe
 "@
-$toggleRecycleBinPath = [System.IO.Path]::Combine($interfacePath, 'Unpin - Recycle Bin In File Explorer.cmd')
-$toggleRecycleBin | Out-File -FilePath $toggleRecycleBinPath -Encoding ASCII
+Create-File -fileContent $recycleBin -fileName 'Unpin - Recycle Bin In File Explorer' -fileDirectory $interfacePath
 
 # Toggle Removable Drives in File Explorer
-$toggleRemovableDrives = @"
+$rmvDrives = @"
 @echo off & reg query "HKU\S-1-5-19" >nul 2>&1
 if %errorLevel% neq 0 (
 echo Please Run as Administrator.
@@ -1293,8 +1292,7 @@ set st="Show - Removable Drives In File Explorer Quick Access.cmd"
 )
 ren "%~dpnx0" %st% & taskkill /f /im explorer.exe & start explorer.exe
 "@
-$toggleRemovableDrivesPath = [System.IO.Path]::Combine($interfacePath, 'Show - Removable Drives In File Explorer Quick Access.cmd')
-$toggleRemovableDrives | Out-File -FilePath $toggleRemovableDrivesPath -Encoding ASCII
+Create-File -fileContent $rmvDrives -fileName 'Show - Removable Drives In File Explorer Quick Access' -fileDirectory $interfacePath
 
 # Toggle Context Menu
 $contextMenu = @"
@@ -1303,20 +1301,19 @@ if %errorLevel% neq 0 (
 echo Please Run as Administrator.
 pause & exit
 )
-if "%~n0"=="Enable - NEW Context Menu" (
+if "%~n0"=="Enable - New Context Menu" (
 reg delete "HKCU\Software\Classes\CLSID\{86ca1aa0-34aa-4e8b-a509-50c905bae2a2}" /f
-set st="Enable - OLD Context Menu.cmd"
+set st="Enable - Old Context Menu.cmd"
 ) else (
 reg add "HKCU\Software\Classes\CLSID\{86ca1aa0-34aa-4e8b-a509-50c905bae2a2}\InprocServer32" /f
-set st="Enable - NEW Context Menu.cmd"
+set st="Enable - New Context Menu.cmd"
 )
 ren "%~dpnx0" %st% & taskkill /f /im explorer.exe & start explorer.exe
 "@
-$toggleContextMenuPath = [System.IO.Path]::Combine($interfacePath, 'Enable - NEW Context Menu.cmd')
-$contextMenu | Out-File -FilePath $toggleContextMenuPath -Encoding ASCII
+Create-File -fileContent $contextMenu -fileName 'Enable - New Context Menu' -fileDirectory $interfacePath
 
 # Toggle Recent Items in Windows
-$toggleRecentItems = @"
+$recentItems = @"
 @echo off & reg query "HKU\S-1-5-19" >nul 2>&1
 if %errorLevel% neq 0 (
 echo Please Run as Administrator.
@@ -1354,8 +1351,7 @@ set st="Disable - Recent Items.cmd"
 )
 ren "%~dpnx0" %st% & taskkill /f /im explorer.exe & start explorer.exe
 "@
-$toggleRecentItemsPath = [System.IO.Path]::Combine($interfacePath, 'Enable - Recent Items.cmd')
-$toggleRecentItems | Out-File -FilePath $toggleRecentItemsPath -Encoding ASCII
+Create-File -fileContent $recentItems -fileName 'Enable - Recent Items' -fileDirectory $interfacePath
 
 # Configure Maximum Password Age in Windows
 net.exe accounts /maxpwage:UNLIMITED
