@@ -1,5 +1,5 @@
 # 🔮 Optimize Windows
-[![Static Badge](https://img.shields.io/badge/Version-V4-Stable-brightgreen?style=for-the-badge)]() &nbsp;
+[![Static Badge](https://img.shields.io/badge/Version-V4-brightgreen?style=for-the-badge)]() &nbsp;
 
  - This repository contains an Answer File designed to optimize and streamline your Windows installation, making it ideal for gaming, power users, and even low-end laptops or PCs. 🎮💻
  - For existing Windows and if you don't want to reinstall then it's recommended to use [WinUtil by CTT.](https://github.com/ChrisTitusTech/winutil)
