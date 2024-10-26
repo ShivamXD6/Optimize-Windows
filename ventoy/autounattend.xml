@@ -967,6 +967,23 @@ ren "%~dpnx0" "Enable - GameDVR.cmd"
 "@
 Create-File -fileContent $gameDVR -fileName 'Enable - GameDVR' -fileDirectory $managementPath
 
+# Toggle Compact OS Mode
+$compactOS = @"
+@echo off & reg query "HKU\S-1-5-19" >nul 2>&1
+if %errorLevel% neq 0 (
+echo Please Run as Administrator.
+pause & exit
+)
+if "%~n0"=="Enable - Compact OS" (
+compact /CompactOS:always
+ren "%~dpnx0" "Disable - Compact OS.cmd"
+) else (
+compact /CompactOS:never
+ren "%~dpnx0" "Enable - Compact OS.cmd"
+)
+"@
+Create-File -fileContent $compactOS -fileName 'Enable - Compact OS' -fileDirectory $managementPath
+
 # Toggle Windows Search Indexing Service
 $searchService = @"
 @echo off & reg query "HKU\S-1-5-19" >nul 2>&1
