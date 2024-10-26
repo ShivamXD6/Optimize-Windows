@@ -1373,17 +1373,13 @@ Set-MpPreference -SubmitSamplesConsent 2 -ErrorAction Continue | Out-Null
 # Get the OS build number
 $buildNumber = (Get-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\Windows NT\CurrentVersion").CurrentBuild
 
-# Remove Edge
-Stop-Service -Name edgeupdate -Force
-Stop-Service -Name edgeupdatem -Force
+# Remove Edge and OneDrive
 Get-Process *edge* | Stop-Process -Force -ErrorAction SilentlyContinue
+Stop-Service -Name "MicrosoftEdgeElevationService" -Force -ErrorAction SilentlyContinue
 Remove-Item -Path "C:\Program Files (x86)\Microsoft\Edge" -Recurse -Force -ErrorAction Continue
-Remove-Item -Path "C:\Program Files (x86)\Microsoft\EdgeWebView" -Recurse -Force -ErrorAction Continue
 Remove-Item -Path "C:\Program Files (x86)\Microsoft\EdgeUpdate" -Recurse -Force -ErrorAction Continue
-Remove-Item -Path "C:\Program Files (x86)\Microsoft\EdgeCore" -Recurse -Force -ErrorAction Continue
 Remove-Item -Path "C:\Users\Public\Desktop\Microsoft Edge.lnk" -Recurse -Force -ErrorAction Continue
 Remove-Item -Path "C:\ProgramData\Microsoft\Windows\Start Menu\Programs\Microsoft Edge.lnk" -Recurse -Force -ErrorAction Continue
-Remove-Item -Path "C:\Windows\SystemApps\Microsoft.MicrosoftEdge_8wekyb3d8bbwe" -Recurse -Force -ErrorAction Continue
 Remove-Item -Path "C:\Windows\SystemApps\Microsoft.MicrosoftEdgeDevToolsClient_8wekyb3d8bbwe" -Recurse -Force -ErrorAction Continue
 
 # Commands for specific Windows
