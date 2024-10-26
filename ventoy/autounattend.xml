@@ -1234,7 +1234,7 @@ ren "%~dpnx0" %st% & taskkill /f /im explorer.exe & start explorer.exe
 Create-File -fileContent $gallery -fileName 'Show - Gallery In File Explorer' -fileDirectory $interfacePath
 
 # Toggle Network Navigation Pane in File Explorer
-$toggleNetworkNavigation = @"
+$netNavigation = @"
 @echo off & reg query "HKU\S-1-5-19" >nul 2>&1
 if %errorLevel% neq 0 (
 echo Please Run as Administrator.
@@ -1242,16 +1242,15 @@ pause & exit
 )
 set reg1="HKCU\SOFTWARE\Classes\CLSID\{F02C1A0D-BE21-4350-88B0-7367FC96EF3C}"
 if "%~n0%"=="Show - Network Navigation In File Explorer" (
-reg add %reg1% /v System.IsPinnedToNameSpaceTree /t REG_SZ /d "1" /f
+reg add %reg1% /v System.IsPinnedToNameSpaceTree /t REG_SZ /d 1 /f
 set st="Hide - Network Navigation In File Explorer.cmd"
 ) else (
-reg delete %reg1% /v System.IsPinnedToNameSpaceTree /f
+reg add %reg1% /v System.IsPinnedToNameSpaceTree /t REG_SZ /d 0 /f
 set st="Show - Network Navigation In File Explorer.cmd"
 )
 ren "%~dpnx0" %st% & taskkill /f /im explorer.exe & start explorer.exe
 "@
-$toggleNetworkNavigationPath = [System.IO.Path]::Combine($interfacePath, 'Show - Network Navigation In File Explorer.cmd')
-$toggleNetworkNavigation | Out-File -FilePath $toggleNetworkNavigationPath -Encoding ASCII
+Create-File -fileContent $netNavigation -fileName 'Show - Network Navigation In File Explorer' -fileDirectory $interfacePath
 
 # Toggle Recycle Bin in File Explorer
 $toggleRecycleBin = @"
