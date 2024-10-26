@@ -807,6 +807,7 @@ set reg16="HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer"
 set reg17="HKLM\SOFTWARE\Policies\Microsoft\Windows Defender"
 set reg18="HKLM\SOFTWARE\Policies\Microsoft\Windows Defender\MpEngine"
 set reg19="HKLM\SOFTWARE\Policies\Microsoft\Windows Defender Security Center\App and Browser protection"
+set reg20="HKLM\SYSTEM\CurrentControlSet\Services\webthreatdefsvc"
 bcdedit | findstr /i "safeboot"
 if %ERRORLEVEL% EQU 0 (
 if "%~n0"=="Enable - Defender" (
@@ -829,6 +830,7 @@ reg add %reg16% /v "SmartScreenEnabled" /t REG_SZ /d "Warn" /f
 reg add %reg17% /v "PUAProtection" /t REG_DWORD /d 1 /f
 reg add %reg18% /v "MpEnablePus" /t REG_DWORD /d 1 /f
 reg delete %reg19% /v "UILockdown" /f
+reg add %reg20% /v Start /t REG_DWORD /d 2 /f
 ren "%~dpnx0" "Disable - Defender.cmd"
 ) else (
 reg add %reg1% /v Start /t REG_DWORD /d 4 /f
@@ -848,20 +850,20 @@ reg add %reg16% /v "SmartScreenEnabled" /t REG_SZ /d "Off" /f
 reg add %reg17% /v "PUAProtection" /t REG_DWORD /d 0 /f
 reg add %reg18% /v "MpEnablePus" /t REG_DWORD /d 0 /f
 reg add %reg19% /v "UILockdown" /t REG_DWORD /d 1 /f
+reg add %reg20% /v Start /t REG_DWORD /d 4 /f
 ren "%~dpnx0" "Enable - Defender.cmd"
 )
 bcdedit /deletevalue {current} safeboot
-shutdown /r /t 3
+shutdown /r /f /t 10 /c "PC will restart into normal mode in 10 seconds"
 ) else (
 echo  1. To Toggle On/Off Defender I will boot into safemode.
 echo  2. After Booting into safemode run this script again.
 pause
 bcdedit /set {current} safeboot minimal
-shutdown /r /t 3
+shutdown /r /f /t 10 /c "PC will restart into safemode in 10 seconds"
 )
 "@
-$toggleDefender = [System.IO.Path]::Combine($securityPath, 'Enable - Defender.cmd')
-$Defender | Out-File -FilePath $toggleDefender -Encoding ASCII
+Create-File -fileContent $Defender -fileName 'Enable - Defender' -fileDirectory $securityPath
 
 # Toggle Core Isolation - Memory Integrity 
 $memoryIntegrity = @"
