@@ -770,16 +770,15 @@ call :UNMS
 
 :INMS
 PowerShell -ExecutionPolicy Bypass -Command "Get-AppxPackage -AllUsers Microsoft.WindowsStore | Foreach {Add-AppxPackage -DisableDevelopmentMode -Register \"$($_.InstallLocation)\AppXManifest.xml\"}"
-ren "%~dpnx0" "Uninstall Microsoft Store.cmd"
+ren "%~dpnx0" "Uninstall - Microsoft Store.cmd"
 exit /b
 
 :UNMS
 PowerShell -ExecutionPolicy Bypass -Command "Get-AppxPackage -Allusers Microsoft.WindowsStore | Remove-AppxPackage"
-ren "%~dpnx0" "Install Microsoft Store.cmd"
+ren "%~dpnx0" "Install - Microsoft Store.cmd"
 exit /b
 '@
-$InstallStore = [System.IO.Path]::Combine($softwaresPath, 'Uninstall Microsoft Store')
-$MSStore | Out-File -FilePath "$InstallStore.cmd" -Encoding ASCII
+Create-File -fileContent $MSStore -fileName 'Uninstall - Microsoft Store' -fileDirectory $softwaresPath
 
 # Security
 # Toggle Defender
