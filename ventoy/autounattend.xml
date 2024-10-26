@@ -1548,13 +1548,12 @@ reg delete "HKLM\SOFTWARE\Classes\MSEdgePDF" /f
 :: Prevent Installation of Edge Browser with Windows update
 reg add "HKLM\SOFTWARE\Microsoft\EdgeUpdate" /v "DoNotUpdateToEdgeWithChromium" /t REG_DWORD /d 1 /f
 
-:: Disable User Account Control Temporarily
+:: Disable User Account Control
 reg add "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\System" /v EnableLUA /t REG_DWORD /d 0 /f
 
-:: Disable Windows Spotlight and set the normal Windows Picture as the desktop background
+:: Disable Windows Spotlight
 reg add "HKLM\SOFTWARE\Policies\Microsoft\Windows\CloudContent" /v DisableWindowsSpotlightOnLockScreen /t REG_DWORD /d 1 /f
 reg add "HKLM\SOFTWARE\Policies\Microsoft\Windows\CloudContent" /v DisableWindowsConsumerFeatures /t REG_DWORD /d 1 /f
-:: Disable Windows Spotlight on Settings
 reg add "HKLM\SOFTWARE\Policies\Microsoft\Windows\CloudContent" /v DisableWindowsSpotlightActiveUser /t REG_DWORD /d 1 /f
 
 :: Prevents Dev Home Installation
