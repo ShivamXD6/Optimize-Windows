@@ -719,9 +719,33 @@ Create-Shortcut -target $realtek -shortcutName 'Realtek Audio Console.url' -shor
 $msTips = "ms-windows-store://pdp/?productid=9wzdncrdtbjj"
 Create-Shortcut -target $msTips -shortcutName 'Microsoft Tips.url' -shortcutType "url"
 
+# Microsoft Edge Browser
+$edgeBrowser = "iwr -Uri 'https://go.microsoft.com/fwlink/?linkid=2109047&Channel=Stable&language=en' -OutFile C:\Users\Public\Desktop\EdgeBrowser.exe"
+Create-Shortcut -target $edgeBrowser -shortcutName 'Edge Browser Installer.lnk' -shortcutPath $softwaresPath
+
 # Edge WebView
 $edgeWebview = "https://developer.microsoft.com/en-us/microsoft-edge/webview2/"
 Create-Shortcut -target $edgeWebview -shortcutName 'Edge WebView2 Runtime.url' -shortcutType "url"
+
+# Google Chrome Browser 
+$chrome = "iwr -Uri 'https://dl.google.com/chrome/install/latest/chrome_installer.exe' -OutFile C:\Users\Public\Desktop\Chrome.exe"
+Create-Shortcut -target $chrome -shortcutName 'Google Chrome Installer.lnk' -shortcutPath $softwaresPath
+
+# Brave Browser
+$brave = "iwr -Uri 'https://laptop-updates.brave.com/latest/winx64' -OutFile C:\Users\Public\Desktop\Brave.exe"
+Create-Shortcut -target $brave -shortcutName 'Brave Browser Installer.lnk' -shortcutPath $softwaresPath
+
+# Firefox Browser 
+$firefox = "iwr -Uri 'https://download.mozilla.org/?product=firefox-latest-ssl&os=win&lang=en-US' -OutFile C:\Users\Public\Desktop\Firefox.exe"
+Create-Shortcut -target $firefox -shortcutName 'Mozilla Firefox Installer.lnk' -shortcutPath $softwaresPath
+
+# Zen Browser
+$zen = "iwr -Uri 'https://github.com/zen-browser/desktop/releases/latest/download/zen.installer.exe' -OutFile C:\Users\Public\Desktop\Zen.exe"
+Create-Shortcut -target $zen -shortcutName 'Zen Browser Installer.lnk' -shortcutPath $softwaresPath
+
+# Zeb Browser Portable
+$zenPort = "iwr -Uri 'https://github.com/zen-browser/desktop/releases/latest/download/zen.win-specific.zip' -OutFile C:\Users\Public\Desktop\ZenPortable.zip"
+Create-Shortcut -target $zenPort -shortcutName 'Zen Browser Portable.lnk' -shortcutPath $softwaresPath
 
 # Memory Reduct
 $memReduct = "https://github.com/henrypp/memreduct"
