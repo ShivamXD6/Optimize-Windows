@@ -1136,28 +1136,27 @@ goto :EOF
 Create-File -fileContent $cleanup -fileName 'Cleanup' -fileDirectory $optimizationPath
 
 # Toggle Update Notifications
-$updateNotifications = @"
+$updateNotify = @"
 @echo off & reg query "HKU\S-1-5-19" >nul 2>&1
 if %errorLevel% neq 0 (
 echo Please Run as Administrator.
 pause & exit
 )
-set reg1="HKLM\SOFTWARE\Policies\Microsoft\Windows\WindowsUpdate"
-set reg2="HKLM\SOFTWARE\Microsoft\WindowsUpdate\UX\Settings"
+set reg1="HKLM\SOFTWARE\Microsoft\WindowsUpdate\UX\Settings"
+set reg2="HKLM\SOFTWARE\Policies\Microsoft\Windows\WindowsUpdate"
 if "%~n0"=="Enable - Update Notifications" (
-reg add %reg1% /v SetAutoRestartNotificationDisable /t REG_DWORD /d 0 /f
-reg add %reg2% /v RestartNotificationsAllowed2 /t REG_DWORD /d 1 /f
-reg add %reg1% /v SetUpdateNotificationLevel /t REG_DWORD /d 1 /f
+reg delete %reg1% /v RestartNotificationsAllowed2 /f
+reg delete %reg2% /v SetAutoRestartNotificationDisable /f
+reg delete %reg2% /v SetUpdateNotificationLevel /f
 ren "%~dpnx0" "Disable - Update Notifications.cmd"
 ) else (
-reg delete %reg1% /v SetAutoRestartNotificationDisable /f
-reg delete %reg2% /v RestartNotificationsAllowed2 /f
-reg delete %reg1% /v SetUpdateNotificationLevel /f
+reg add %reg1% /v RestartNotificationsAllowed2 /t REG_DWORD /d 0 /f
+reg add %reg2% /v SetAutoRestartNotificationDisable /t REG_DWORD /d 1 /f
+reg add %reg2% /v SetUpdateNotificationLevel /t REG_DWORD /d 2 /f
 ren "%~dpnx0" "Enable - Update Notifications.cmd"
 )
 "@
-$toggleUpdateNotifications = [System.IO.Path]::Combine($optimizationPath, 'Disable - Update Notifications.cmd')
-$updateNotifications | Out-File -FilePath $toggleUpdateNotifications -Encoding ASCII
+Create-File -fileContent $updateNotify -fileName 'Disable - Update Notifications' -fileDirectory $optimizationPath
 
 # Toggle Automatic Folder Discovery
 $automaticFolder = @"
