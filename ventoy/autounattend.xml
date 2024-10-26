@@ -865,7 +865,7 @@ shutdown /r /f /t 10 /c "PC will restart into safemode in 10 seconds"
 "@
 Create-File -fileContent $Defender -fileName 'Enable - Defender' -fileDirectory $securityPath
 
-# Toggle Core Isolation - Memory Integrity 
+# Toggle Core Isolation 
 $memoryIntegrity = @"
 @echo off & reg query "HKU\S-1-5-19" >nul 2>&1
 if %errorLevel% neq 0 (
@@ -874,18 +874,26 @@ pause & exit
 )
 set reg1="HKLM\SYSTEM\CurrentControlSet\Control\DeviceGuard\Scenarios\HypervisorEnforcedCodeIntegrity"
 set reg2="HKLM\SOFTWARE\Policies\Microsoft\Windows Defender Security Center\Device security"
+set reg3="HKLM\SYSTEM\CurrentControlSet\Control\DeviceGuard\Scenarios\KernelShadowStacks"
+set reg4="HKLM\SYSTEM\CurrentControlSet\Control\DeviceGuard\Scenarios\CredentialGuard"
+set reg5="HKLM\SYSTEM\CurrentControlSet\Control\Lsa"
 if "%~n0"=="Enable - Core Isolation" (
 reg add %reg1% /v Enabled /t REG_DWORD /d 1 /f
 reg delete %reg2% /v "UILockdown" /f
+reg add %reg3% /v Enabled /t REG_DWORD /d 1 /f
+reg add %reg4% /v Enabled /t REG_DWORD /d 1 /f
+reg add %reg5% /v RunAsPPL /t REG_DWORD /d 1 /f
 ren "%~dpnx0" "Disable - Core Isolation.cmd"
 ) else (
 reg add %reg1% /v Enabled /t REG_DWORD /d 0 /f
 reg add %reg2% /v "UILockdown" /t REG_DWORD /d 1 /f
+reg add %reg3% /v Enabled /t REG_DWORD /d 0 /f
+reg add %reg4% /v Enabled /t REG_DWORD /d 0 /f
+reg add %reg5% /v RunAsPPL /t REG_DWORD /d 0 /f
 ren "%~dpnx0" "Enable - Core Isolation.cmd"
 )
 "@
-$toggleMemoryIntegrity = [System.IO.Path]::Combine($securityPath, 'Enable - Core Isolation.cmd')
-$memoryIntegrity | Out-File -FilePath $toggleMemoryIntegrity -Encoding ASCII
+Create-File -fileContent $memoryIntegrity -fileName 'Enable - Core Isolation' -fileDirectory $securityPath
 
 # Show/Hide Unused Security Pages
 $UnusedSecurityPages = @"
