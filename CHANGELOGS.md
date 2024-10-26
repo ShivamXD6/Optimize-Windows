@@ -1,3 +1,53 @@
+# Changelogs Shivaay - V4 - Stable
+## Shivaay Folder Changes
+ - Using Function for Creation of Folder files.
+ - Rewrite files name of Shivaay Folder for Improved Readability.
+ - Added Cleanup Script in Optimization.
+ - Added Biometric Script in System Management.
+ - Added Memory Reduct in Software.
+ - Updated Defender Script included webthreatdef service.
+ - Added Script to Toggle Compact OS (Compress / Decompress Windows Binary Files) in System Management and save upto 2-3 GB.
+ - Fixed Network Navigation Toggle in File Explorer.
+ - Updated Core Isolation Script, added some more parts of core Isolation.
+ - Added Additional Features Script (Requires Internet to Download it from GitHub).
+ - Updated Edge Webview link (No browser needed to download).
+ - Added Some browsers, Chrome, Brave, Firefox, Zen (Normal and Portable) to directly download from Software.
+ - Fixed Update Notifications Toggle.
+
+## Improvements and Fixes
+ - Added Full Support for 24H2.
+ - Dynamically adjust Virtual Memory as per requirement upto 8GB.
+ - Removed Registry for `Managed by your Organization in Edge` (as there's no policies modification for edge).
+ - Fixed Disabling of Delivery Optimization.
+ - Reworked on Function may fix CTT shortcut flagging as Trojan by Defender.
+ - Configure Visual Effects for Snappy Experience.
+ - Added comments for shutdown commands.
+ - Updated Power Plan Settings.
+ - Reconfigure and Removed many Services and using function for all the services.
+ - Disabled UAC as it's irritating sometimes. (legacy smart screen works best)
+ - Determine Win 10 or 11 then start executing some commands to avoid any issues.
+ - Removed duplicate comments and rewrite comments.
+ - Removed Bypass NRO Online Account Creation Registry.
+ - Removed some duplicate or useless Registries thanks to Nikki.
+ - Removed Edge Webview from Installed apps list.
+ - Removed Edge from Default Apps.
+ - Added 'Compress to' in the old context menu even in 23H2, Thanks to ThioJoe.
+ - Disabled Malicious Software Removal Tool From Installing via Windows Update.
+ - Fixed Disabling of Automatic Folder Discovery and Toggle File of it.
+ - Added `Run as Administrator` for PowerShell Script context menu.
+ - Set SuperFetch to Manual to reduce initial Disk Usage, not worth it on SSD.
+ - Disable Windows Input Experience and Widgets.
+ - Removed Drivers Searching through Windows Update registry, as it's already enabled by Windows by default.
+ - Removed Show Detailed BSOD, as it can be scary for some users.
+ - Removed MouseHover registry as it's already set to 400.
+ - Changed Update branch from Current to Semi-Annual to receive more stable and tested updates.
+ - Reduced duration for Features Updates to 6 Months, as Semi-Annual channel will get only stable updates so delaying it much longer doesn't make sense.
+ - Reduced duration of security updates from 1 year to 7 days, because Security Updates can be delayed between 0-30 days.
+ - Don't Download updates Automatically, Notify for Download and Installation of Updates and Manually install.
+ - Removed Registry way to disable Teredo as already using command for that.
+ - Removed some files to free up some space.
+ - Do not Delete scheduled tasks as it can cause issues with Task Scheduler.
+
 # Shivaay - V3
 ## Shivaay Folder
  Software :-

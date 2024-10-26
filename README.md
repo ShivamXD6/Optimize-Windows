@@ -1,5 +1,5 @@
 # 🔮 Optimize Windows
-[![Static Badge](https://img.shields.io/badge/Version-V3-brightgreen?style=for-the-badge)]() &nbsp;
+[![Static Badge](https://img.shields.io/badge/Version-V4-Stable-brightgreen?style=for-the-badge)]() &nbsp;
 
  - This repository contains an Answer File designed to optimize and streamline your Windows installation, making it ideal for gaming, power users, and even low-end laptops or PCs. 🎮💻
  - For existing Windows and if you don't want to reinstall then it's recommended to use [WinUtil by CTT.](https://github.com/ChrisTitusTech/winutil)
@@ -35,12 +35,15 @@
 - 🚀 Various Services Optimization
 - 🚫 Disable Automatic File Discovery
 - 🎮 Turn on Game Mode
+- 💿 Dynamically Adjust Virtual Ram upto 8GB
+- 🌟 Configure Visual Effects for Snappy Experience
 
 ### 3. **🔐 Privacy & Security**
 - 👁️ Disable Telemetry and Tracking
 - 🔔 Display Camera On/Off Notification
-- 🔒 Configure Windows Update: Security-Only Updates, Delay Feature Updates by 1 Year
+- 🔒 Configure Windows Update: Security Updates by 7 Days and Features Updates by 6 Months from Stable Updates Channel
 - 🔒 Prevent Installation of Dev Home, New Outlook, Chat, Bitlocker Auto-Encryption
+- 🔒 Disabled UAC (irritating for some users,although can be enabled manually later)
 
 ### 4. **👤 User-Based Customizations**
 - 📁 Hide Gallery and Network Navigation (In File Explorer)
@@ -52,6 +55,8 @@
 - 📊 Show More Details on File Transfer
 - 🖥️ Enable Verbose Status Messages
 - 🔤 Use Full App Name on Desktop Shortcuts
+- 🖇️Add 'Compress to' in Old Context Menu
+- 👮 Add 'Run as Administrator' for PowerShell scripts Context Menu
 
 ### 5. **🛑 Disable Components/Services**
 - 💤 Disable Hibernation and Reserved Storage
@@ -59,6 +64,9 @@
 - 🔍 Disable Search Indexing
 - 💿 Disable Storage Sense
 - 🛡️ Fully Disable Windows Defender (Along with SmartScreen)
+- 🔒 Disable Biometrics (Fingerprint and Face Unlock)
+- 📀 Set SysMain (SuperFetch/Prefetch) to Manual not required for many SSD Users
+- ⏫ Disable Delivery Optimization (to avoid corrupted updates being downloaded or sharing of bandwidth)
 
 ### 6. **📂 Shivaay's Folder Options**
 #### 🔐 **Security**
@@ -73,6 +81,8 @@
 - 🌐 Edge Webview (Some Apps Requires)
 - ♻️ Hi-Bit Uninstaller (Free and good for fully uninstalling any app)
 - 📂 Microsoft Store (To uninstall/install it again)
+- 🌐 Various Browsers like Edge, Chrome, Firefox, Brave and Zen (Normal + Portable)
+- 💽 Memory Reduct (Like sysinternals but Lightweight)
 
 #### 🛠️ **System Management**
 - 💤 Toggle Hibernation, Fast Startup
@@ -80,10 +90,13 @@
 - 📵 Toggle Notifications and Background Apps
 - 🔍 Toggle Search Indexing
 - 🎥 Toggle GameDVR
+- 🔒 Toggle Biometrics (Fingerprint and Face Unlock)
+- 💿 Toggle Compact OS (Free up space by compressing Windows Binaries)
 
 #### ⚡ **Optimizations**
 - 🔔 Toggle Update Notification
 - 🔄 Toggle File Discovery, 8.3 Char Name, Last Access Time, Multi-Plane Overlay
+- 🧹 Cleanup Script to clean unnecessary files and free up space
 
 #### 🖥️ **User Interface**
 - 📁 Toggle Gallery, Network Pane and Removable Drives in File Explorer
@@ -94,7 +107,6 @@
 ### 7. **🔄 Miscellaneous**
 - 🖥️ Create Shortcuts in Shivaay Folder of CTT Winutil and Activate Windows.
 - ⚡ Added a Custom Power Plan (Shivaay - Power Within)
-- 🌑 Don't Dim Windows while User Account Control
 - 🛑 Disable Auto Restart on BSOD (To Capture Detailed Logs)
 
 ## ❓ What to choose for installation?

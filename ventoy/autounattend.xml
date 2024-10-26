@@ -1522,8 +1522,8 @@ reg add "HKLM\SOFTWARE\Microsoft\OEM\Device\Capture" /v "NoPhysicalCameraLED" /t
 reg add "HKLM\SYSTEM\CurrentControlSet\Control\CrashControl" /v "AutoReboot" /t REG_DWORD /d 0 /f
 
 :: Add Shivaay OS in OEM Info
-reg add "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\OEMInformation" /v "Model" /t REG_SZ /d "Shivaay OS - V3" /f
-reg add "HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion" /v "RegisteredOrganization" /t REG_SZ /d "Shivaay OS - V3" /f
+reg add "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\OEMInformation" /v "Model" /t REG_SZ /d "Shivaay OS - V4" /f
+reg add "HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion" /v "RegisteredOrganization" /t REG_SZ /d "Shivaay OS - V4" /f
  
 :: Disable Multi-Plane Overlay (MPO) (Fixes Lags or Glitches On Nvidia or AMD GPUs)
 reg add "HKLM\SOFTWARE\Microsoft\Windows\Dwm" /v OverlayTestMode /t REG_DWORD /d 5 /f
@@ -1758,22 +1758,20 @@ Windows Registry Editor Version 5.00
 <!-- 9+ Windows Current User Registry Tweaks (CMD) -->
   <File path="C:\Windows\Setup\Scripts\currentuser.cmd">
    <![CDATA[
-
 :: Create and apply custom Power Plan Shivaay
 powercfg -restoredefaultschemes
 powercfg -duplicatescheme e9a42b02-d5df-448d-aa00-03f14749eb61 3ff9831b-6f80-4830-8178-736cd4229e7b
-powercfg -changename 3ff9831b-6f80-4830-8178-736cd4229e7b "Shivaay - Unleash the Power Within" "Inspired by the strength of Shiva, this plan activates all CPU cores for unmatched performance.."
+powercfg -changename 3ff9831b-6f80-4830-8178-736cd4229e7b "Shivaay - Unleash the Power Within" "Inspired by the strength of Shiva, this plan activates all CPU cores for unmatched performance, also helps in Conserving Laptop Battery"
 powercfg -s 3ff9831b-6f80-4830-8178-736cd4229e7b
 powercfg -setacvalueindex scheme_current sub_processor PERFINCPOL 2
+powercfg -setdcvalueindex scheme_current sub_processor PERFINCPOL 1
 powercfg -setacvalueindex scheme_current sub_processor PERFDECPOL 1
+powercfg -setdcvalueindex scheme_current sub_processor PERFDECPOL 2
 powercfg -setacvalueindex scheme_current sub_processor PERFINCTHRESHOLD 10
 powercfg -setacvalueindex scheme_current sub_processor PERFDECTHRESHOLD 8
 powercfg -setacvalueindex scheme_current sub_processor CPMINCORES 100
 powercfg -setacvalueindex scheme_current sub_processor CPMINCORES1 100
-
-:: Disable Processor Performance Boost mode (To avoid heating issues or thermal throttling)
-powercfg -setacvalueindex scheme_current sub_processor PERFBOOSTMODE 0
-powercfg -setdcvalueindex scheme_current sub_processor PERFBOOSTMODE 0
+powercfg -setacvalueindex scheme_current sub_processor PERFBOOSTMODE 2
 powercfg /setactive scheme_current
 
 :: Disable Storage Sense
@@ -1833,7 +1831,7 @@ reg add "HKCU\SOFTWARE\Microsoft\Notepad" /v ShowStoreBanner /t REG_DWORD /d 0 /
 :: Removes OneDrive
 reg delete "HKCU\SOFTWARE\Microsoft\Windows\CurrentVersion\Run" /v OneDriveSetup /f
 
-:: Display only Search Icon on Taskbar
+:: Display Search Icon on Taskbar
 reg add "HKCU\SOFTWARE\Microsoft\Windows\CurrentVersion\Search" /v SearchboxTaskbarMode /t REG_DWORD /d 1 /f
 
 :: Show More Details in File Explorer
@@ -1904,9 +1902,6 @@ reg add "HKCU\SOFTWARE\Microsoft\Windows\CurrentVersion\BackgroundAccessApplicat
 :: Disable App Diagnostics
 reg add "HKCU\SOFTWARE\Microsoft\Windows\CurrentVersion\AppDiagnostics" /v AppDiagnosticsEnabled /t REG_DWORD /d 0 /f
 
-:: Disable Delivery Optimization
-reg add "HKCU\SOFTWARE\Microsoft\Windows\CurrentVersion\DeliveryOptimization" /v DODownloadMode /t REG_DWORD /d 0 /f
-
 :: Disable Tablet Mode
 reg add "HKCU\SOFTWARE\Microsoft\Windows\CurrentVersion\ImmersiveShell" /v TabletMode /t REG_DWORD /d 0 /f
 
@@ -1930,16 +1925,13 @@ reg add "HKCU\Control Panel\Desktop" /v MenuShowDelay /t REG_DWORD /d 1 /f
 :: On Shutdown, Windows will automatically close any running applications
 reg add "HKCU\Control Panel\Desktop" /v AutoEndTasks /t REG_DWORD /d 1 /f
 
-:: Sets the Mouse hover time to 400 milliseconds
-reg add "HKCU\Control Panel\Mouse" /v MouseHoverTime /t REG_SZ /d "400" /f
-
 :: Hides the Meet Now Button on the Taskbar
 reg add "HKCU\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\Explorer" /v HideSCAMeetNow /t REG_DWORD /d 1 /f
 
 :: Disable the Second Out-Of-Box Experience
 reg add "HKCU\SOFTWARE\Microsoft\Windows\CurrentVersion\UserProfileEngagement" /v ScoobeSystemSettingEnabled /t REG_DWORD /d 0 /f
 
-:: Set Registry Keys to Enable End Task With Right Click
+:: Enable End Task With Right Click
 reg add "HKCU\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Advanced\TaskbarDeveloperSettings" /v TaskbarEndTask /t REG_DWORD /d 1 /f
 
 :: Disable Notification Tray and Calendar
@@ -1979,7 +1971,6 @@ reg add "HKCU\SOFTWARE\Microsoft\Windows\CurrentVersion\Themes\Personalize" /v S
 fsutil behavior set disableLastAccess 1
 fsutil behavior set disable8dot3 1
 
-:: Restore Windows Photo Viewer and Set as Default Program for Image Files
 :: Restore Windows Photo Viewer
 reg add "HKCU\SOFTWARE\Classes\.bmp" /ve /d "PhotoViewer.FileAssoc.Tiff" /f
 reg add "HKCU\SOFTWARE\Classes\.cr2" /ve /d "PhotoViewer.FileAssoc.Tiff" /f
@@ -1996,23 +1987,7 @@ reg add "HKCU\SOFTWARE\Classes\.tif" /ve /d "PhotoViewer.FileAssoc.Tiff" /f
 reg add "HKCU\SOFTWARE\Classes\.tiff" /ve /d "PhotoViewer.FileAssoc.Tiff" /f
 reg add "HKCU\SOFTWARE\Classes\.wdp" /ve /d "PhotoViewer.FileAssoc.Tiff" /f
 
-:: Create Relevant File Associations
-reg add "HKCU\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\FileExts\.bmp\OpenWithProgids" /v "PhotoViewer.FileAssoc.Tiff" /t REG_NONE /f
-reg add "HKCU\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\FileExts\.cr2\OpenWithProgids" /v "PhotoViewer.FileAssoc.Tiff" /t REG_NONE /f
-reg add "HKCU\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\FileExts\.dib\OpenWithProgids" /v "PhotoViewer.FileAssoc.Tiff" /t REG_NONE /f
-reg add "HKCU\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\FileExts\.gif\OpenWithProgids" /v "PhotoViewer.FileAssoc.Tiff" /t REG_NONE /f
-reg add "HKCU\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\FileExts\.ico\OpenWithProgids" /v "PhotoViewer.FileAssoc.Tiff" /t REG_NONE /f
-reg add "HKCU\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\FileExts\.jfif\OpenWithProgids" /v "PhotoViewer.FileAssoc.Tiff" /t REG_NONE /f
-reg add "HKCU\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\FileExts\.jpe\OpenWithProgids" /v "PhotoViewer.FileAssoc.Tiff" /t REG_NONE /f
-reg add "HKCU\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\FileExts\.jpeg\OpenWithProgids" /v "PhotoViewer.FileAssoc.Tiff" /t REG_NONE /f
-reg add "HKCU\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\FileExts\.jpg\OpenWithProgids" /v "PhotoViewer.FileAssoc.Tiff" /t REG_NONE /f
-reg add "HKCU\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\FileExts\.jxr\OpenWithProgids" /v "PhotoViewer.FileAssoc.Tiff" /t REG_NONE /f
-reg add "HKCU\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\FileExts\.png\OpenWithProgids" /v "PhotoViewer.FileAssoc.Tiff" /t REG_NONE /f
-reg add "HKCU\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\FileExts\.tif\OpenWithProgids" /v "PhotoViewer.FileAssoc.Tiff" /t REG_NONE /f
-reg add "HKCU\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\FileExts\.tiff\OpenWithProgids" /v "PhotoViewer.FileAssoc.Tiff" /t REG_NONE /f
-reg add "HKCU\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\FileExts\.wdp\OpenWithProgids" /v "PhotoViewer.FileAssoc.Tiff" /t REG_NONE /f
-
-:: Disable Windows Recall on Copilot+ PC - Credit Britec09
+:: Disable Windows Recall on Copilot+ PC
 reg add "HKCU\Software\Policies\Microsoft\Windows\WindowsAI" /f
 reg add "HKCU\Software\Policies\Microsoft\Windows\WindowsAI" /v "DisableAIDataAnalysis" /t REG_DWORD /d 1 /f
 reg add "HKCU\Software\Policies\Microsoft\Windows\Windows AI" /v "TurnOffSavingSnapshots" /t REG_DWORD /d 1 /f
@@ -2032,12 +2007,7 @@ reg add "HKLM\SYSTEM\CurrentControlSet\Control\Session Manager\Memory Management
 :: Toggle On NumLock
 powershell -ExecutionPolicy Bypass -command "$WshShell = New-Object -ComObject WScript.Shell; $WshShell.SendKeys('{NUMLOCK}')"
 
-:: Enables User Account Control (Without Dimming Desktop)
-reg add "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\System" /v EnableLUA /t REG_DWORD /d 1 /f
-reg add "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\System" /v "PromptOnSecureDesktop" /t REG_DWORD /d "0" /f
-
-:: Restart PC to Apply All Changes
-shutdown /r -t 1
+shutdown /r /t 3
    ]]>
   </File>
  </Extensions>
