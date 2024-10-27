@@ -1,5 +1,12 @@
 # 🔮 Optimize Windows
-[![Static Badge](https://img.shields.io/badge/Version-V4-brightgreen?style=for-the-badge)]() &nbsp;
+[![Version](https://img.shields.io/badge/Version-V4%20%7C%20Stable-2D9F2D?style=for-the-badge&logo=github&logoColor=white)]()
+[![User Base](https://img.shields.io/github/downloads/ShivamXD6/Optimize-Windows/total?style=for-the-badge&logo=github&label=User%20Base&link=https%3A%2F%2Fgithub.com%2FShivamXD6%2FOptimize-Windows%2Freleases%2Flatest)]()
+[![License](https://img.shields.io/badge/License-GPL%20v3-0078D4?style=for-the-badge&logo=open-source-initiative&logoColor=white)](https://github.com/ShivamXD6/Optimize-Windows/blob/main/LICENSE)
+![Last Updated](https://img.shields.io/github/last-commit/ShivamXD6/Optimize-Windows?style=for-the-badge&color=6A5ACD&label=Last%20Updated)
+[![Compatible](https://img.shields.io/badge/Compatible-Windows%2010%2F11-0078D4?style=for-the-badge&logo=appveyor&logoColor=white)]()
+[![Telegram](https://img.shields.io/badge/Chat-Telegram-0088CC?style=for-the-badge&logo=telegram&logoColor=white)](https://t.me/flaxcubegaming)
+[![Discord](https://img.shields.io/badge/Join-Discord-5865F2?style=for-the-badge&logo=discord&logoColor=white)](https://discord.gg/gw3cRp6xBw)  
+[![Contribute](https://img.shields.io/badge/Contribute-Start%20a%20PR-FF4500?style=for-the-badge&logo=github&logoColor=white)](https://github.com/ShivamXD6/Optimize-Windows/compare)
 
  - This repository contains an Answer File designed to optimize and streamline your Windows installation, making it ideal for gaming, power users, and even low-end laptops or PCs. 🎮💻
  - For existing Windows and if you don't want to reinstall then it's recommended to use [WinUtil by CTT.](https://github.com/ChrisTitusTech/winutil)
