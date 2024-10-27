@@ -240,7 +240,7 @@
 
 ![BenchMark-AF](./Screenshots/AF-BM.png)
 
-### 💻 Process Count and RAM Usage
+### 💻 Process Count, RAM, Installed Apps and Storage Usage
 
 - On Original Windows
 
@@ -250,6 +250,13 @@
 
 ![TaskManager-AF](./Screenshots/AF-TM.png)
 
+![InstalledApps-AF](./Screenshots/AF-IA.png)
+
+![Storage-AF](./Screenshots/AF-ST.png)
+
+> [!NOTE]
+> These have been tested on a VM (VirtualBox), not on the main machine; therefore, the results may be slightly different on the main machine.
+
 ### 🖥️ Desktop & Shivaay Folder
 
 - On Original Windows
@@ -258,9 +265,19 @@
 
 - On Windows with Answer File
 
-![Desktop-AF](./Screenshots/AF-D.png)
+![Desktop-AF](./Screenshots/AF-DE.png)
 
-![Shivaay-Folder-AF](./Screenshots/AF-E.png)
+![Shivaay-Folder-AF](./Screenshots/AF-EX.png)
+
+![Optimizations-Folder](./Screenshots/AF-EXOP.png)
+
+![Security-Folder](./Screenshots/AF-EXSE.png)
+
+![Softwares-Folder](./Screenshots/AF-EXSO.png)
+
+![Management-Folder](./Screenshots/AF-EXSM.png)
+
+![UI-Folder](./Screenshots/AF-EXUI.png)
 
 ## 💖 Acknowledgements
  - Thanks to [MemTechTips](https://github.com/memstechtips/UnattendedWinstall) for Core file Used as a base for Answer File.
