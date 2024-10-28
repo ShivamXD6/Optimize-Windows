@@ -26,6 +26,11 @@
 
  - Automates Windows installation with optimized settings, debloating or tweaking Windows etc.
  - Ideal for new setups or reinstalling Windows.
+ 
+### Add More Features Script
+
+ - Enhances the Shivaay folder by creating additional scripts and folders for tweaks, shortcuts, and context menu entries. 
+ - Ideal for customizing and optimizing your Windows experience.
 
 ## 🚀 Features
 ### 1. **🚀 While Installation of Windows***
@@ -125,7 +130,7 @@
 
 ### 1. Prepare Your USB Drive
 1. Create a bootable USB drive using [Ventoy](https://ventoy.net/).
-2. Download the [Optimize-Windows.zip](https://github.com/ShivamXD6/Optimize-Windows/blob/main/Optimize-Windows.zip).
+2. Download the [Optimize-Windows.zip](https://github.com/ShivamXD6/Optimize-Windows/releases/latest/download/Optimize-Windows.zip).
 3. Extract the contents of `Optimize-Windows.zip` into your USB drive.
 4. Confirm that the file structure on your USB drive matches the following:
 
@@ -198,7 +203,7 @@
 > Don't tick any options while making bootable drive
 > ![Rufus Answer File](./Screenshots/RF-XML.png)
 
-2. Download the [autounattend.xml](https://github.com/ShivamXD6/Optimize-Windows/blob/main/ventoy/autounattend.xml).
+2. Download the [autounattend.xml](https://github.com/ShivamXD6/Optimize-Windows/releases/latest/download/autounattend.xml).
 3. Now you have two ways:-
 
 #### Short way (Recommended if you're directly installing it on Main Machine)
