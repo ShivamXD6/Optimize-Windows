@@ -26,11 +26,6 @@
 
  - Automates Windows installation with optimized settings, debloating or tweaking Windows etc.
  - Ideal for new setups or reinstalling Windows.
- 
-### Add More Features Script
-
- - Enhances the Shivaay folder by creating additional scripts and folders for tweaks, shortcuts, and context menu entries. 
- - Ideal for customizing and optimizing your Windows experience.
 
 ## 🚀 Features
 ### 1. **🚀 While Installation of Windows***
