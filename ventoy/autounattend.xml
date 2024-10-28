@@ -665,7 +665,7 @@ $softwaresPath = New-Item -Path $shivaayPath -Name "Softwares" -ItemType Directo
 $managementPath = New-Item -Path $shivaayPath -Name "System Management" -ItemType Directory -Force
 $interfacePath = New-Item -Path $shivaayPath -Name "User Interface" -ItemType Directory -Force
 
-# Create WinUtil-CTT and Activate Windows shortcut
+# Create Shortcuts
 function Create-Shortcut {
   param (
     [string]$target,
@@ -691,7 +691,12 @@ $winUtilCommand = "irm https://christitus.com/win | iex"
 Create-Shortcut -target $winUtilCommand -shortcutName 'WinUtil-CTT.lnk'
 $activatedCommand = "irm https://get.activated.win | iex"
 Create-Shortcut -target $activatedCommand -shortcutName 'Activate-Windows.lnk'
+$addFeatures = "irm https://github.com/ShivamXD6/Optimize-Windows/releases/latest/download/Add-More-Features.ps1 | iex"
+Create-Shortcut -target $addFeatures -shortcutName 'Add More Features.lnk'
+$updateOS = "irm https://github.com/ShivamXD6/Optimize-Windows/releases/latest/download/Update.ps1 | iex"
+Create-Shortcut -target $updateOS -shortcutName 'Update.lnk'
 
+# Create Files
 function Create-File {
   param (
     [string]$fileContent,
@@ -1988,7 +1993,6 @@ reg add "HKCU\SOFTWARE\Classes\.tiff" /ve /d "PhotoViewer.FileAssoc.Tiff" /f
 reg add "HKCU\SOFTWARE\Classes\.wdp" /ve /d "PhotoViewer.FileAssoc.Tiff" /f
 
 :: Disable Windows Recall on Copilot+ PC
-reg add "HKCU\Software\Policies\Microsoft\Windows\WindowsAI" /f
 reg add "HKCU\Software\Policies\Microsoft\Windows\WindowsAI" /v "DisableAIDataAnalysis" /t REG_DWORD /d 1 /f
 reg add "HKCU\Software\Policies\Microsoft\Windows\Windows AI" /v "TurnOffSavingSnapshots" /t REG_DWORD /d 1 /f
 
