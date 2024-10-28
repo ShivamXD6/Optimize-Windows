@@ -13,7 +13,7 @@ $softwaresPath = New-Item -Path $shivaayPath -Name "Softwares" -ItemType Directo
 $managementPath = New-Item -Path $shivaayPath -Name "System Management" -ItemType Directory -Force
 $interfacePath = New-Item -Path $shivaayPath -Name "User Interface" -ItemType Directory -Force
 
-# Create WinUtil-CTT and Activate Windows shortcut
+# Create Shortcuts
 function Create-Shortcut {
   param (
     [string]$target,
@@ -44,6 +44,7 @@ Create-Shortcut -target $addFeatures -shortcutName 'Add More Features.lnk'
 $updateOS = "irm https://github.com/ShivamXD6/Optimize-Windows/releases/latest/download/Update.ps1 | iex"
 Create-Shortcut -target $updateOS -shortcutName 'Update.lnk'
 
+# Create Files
 function Create-File {
   param (
     [string]$fileContent,
