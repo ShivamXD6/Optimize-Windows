@@ -776,7 +776,7 @@ if "%~n0"=="Add - Select Power Plan" (
 reg add "HKCR\DesktopBackground\Shell\PowerPlan" /v "Icon" /t REG_SZ /d "powercpl.dll" /f
 reg add "HKCR\DesktopBackground\Shell\PowerPlan" /v "MUIVerb" /t REG_SZ /d "Select Performance Mode" /f
 reg add "HKCR\DesktopBackground\Shell\PowerPlan" /v "Position" /t REG_SZ /d "Middle" /f
-reg add "HKCR\DesktopBackground\Shell\PowerPlan"  v "SubCommands" /t REG_SZ /d "" /f
+reg add "HKCR\DesktopBackground\Shell\PowerPlan" /v "SubCommands" /t REG_SZ /d "" /f
 reg add "HKCR\DesktopBackground\Shell\PowerPlan\shell\01menu" /v "MUIVerb" /t REG_SZ /d "Eco Mode" /f
 reg add "HKCR\DesktopBackground\Shell\PowerPlan\shell\01menu" /v "Icon" /t REG_SZ /d "powercpl.dll" /f
 reg add "HKCR\DesktopBackground\Shell\PowerPlan\shell\01menu\command" /ve /t REG_SZ /d "powercfg.exe /setactive a1841308-3541-4fab-bc81-f71556f20b4a" /f
@@ -841,6 +841,28 @@ ren "%~dpnx0" "Enable - SuperFetch.cmd"
 )
 "@
 Create-File -fileContent $superFetch -fileName 'Enable - SuperFetch' -fileDirectory $addTweaks
+
+# 4.3+ Toggle Shortcut Icon
+echo "Adding Toggle Shortcut Icon - Additional Tweaks"
+Start-Sleep -Seconds 2
+$shortcutIcon = @"
+@echo off & reg query "HKU\S-1-5-19" >nul 2>&1
+if %errorLevel% neq 0 (
+echo Please Run as Administrator.
+pause & exit
+)
+set reg1="HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Shell Icons"
+if "%~n0"=="Show - Shortcut Icon" (
+@echo off
+reg delete %reg1% /f
+set st="Hide - Shortcut Icon.cmd"
+) else (
+reg add %reg1% /v "29" /t REG_SZ /d "" /f
+set st="Show - Shortcut Icon.cmd"
+)
+ren "%~dpnx0" %st% & taskkill /f /im explorer.exe & start explorer.exe
+"@
+Create-File -fileContent $shortcutIcon -fileName 'Show - Shortcut Icon' -fileDirectory $addTweaks
 
 # 5+ Useful Shortcuts
 # 5.1+ God Mode
