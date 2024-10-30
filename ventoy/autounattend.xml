@@ -878,12 +878,15 @@ set reg2="HKLM\SOFTWARE\Policies\Microsoft\Windows Defender Security Center\Devi
 set reg3="HKLM\SYSTEM\CurrentControlSet\Control\DeviceGuard\Scenarios\KernelShadowStacks"
 set reg4="HKLM\SYSTEM\CurrentControlSet\Control\DeviceGuard\Scenarios\CredentialGuard"
 set reg5="HKLM\SYSTEM\CurrentControlSet\Control\Lsa"
+set reg6="HKLM\SYSTEM\CurrentControlSet\Control\DeviceGuard"
+
 if "%~n0"=="Enable - Core Isolation" (
 reg add %reg1% /v Enabled /t REG_DWORD /d 1 /f
 reg delete %reg2% /v "UILockdown" /f
 reg add %reg3% /v Enabled /t REG_DWORD /d 1 /f
 reg add %reg4% /v Enabled /t REG_DWORD /d 1 /f
 reg add %reg5% /v RunAsPPL /t REG_DWORD /d 1 /f
+reg add %reg6% /v "EnableVirtualizationBasedSecurity" /t REG_DWORD /d 1 /f
 ren "%~dpnx0" "Disable - Core Isolation.cmd"
 ) else (
 reg add %reg1% /v Enabled /t REG_DWORD /d 0 /f
@@ -891,6 +894,7 @@ reg add %reg2% /v "UILockdown" /t REG_DWORD /d 1 /f
 reg add %reg3% /v Enabled /t REG_DWORD /d 0 /f
 reg add %reg4% /v Enabled /t REG_DWORD /d 0 /f
 reg add %reg5% /v RunAsPPL /t REG_DWORD /d 0 /f
+reg add %reg6% /v "EnableVirtualizationBasedSecurity" /t REG_DWORD /d 0 /f
 ren "%~dpnx0" "Enable - Core Isolation.cmd"
 )
 "@
@@ -1512,6 +1516,7 @@ reg add "HKLM\SOFTWARE\Policies\Microsoft\Windows Defender Security Center\Devic
 reg add "HKLM\SYSTEM\CurrentControlSet\Control\DeviceGuard\Scenarios\KernelShadowStacks" /v Enabled /t REG_DWORD /d 0 /f
 reg add "HKLM\SYSTEM\CurrentControlSet\Control\DeviceGuard\Scenarios\CredentialGuard" /v Enabled /t REG_DWORD /d 0 /f
 reg add "HKLM\SYSTEM\CurrentControlSet\Control\Lsa" /v RunAsPPL /t REG_DWORD /d 0 /f
+reg add "HKLM\SYSTEM\CurrentControlSet\Control\DeviceGuard" /v "EnableVirtualizationBasedSecurity" /t REG_DWORD /d 0 /f
 
 :: Disable Malicious Software Removal Tool From Installing 
 reg add "HKLM\SOFTWARE\Policies\Microsoft\MRT" /v "DontOfferThroughWUAU" /t REG_DWORD /d 1 /f
