@@ -1,4 +1,14 @@
-# Changelogs Shivaay - V4 - Stable
+# Changelogs - V4.1
+## Shivaay Folder Changes
+ - Updated Core Isolation Script, to make sure it's disabling VBS.
+
+## Answer File Changes
+ - Disabled Aero Peek (Sometimes Irritating while Hovering mouse on taskbar icons)
+ - Reduced Shutdown time from 10 to 5 seconds.
+ - Hide Shortcut Icons on Desktop.
+ - Added one more Registry to ensure disabling of VBS or Core Isolation.
+
+# Changelogs - V4 - Stable
 ## Shivaay Folder Changes
  - Using Function for Creation of Folder files.
  - Rewrite files name of Shivaay Folder for Improved Readability.
@@ -14,7 +24,7 @@
  - Fixed Update Notifications Toggle.
  - Fixed Automatic Folder Discovery Script.
 
-## Improvements and Fixes
+## Answer File Changes
  - Added Full Support for 24H2.
  - Dynamically adjust Virtual Memory as per requirement upto 8GB.
  - Removed Registry for `Managed by your Organization in Edge` (as there's no policies modification for edge).
