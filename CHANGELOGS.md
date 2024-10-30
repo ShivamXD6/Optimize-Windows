@@ -4,7 +4,7 @@
 
 ## Answer File Changes
  - Disabled Aero Peek (Sometimes Irritating while Hovering mouse on taskbar icons)
- - Reduced Shutdown time from 10 to 5 seconds.
+ - Reduced Shutdown Command time from 10 to 5 seconds.
  - Hide Shortcut Icons on Desktop.
  - Added one more Registry to ensure disabling of VBS or Core Isolation.
 

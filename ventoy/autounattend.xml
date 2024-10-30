@@ -804,11 +804,7 @@ set reg12="HKCR\Directory\shellex\ContextMenuHandlers\EPP"
 set reg13="HKCR\Drive\shellex\ContextMenuHandlers\EPP"
 set reg14="HKCR\CLSID\{09A47860-11B0-4DA5-AFA5-26D86198A780}"
 set reg15="HKLM\SOFTWARE\Policies\Microsoft\Windows Defender Security Center\Virus and threat protection"
-set reg16="HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer"
-set reg17="HKLM\SOFTWARE\Policies\Microsoft\Windows Defender"
-set reg18="HKLM\SOFTWARE\Policies\Microsoft\Windows Defender\MpEngine"
-set reg19="HKLM\SOFTWARE\Policies\Microsoft\Windows Defender Security Center\App and Browser protection"
-set reg20="HKLM\SYSTEM\CurrentControlSet\Services\webthreatdefsvc"
+set reg16="HKLM\SYSTEM\CurrentControlSet\Services\webthreatdefsvc"
 bcdedit | findstr /i "safeboot"
 if %ERRORLEVEL% EQU 0 (
 if "%~n0"=="Enable - Defender" (
@@ -827,11 +823,7 @@ reg add %reg11% /ve /d "10.0.18362.1" /f
 reg add %reg12% /ve /d "{09A47860-11B0-4DA5-AFA5-26D86198A780}" /f
 reg add %reg13% /ve /d "{09A47860-11B0-4DA5-AFA5-26D86198A780}" /f
 reg delete %reg15% /v "UILockdown" /f
-reg add %reg16% /v "SmartScreenEnabled" /t REG_SZ /d "Warn" /f
-reg add %reg17% /v "PUAProtection" /t REG_DWORD /d 1 /f
-reg add %reg18% /v "MpEnablePus" /t REG_DWORD /d 1 /f
-reg delete %reg19% /v "UILockdown" /f
-reg add %reg20% /v Start /t REG_DWORD /d 2 /f
+reg add %reg16% /v Start /t REG_DWORD /d 2 /f
 ren "%~dpnx0" "Disable - Defender.cmd"
 ) else (
 reg add %reg1% /v Start /t REG_DWORD /d 4 /f
@@ -847,11 +839,7 @@ reg delete %reg14% /f
 reg delete %reg12% /f
 reg delete %reg13% /f
 reg add %reg15% /v UILockdown /t REG_DWORD /d 1 /f
-reg add %reg16% /v "SmartScreenEnabled" /t REG_SZ /d "Off" /f
-reg add %reg17% /v "PUAProtection" /t REG_DWORD /d 0 /f
-reg add %reg18% /v "MpEnablePus" /t REG_DWORD /d 0 /f
-reg add %reg19% /v "UILockdown" /t REG_DWORD /d 1 /f
-reg add %reg20% /v Start /t REG_DWORD /d 4 /f
+reg add %reg16% /v Start /t REG_DWORD /d 4 /f
 ren "%~dpnx0" "Enable - Defender.cmd"
 )
 bcdedit /deletevalue {current} safeboot
@@ -866,8 +854,35 @@ shutdown /r /f /t 5 /c "PC will restart into safemode in 5 seconds"
 "@
 Create-File -fileContent $Defender -fileName 'Enable - Defender' -fileDirectory $securityPath
 
+# Toggle Smart Screen
+$smartScreen = @"
+@echo off & reg query "HKU\S-1-5-19" >nul 2>&1
+if %errorLevel% neq 0 (
+echo Please Run as Administrator.
+pause & exit
+)
+set reg1="HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer"
+set reg2="HKLM\SOFTWARE\Policies\Microsoft\Windows Defender"
+set reg3="HKLM\SOFTWARE\Policies\Microsoft\Windows Defender\MpEngine"
+set reg4="HKLM\SOFTWARE\Policies\Microsoft\Windows Defender Security Center\App and Browser protection"
+if "%~n0"=="Enable - Smart Screen" (
+reg add %reg1% /v "SmartScreenEnabled" /t REG_SZ /d "Warn" /f
+reg add %reg2% /v "PUAProtection" /t REG_DWORD /d 1 /f
+reg add %reg3% /v "MpEnablePus" /t REG_DWORD /d 1 /f
+reg delete %reg4% /v "UILockdown" /f
+ren "%~dpnx0" "Disable - Smart Screen.cmd"
+) else (
+reg add %reg1% /v "SmartScreenEnabled" /t REG_SZ /d "Off" /f
+reg add %reg2% /v "PUAProtection" /t REG_DWORD /d 0 /f
+reg add %reg3% /v "MpEnablePus" /t REG_DWORD /d 0 /f
+reg add %reg4% /v "UILockdown" /t REG_DWORD /d 1 /f
+ren "%~dpnx0" "Enable - Smart Screen.cmd"
+)
+"@
+Create-File -fileContent $smartScreen -fileName 'Enable - Smart Screen' -fileDirectory $securityPath
+
 # Toggle Core Isolation 
-$memoryIntegrity = @"
+$coreIsolation = @"
 @echo off & reg query "HKU\S-1-5-19" >nul 2>&1
 if %errorLevel% neq 0 (
 echo Please Run as Administrator.
@@ -898,7 +913,7 @@ reg add %reg6% /v "EnableVirtualizationBasedSecurity" /t REG_DWORD /d 0 /f
 ren "%~dpnx0" "Enable - Core Isolation.cmd"
 )
 "@
-Create-File -fileContent $memoryIntegrity -fileName 'Enable - Core Isolation' -fileDirectory $securityPath
+Create-File -fileContent $coreIsolation -fileName 'Enable - Core Isolation' -fileDirectory $securityPath
 
 # Show/Hide Unused Security Pages
 $unusedSecurityPages = @"
@@ -1997,9 +2012,6 @@ reg add "HKCU\SOFTWARE\Classes\.wdp" /ve /d "PhotoViewer.FileAssoc.Tiff" /f
 :: Disable Windows Recall on Copilot+ PC
 reg add "HKCU\Software\Policies\Microsoft\Windows\WindowsAI" /v "DisableAIDataAnalysis" /t REG_DWORD /d 1 /f
 reg add "HKCU\Software\Policies\Microsoft\Windows\Windows AI" /v "TurnOffSavingSnapshots" /t REG_DWORD /d 1 /f
-
-:: Hide Shortcut Icon on Desktop
-reg add "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Shell Icons" /v "29" /t REG_SZ /d "" /f
 
 :: Makes Taskbar Transparent in Windows 10
 reg add "HKCU\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Advanced" /v "TaskbarAcrylicOpacity" /t REG_DWORD /d 0 /f
