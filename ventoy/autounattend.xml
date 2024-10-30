@@ -2010,8 +2010,8 @@ reg add "HKCU\Control Panel\Desktop" /v "JPEGImportQuality" /t REG_DWORD /d 100 
 :: Sets "When Windows Detects Communication Activity" under "System > Sound > More sound settings > Communications" to "Do Nothing"
 reg add "HKCU\Software\Microsoft\Multimedia\Audio" /v "UserDuckingPreference" /t REG_DWORD /d 3 /f
 
-:: Dynamically adjust Virtual Memory as per requirement upto 8GB
-reg add "HKLM\SYSTEM\CurrentControlSet\Control\Session Manager\Memory Management" /v PagingFiles /t REG_MULTI_SZ /d "C:\pagefile.sys 16 8192" /f
+:: Dynamically adjust Virtual Memory as per requirement upto 16GB
+reg add "HKLM\SYSTEM\CurrentControlSet\Control\Session Manager\Memory Management" /v PagingFiles /t REG_MULTI_SZ /d "C:\pagefile.sys 800 16384" /f
 
 :: Toggle On NumLock
 powershell -ExecutionPolicy Bypass -command "$WshShell = New-Object -ComObject WScript.Shell; $WshShell.SendKeys('{NUMLOCK}')"
