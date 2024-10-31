@@ -42,7 +42,7 @@
 - 🚀 Various Services Optimization
 - 🚫 Disable Automatic File Discovery
 - 🎮 Turn on Game Mode
-- 💿 Dynamically Adjust Virtual Ram upto 8GB
+- 💿 Dynamically Adjust Virtual Ram upto 16GB
 - 🌟 Configure Visual Effects for Snappy Experience
 
 ### 3. **🔐 Privacy & Security**
