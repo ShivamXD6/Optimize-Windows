@@ -895,30 +895,6 @@ ren "%~dpnx0" "Enable - Core Isolation.cmd"
 "@
 Create-File -fileContent $coreIsolation -fileName 'Enable - Core Isolation' -fileDirectory $securityPath
 
-# Show/Hide Unused Security Pages
-$unusedSecurityPages = @"
-@echo off & reg query "HKU\S-1-5-19" >nul 2>&1
-if %errorLevel% neq 0 (
-echo Please Run as Administrator.
-pause & exit
-)
-set reg1="HKLM\SOFTWARE\Policies\Microsoft\Windows Defender Security Center\Device performance and health"
-set reg2="HKLM\SOFTWARE\Policies\Microsoft\Windows Defender Security Center\Family options"
-set reg3="HKLM\SOFTWARE\Policies\Microsoft\Windows Defender Security Center\Account protection"
-if "%~n0"=="Hide - Unused Security Pages" (
-reg add %reg1% /v "UILockdown" /t REG_DWORD /d 1 /f
-reg add %reg2% /v "UILockdown" /t REG_DWORD /d 1 /f
-reg add %reg3% /v "UILockdown" /t REG_DWORD /d 1 /f
-ren "%~dpnx0" "Show - Unused Security Pages.cmd"
-) else (
-reg delete %reg1% /v "UILockdown" /f
-reg delete %reg2% /v "UILockdown" /f
-reg delete %reg3% /v "UILockdown" /f
-ren "%~dpnx0" "Hide - Unused Security Pages.cmd"
-)
-"@
-Create-File -fileContent $unusedSecurityPages -fileName 'Show - Unused Security Pages' -fileDirectory $securityPath
-
 # System Management
 # Toggle Hibernation and Fast Startup
 $hibernation = @"
