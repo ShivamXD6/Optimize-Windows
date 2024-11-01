@@ -943,23 +943,6 @@ ren "%~dpnx0" "Enable - GameDVR.cmd"
 "@
 Create-File -fileContent $gameDVR -fileName 'Enable - GameDVR' -fileDirectory $managementPath
 
-# Toggle Compact OS Mode
-$compactOS = @"
-@echo off & reg query "HKU\S-1-5-19" >nul 2>&1
-if %errorLevel% neq 0 (
-echo Please Run as Administrator.
-pause & exit
-)
-if "%~n0"=="Enable - Compact OS" (
-compact /CompactOS:always
-ren "%~dpnx0" "Disable - Compact OS.cmd"
-) else (
-compact /CompactOS:never
-ren "%~dpnx0" "Enable - Compact OS.cmd"
-)
-"@
-Create-File -fileContent $compactOS -fileName 'Enable - Compact OS' -fileDirectory $managementPath
-
 # Toggle Search Indexing Service
 $searchIndex = @"
 @echo off & reg query "HKU\S-1-5-19" >nul 2>&1
@@ -1004,44 +987,6 @@ set st="Enable - Notifications and Background Apps.cmd"
 ren "%~dpnx0" %st% & taskkill /f /im explorer.exe & start explorer.exe
 "@
 Create-File -fileContent $notification -fileName 'Enable - Notifications and Background Apps' -fileDirectory $managementPath
-
-# Toggle Printer Service
-$printer = @"
-@echo off & reg query "HKU\S-1-5-19" >nul 2>&1
-if %errorLevel% neq 0 (
-echo Please Run as Administrator.
-pause & exit
-)
-if "%~n0"=="Enable - Printer Spooler" (
-sc config Spooler start=auto
-net start Spooler
-ren "%~dpnx0" "Disable - Printer Spooler.cmd"
-) else (
-net stop Spooler
-sc config Spooler start=disabled
-ren "%~dpnx0" "Enable - Printer Spooler.cmd"
-)
-"@
-Create-File -fileContent $printer -fileName 'Enable - Printer Spooler' -fileDirectory $managementPath
-
-# Toggle Biometric Service
-$biometric = @"
-@echo off & reg query "HKU\S-1-5-19" >nul 2>&1
-if %errorLevel% neq 0 (
-echo Please Run as Administrator.
-pause & exit
-)
-if "%~n0"=="Enable - Biometric" (
-sc config WbioSrvc start=auto
-net start WbioSrvc
-ren "%~dpnx0" "Disable - Biometric.cmd"
-) else (
-net stop WbioSrvc
-sc config WbioSrvc start=disabled
-ren "%~dpnx0" "Enable - Biometric.cmd"
-)
-"@
-Create-File -fileContent $biometric -fileName 'Enable - Biometric' -fileDirectory $managementPath
 
 # Optimizations
 # Cleanup
