@@ -1079,61 +1079,6 @@ ren "%~dpnx0" "Enable - Update Notifications.cmd"
 "@
 Create-File -fileContent $updateNotify -fileName 'Disable - Update Notifications' -fileDirectory $optimizationPath
 
-# Toggle Automatic Folder Discovery
-$automaticFolder = @"
-@echo off & reg query "HKU\S-1-5-19" >nul 2>&1
-if %errorLevel% neq 0 (
-echo Please Run as Administrator.
-pause & exit
-)
-set reg1="HKCU\Software\Classes\Local Settings\Software\Microsoft\Windows\Shell\Bags\AllFolders\Shell"
-if "%~n0"=="Enable - Automatic Folder Discovery" (
-reg delete %reg1% /f
-ren "%~dpnx0" "Disable - Automatic Folder Discovery.cmd"
-) else (
-reg add %reg1% /v "FolderType" /t REG_SZ /d "NotSpecified" /f
-ren "%~dpnx0" "Enable - Automatic Folder Discovery.cmd"
-)
-"@
-Create-File -fileContent $automaticFolder -fileName 'Enable - Automatic Folder Discovery' -fileDirectory $optimizationPath
-
-# Toggle Last Access Time Stamp and 8.3 Char Length File Name Creation
-$timeChar = @"
-@echo off & reg query "HKU\S-1-5-19" >nul 2>&1
-if %errorLevel% neq 0 (
-echo Please Run as Administrator.
-pause & exit
-)
-if "%~n0"=="Disable - Last Access Time and 8.3 Name" (
-fsutil behavior set disableLastAccess 1
-fsutil behavior set disable8dot3 1
-ren "%~dpnx0" "Enable - Last Access Time and 8.3 Name.cmd"
-) else (
-fsutil behavior set disableLastAccess 0
-fsutil behavior set disable8dot3 0
-ren "%~dpnx0" "Disable - Last Access Time and 8.3 Name.cmd"
-)
-"@
-Create-File -fileContent $timeChar -fileName 'Enable - Last Access Time and 8.3 Name' -fileDirectory $optimizationPath
-
-# Toggle Multi-Plane Overlay
-$MPO = @"
-@echo off & reg query "HKU\S-1-5-19" >nul 2>&1
-if %errorLevel% neq 0 (
-echo Please Run as Administrator.
-pause & exit
-)
-set reg1="HKLM\SOFTWARE\Microsoft\Windows\Dwm"
-if "%~n0"=="Enable - Multi-Plane Overlay" (
-reg delete %reg1% /v OverlayTestMode /f
-ren "%~dpnx0" "Disable - Multi-Plane Overlay.cmd"
-) else (
-reg add %reg1% /v OverlayTestMode /t REG_DWORD /d 5 /f
-ren "%~dpnx0" "Enable - Multi-Plane Overlay.cmd"
-)
-"@
-Create-File -fileContent $MPO -fileName 'Enable - Multi-Plane Overlay' -fileDirectory $optimizationPath
-
 # User Interface
 # Toggle Gallery in File Explorer
 $gallery = @"
