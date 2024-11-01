@@ -1466,20 +1466,15 @@ schtasks /Change /TN $task /Disable
 }
 
 # Set Services to Manual or Disabled
-function Set-Disabled {
 $ds = @('AJRouter', 'AssignedAccessManagerSvc', 'AppIDSvc', 'BDESVC', 'DiagTrack', 'DPS', 'EFS', 'FontCache', 'PcaSvc', 'RmSvc', 'WSearch', 'WbioSrvc', 'lfsvc')
-  foreach ($dnm in $ds) {
-    Set-Service -Name $dnm -StartupType Disabled -ErrorAction Continue
-  }
+foreach ($dnm in $ds) {
+  Set-Service -Name $dnm -StartupType Disabled -ErrorAction Continue
 }
-function Set-Manual {
 $ms = @('BITS', 'CDPSvc', 'DusmSvc', 'LanmanServer', 'LanmanWorkstation', 'Spooler', 'StateRepository', 'StorSvc', 'SysMain', 'TokenBroker', 'TrkWks', 'UsoSvc', 'WpnService', 'edgeupdate', 'edgeupdatem', 'iphlpsvc', 'sppsvc')
-  foreach ($mnm in $ms) {
-    Set-Service -Name $mnm -StartupType Manual -ErrorAction Continue
-  }
+foreach ($mnm in $ms) {
+  Set-Service -Name $mnm -StartupType Manual -ErrorAction Continue
 }
-Set-Disabled
-Set-Manual
+
 Stop-Transcript
    ]]>
   </File>
@@ -2011,9 +2006,10 @@ reg add "HKCU\SOFTWARE\Classes\.tif" /ve /d "PhotoViewer.FileAssoc.Tiff" /f
 reg add "HKCU\SOFTWARE\Classes\.tiff" /ve /d "PhotoViewer.FileAssoc.Tiff" /f
 reg add "HKCU\SOFTWARE\Classes\.wdp" /ve /d "PhotoViewer.FileAssoc.Tiff" /f
 
-:: Disable Windows Recall on Copilot+ PC
+:: Disable Windows Recall
 reg add "HKCU\Software\Policies\Microsoft\Windows\WindowsAI" /v "DisableAIDataAnalysis" /t REG_DWORD /d 1 /f
 reg add "HKCU\Software\Policies\Microsoft\Windows\Windows AI" /v "TurnOffSavingSnapshots" /t REG_DWORD /d 1 /f
+Dism /Online /Disable-Feature /Featurename:Recall
 
 :: Makes Taskbar Transparent in Windows 10
 reg add "HKCU\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Advanced" /v "TaskbarAcrylicOpacity" /t REG_DWORD /d 0 /f

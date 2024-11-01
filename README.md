@@ -44,6 +44,7 @@
 - 🎮 Turn on Game Mode
 - 💿 Dynamically Adjust Virtual Ram upto 16GB
 - 🌟 Configure Visual Effects for Snappy Experience
+- 🤖 Debloat Copilot and Disable Recall
 
 ### 3. **🔐 Privacy & Security**
 - 👁️ Disable Telemetry and Tracking
