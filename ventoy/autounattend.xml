@@ -708,18 +708,6 @@ function Create-File {
 $gameBar = "ms-windows-store://pdp/?productid=9nzkpstsnw4p"
 Create-Shortcut -target $gameBar -shortcutName 'XBOX GameBar.url' -shortcutType "url"
 
-# AMD Radeon Software
-$amdRadeon = "ms-windows-store://pdp/?productid=9nz1bjqn6bhl"
-Create-Shortcut -target $amdRadeon -shortcutName 'AMD Radeon Software.url' -shortcutType "url"
-
-# Realtek Audio Console
-$realtek = "ms-windows-store://pdp/?productid=9p2b8mcsvpln"
-Create-Shortcut -target $realtek -shortcutName 'Realtek Audio Console.url' -shortcutType "url"
-
-# Microsoft Tips
-$msTips = "ms-windows-store://pdp/?productid=9wzdncrdtbjj"
-Create-Shortcut -target $msTips -shortcutName 'Microsoft Tips.url' -shortcutType "url"
-
 # Microsoft Edge Browser
 $edgeBrowser = "iwr -Uri 'https://go.microsoft.com/fwlink/?linkid=2109047&Channel=Stable&language=en' -OutFile C:\Users\Public\Desktop\EdgeBrowser.exe"
 Create-Shortcut -target $edgeBrowser -shortcutName 'Edge Browser Installer.lnk' -shortcutPath $softwaresPath
@@ -747,14 +735,6 @@ Create-Shortcut -target $zen -shortcutName 'Zen Browser Installer.lnk' -shortcut
 # Zeb Browser Portable
 $zenPort = "iwr -Uri 'https://github.com/zen-browser/desktop/releases/latest/download/zen.win-specific.zip' -OutFile C:\Users\Public\Desktop\ZenPortable.zip"
 Create-Shortcut -target $zenPort -shortcutName 'Zen Browser Portable.lnk' -shortcutPath $softwaresPath
-
-# Memory Reduct
-$memReduct = "https://github.com/henrypp/memreduct"
-Create-Shortcut -target $memReduct -shortcutName 'Memory Reduct.url' -shortcutType "url"
-
-# Hi-Bit Uninstaller
-$hibitUninstaller = "https://hibitsoft.ir/"
-Create-Shortcut -target $hibitUninstaller -shortcutName 'Hi-Bit Uninstaller.url' -shortcutType "url"
 
 # Install/Uninstall Microsoft Store
 $MSStore = @'
