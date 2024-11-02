@@ -1435,6 +1435,9 @@ reg add "HKLM\SYSTEM\CurrentControlSet\Control\PriorityControl" /v "Win32Priorit
 :: Enable Hardware Acceleated GPU Scheduling
 reg add "HKLM\SYSTEM\CurrentControlSet\Control\GraphicsDrivers" /v "HwSchMode" /t REG_DWORD /d 2 /f
 
+:: Enable old Nvidia Sharpening
+reg add "HKLM\SYSTEM\CurrentControlSet\Services\nvlddmkm\FTS" /v "EnableGR535" /t REG_DWORD /d 0 /f
+
 :: Increases IRP stack size to 30 for the LanmanServer service to Improve Network Performance and Stability
 reg add "HKLM\SYSTEM\CurrentControlSet\Services\LanmanServer\Parameters" /v IRPStackSize /t REG_DWORD /d 30 /f
 
