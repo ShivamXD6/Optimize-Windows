@@ -972,19 +972,16 @@ pause & exit
 )
 set reg1="HKCU\Software\Policies\Microsoft\Windows\Explorer"
 set reg2="HKCU\Software\Microsoft\Windows\CurrentVersion\PushNotifications"
-set reg3="HKCU\SOFTWARE\Microsoft\Windows\CurrentVersion\BackgroundAccessApplications"
-set reg4="HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Windows\AppPrivacy"
+set reg3="HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Windows\AppPrivacy"
 if "%~n0"=="Enable - Notifications and Background Apps" (
 reg add %reg1% /v DisableNotificationCenter /t REG_DWORD /d 0 /f
 reg add %reg2% /v ToastEnabled /t REG_DWORD /d 1 /f
-reg add %reg3% /v GlobalUserDisabled /t REG_DWORD /d 0 /f
-reg delete %reg4% /v "LetAppsRunInBackground" /f
+reg delete %reg3% /v "LetAppsRunInBackground" /f
 set st="Disable - Notifications and Background Apps.cmd"
 ) else (
 reg add %reg1% /v DisableNotificationCenter /t REG_DWORD /d 1 /f
 reg add %reg2% /v ToastEnabled /t REG_DWORD /d 0 /f
-reg add %reg3% /v GlobalUserDisabled /t REG_DWORD /d 1 /f
-reg add %reg4% /v "LetAppsRunInBackground" /t REG_DWORD /d 2 /f
+reg add %reg3% /v "LetAppsRunInBackground" /t REG_DWORD /d 2 /f
 set st="Enable - Notifications and Background Apps.cmd"
 )
 ren "%~dpnx0" %st% & taskkill /f /im explorer.exe & start explorer.exe
@@ -1586,7 +1583,6 @@ reg add "HKCU\SOFTWARE\Microsoft\Windows\DWM" /v "EnableAeroPeek" /t REG_DWORD /
 
 :: Disable Windows Input Experience and Widgets
 reg add "HKCU\Software\Microsoft\Windows\CurrentVersion\Dsh" /v IsPrelaunchEnabled /t REG_DWORD /d 0 /f
-reg add "HKCU\Software\Microsoft\Windows\CurrentVersion\Dsh" /v IsPrelaunchEnabled /t REG_DWORD /d 0 /f
 
 :: Disabling the Delivery of Personalized or Suggested Content Like App Suggestions, Tips, and Advertisements in Windows
 reg add "HKCU\SOFTWARE\Microsoft\Windows\CurrentVersion\ContentDeliveryManager" /v "ContentDeliveryAllowed" /t REG_DWORD /d 0 /f
@@ -1698,7 +1694,6 @@ reg add "HKCU\SOFTWARE\Microsoft\Windows\CurrentVersion\Feedback" /v ServiceEnab
 reg add "HKCU\Control Panel\International\User Profile" /v HttpAcceptLanguageOptOut /t REG_DWORD /d 1 /f
 
 :: Disable Background Apps
-reg add "HKCU\SOFTWARE\Microsoft\Windows\CurrentVersion\BackgroundAccessApplications" /v GlobalUserDisabled /t REG_DWORD /d 1 /f
 reg add "HKLM\SOFTWARE\Policies\Microsoft\Windows\AppPrivacy" /v "LetAppsRunInBackground" /t REG_DWORD /d 2 /f
 
 :: Disable App Diagnostics
