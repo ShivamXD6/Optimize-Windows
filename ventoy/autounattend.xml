@@ -973,15 +973,18 @@ pause & exit
 set reg1="HKCU\Software\Policies\Microsoft\Windows\Explorer"
 set reg2="HKCU\Software\Microsoft\Windows\CurrentVersion\PushNotifications"
 set reg3="HKCU\SOFTWARE\Microsoft\Windows\CurrentVersion\BackgroundAccessApplications"
+set reg4="HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Windows\AppPrivacy"
 if "%~n0"=="Enable - Notifications and Background Apps" (
 reg add %reg1% /v DisableNotificationCenter /t REG_DWORD /d 0 /f
 reg add %reg2% /v ToastEnabled /t REG_DWORD /d 1 /f
 reg add %reg3% /v GlobalUserDisabled /t REG_DWORD /d 0 /f
+reg delete %reg4% /v "LetAppsRunInBackground" /f
 set st="Disable - Notifications and Background Apps.cmd"
 ) else (
 reg add %reg1% /v DisableNotificationCenter /t REG_DWORD /d 1 /f
 reg add %reg2% /v ToastEnabled /t REG_DWORD /d 0 /f
 reg add %reg3% /v GlobalUserDisabled /t REG_DWORD /d 1 /f
+reg add %reg4% /v "LetAppsRunInBackground" /t REG_DWORD /d 2 /f
 set st="Enable - Notifications and Background Apps.cmd"
 )
 ren "%~dpnx0" %st% & taskkill /f /im explorer.exe & start explorer.exe
@@ -1430,7 +1433,7 @@ reg add "HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Multimedia\SystemProf
 reg add "HKLM\SYSTEM\CurrentControlSet\Control\PriorityControl" /v "Win32PrioritySeparation" /t REG_DWORD /d 38 /f
 
 :: Enable Hardware Acceleated GPU Scheduling
-reg add "HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\GraphicsDrivers" /v "HwSchMode" /t REG_DWORD /d 2 /f
+reg add "HKLM\SYSTEM\CurrentControlSet\Control\GraphicsDrivers" /v "HwSchMode" /t REG_DWORD /d 2 /f
 
 :: Increases IRP stack size to 30 for the LanmanServer service to Improve Network Performance and Stability
 reg add "HKLM\SYSTEM\CurrentControlSet\Services\LanmanServer\Parameters" /v IRPStackSize /t REG_DWORD /d 30 /f
@@ -1693,6 +1696,7 @@ reg add "HKCU\Control Panel\International\User Profile" /v HttpAcceptLanguageOpt
 
 :: Disable Background Apps
 reg add "HKCU\SOFTWARE\Microsoft\Windows\CurrentVersion\BackgroundAccessApplications" /v GlobalUserDisabled /t REG_DWORD /d 1 /f
+reg add "HKLM\SOFTWARE\Policies\Microsoft\Windows\AppPrivacy" /v "LetAppsRunInBackground" /t REG_DWORD /d 2 /f
 
 :: Disable App Diagnostics
 reg add "HKCU\SOFTWARE\Microsoft\Windows\CurrentVersion\AppDiagnostics" /v AppDiagnosticsEnabled /t REG_DWORD /d 0 /f
