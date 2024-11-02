@@ -972,7 +972,7 @@ pause & exit
 )
 set reg1="HKCU\Software\Policies\Microsoft\Windows\Explorer"
 set reg2="HKCU\Software\Microsoft\Windows\CurrentVersion\PushNotifications"
-set reg3="HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Windows\AppPrivacy"
+set reg3="HKLM\SOFTWARE\Policies\Microsoft\Windows\AppPrivacy"
 if "%~n0"=="Enable - Notifications and Background Apps" (
 reg add %reg1% /v DisableNotificationCenter /t REG_DWORD /d 0 /f
 reg add %reg2% /v ToastEnabled /t REG_DWORD /d 1 /f
@@ -1080,7 +1080,7 @@ ren "%~dpnx0" "Enable - Update Notifications.cmd"
 Create-File -fileContent $updateNotify -fileName 'Disable - Update Notifications' -fileDirectory $optimizationPath
 
 # User Interface
-# Toggle Gallery in File Explorer
+# Toggle Gallery and Home in File Explorer
 $gallery = @"
 @echo off & reg query "HKU\S-1-5-19" >nul 2>&1
 if %errorLevel% neq 0 (
@@ -1088,16 +1088,19 @@ echo Please Run as Administrator.
 pause & exit
 )
 set reg1="HKCU\Software\Classes\CLSID\{e88865ea-0e1c-4e20-9aa6-edcd0212c87c}"
-if "%~n0"=="Show - Gallery In File Explorer" (
+set reg2="HKCU\Software\Classes\CLSID\{f874310e-b6b7-47dc-bc84-b9e6b38f5903}"
+if "%~n0"=="Show - Gallery and Home In File Explorer" (
 reg add %reg1% /v System.IsPinnedToNameSpaceTree /t REG_DWORD /d 1 /f
-set st="Hide - Gallery In File Explorer.cmd"
+reg add %reg2% /v System.IsPinnedToNameSpaceTree /t REG_DWORD /d 1 /f
+set st="Hide - Gallery and Home In File Explorer.cmd"
 ) else (
-reg delete %reg1% /v System.IsPinnedToNameSpaceTree /f
-set st="Show - Gallery In File Explorer.cmd"
+reg add %reg1% /v System.IsPinnedToNameSpaceTree /t REG_DWORD /d 0  /f
+reg add %reg2% /v System.IsPinnedToNameSpaceTree /t REG_DWORD /d 0 /f
+set st="Show - Gallery and Home In File Explorer.cmd"
 )
 ren "%~dpnx0" %st% & taskkill /f /im explorer.exe & start explorer.exe
 "@
-Create-File -fileContent $gallery -fileName 'Show - Gallery In File Explorer' -fileDirectory $interfacePath
+Create-File -fileContent $gallery -fileName 'Show - Gallery and Home In File Explorer' -fileDirectory $interfacePath
 
 # Toggle Recent Items in Windows
 $recentItems = @"
@@ -1411,13 +1414,16 @@ reg add "HKLM\SOFTWARE\Policies\Microsoft\Windows\DataCollection" /v DoNotShowFe
 reg add "HKLM\SOFTWARE\Policies\Microsoft\Windows\AdvertisingInfo" /v DisabledByGroupPolicy /t REG_DWORD /d 1 /f
 
 :: Disable Account InfoInfo
-reg add "HKEY_LOCAL_MACHINE\Software\Microsoft\Windows\CurrentVersion\CapabilityAccessManager\ConsentStore\userAccountInformation" /v "Value" /t REG_SZ /d "Deny" /f
+reg add "HKLM\Software\Microsoft\Windows\CurrentVersion\CapabilityAccessManager\ConsentStore\userAccountInformation" /v "Value" /t REG_SZ /d "Deny" /f
 
 :: Disable Windows Error Reporting
 reg add "HKLM\SOFTWARE\Policies\Microsoft\Windows\Windows Error Reporting" /v Disabled /t REG_DWORD /d 1 /f
 
 :: Disable Delivery Optimization
 reg add "HKLM\SOFTWARE\Policies\Microsoft\Windows\DeliveryOptimization" /v DODownloadMode /t REG_DWORD /d 0 /f
+
+:: Disable Background Apps
+reg add "HKLM\SOFTWARE\Policies\Microsoft\Windows\AppPrivacy" /v "LetAppsRunInBackground" /t REG_DWORD /d 2 /f
 
 :: Disable Remote Assistance
 reg add "HKLM\SYSTEM\CurrentControlSet\Control\Remote Assistance" /v fAllowToGetHelp /t REG_DWORD /d 0 /f
@@ -1671,8 +1677,11 @@ reg add "HKCU\SOFTWARE\Classes\CLSID\{F02C1A0D-BE21-4350-88B0-7367FC96EF3C}" /v 
 :: Disable Automatic Folder Discovery (Improves Responsiveness)
 reg add "HKCU\Software\Classes\Local Settings\Software\Microsoft\Windows\Shell\Bags\AllFolders\Shell" /v "FolderType" /t REG_SZ /d "NotSpecified" /f
 
-:: Hide Gallery From File Explorer and Set This PC as Default
+:: Hide Gallery, Home and 3D Objects From File Explorer and Set This PC as Default
 reg add "HKCU\Software\Classes\CLSID\{e88865ea-0e1c-4e20-9aa6-edcd0212c87c}" /v System.IsPinnedToNameSpaceTree /t REG_DWORD /d 0 /f
+reg add "HKCU\Software\Classes\CLSID\{f874310e-b6b7-47dc-bc84-b9e6b38f5903}" /v "System.IsPinnedToNameSpaceTree" /t REG_DWORD /d 0 /f
+reg delete "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\MyComputer\NameSpace\{0DB7E03F-FC29-4DC6-9020-FF41B59E513A}" /f
+reg delete "HKLM\SOFTWARE\WOW6432Node\Microsoft\Windows\CurrentVersion\Explorer\MyComputer\NameSpace\{0DB7E03F-FC29-4DC6-9020-FF41B59E513A}" /f
 reg add "HKCU\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Advanced" /v LaunchTo /t REG_DWORD /d 1 /f
 
 :: Use Full App Name on Desktop Shortcuts (Like Firefox not Firefox - Shortcut)
@@ -1692,9 +1701,6 @@ reg add "HKCU\SOFTWARE\Microsoft\Windows\CurrentVersion\Feedback" /v ServiceEnab
 
 :: Disable "Let websites provide locally relevant content by accessing my language list"
 reg add "HKCU\Control Panel\International\User Profile" /v HttpAcceptLanguageOptOut /t REG_DWORD /d 1 /f
-
-:: Disable Background Apps
-reg add "HKLM\SOFTWARE\Policies\Microsoft\Windows\AppPrivacy" /v "LetAppsRunInBackground" /t REG_DWORD /d 2 /f
 
 :: Disable App Diagnostics
 reg add "HKCU\SOFTWARE\Microsoft\Windows\CurrentVersion\AppDiagnostics" /v AppDiagnosticsEnabled /t REG_DWORD /d 0 /f
