@@ -1,3 +1,10 @@
+# 0+ Check if the script is running with administrative privileges
+if (-not ([Security.Principal.WindowsPrincipal][Security.Principal.WindowsIdentity]::GetCurrent()).IsInRole([Security.Principal.WindowsBuiltInRole]::Administrator)) {
+    # Re-launch the script with elevated privileges
+    Start-Process powershell -ArgumentList "-NoProfile -ExecutionPolicy Bypass -File `"$PSCommandPath`"" -Verb RunAs
+    exit
+}
+
 # 1+ Directories and Functions
 $desktopPath = "C:\Users\Public\Desktop"
 $shivaayPath = "$desktopPath\Shivaay"
@@ -538,7 +545,6 @@ Write-Host ""
 Write-Host "- Adding additional features..." -ForegroundColor Yellow
 Write-Host "- Script Version - V2" -ForegroundColor Blue
 Write-Host ""
-Start-Sleep -Seconds 2
 
 $contextMenus = New-Item -Path "$shivaayPath\Context Menu" -ItemType Directory -Force
 $usefulShortcuts = New-Item -Path "$shivaayPath\Shortcuts" -ItemType Directory -Force
