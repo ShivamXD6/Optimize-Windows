@@ -28,7 +28,12 @@
  - Updated Script for Toggling background apps and notifications.
 
 ## Additional Features Script Changes
+ - Initial Release for Additional Features Script.
  - Added Many new Scripts, with 2 new Folders (Context Menus, Shortcuts)
+
+## Update Script Changes
+ - Initial Release for Update Script.
+ - Included Every possible updates.
 
 # Changelogs - V4.1
 ## Shivaay Folder Changes
