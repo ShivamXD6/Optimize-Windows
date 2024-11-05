@@ -93,9 +93,9 @@ $winUtilCommand = "irm https://christitus.com/win | iex"
 Create-Shortcut -target $winUtilCommand -shortcutName 'WinUtil-CTT.lnk'
 $activatedCommand = "irm https://get.activated.win | iex"
 Create-Shortcut -target $activatedCommand -shortcutName 'Activate-Windows.lnk'
-$addFeatures = "irm https://raw.githubusercontent.com/ShivamXD6/Optimize-Windows/main/Add-More-Features.ps1" | iex"
+$addFeatures = "irm https://raw.githubusercontent.com/ShivamXD6/Optimize-Windows/main/Add-More-Features.ps1 | iex"
 Create-Shortcut -target $addFeatures -shortcutName 'Add More Features.lnk'
-$updateOS = "irm https://raw.githubusercontent.com/ShivamXD6/Optimize-Windows/main/Update.ps1" | iex"
+$updateOS = "irm https://raw.githubusercontent.com/ShivamXD6/Optimize-Windows/main/Updates.ps1 | iex"
 Create-Shortcut -target $updateOS -shortcutName 'Update.lnk'
 
 # Softwares
@@ -227,7 +227,7 @@ bcdedit /set {current} safeboot minimal
 shutdown /r /f /t 5 /c "PC will restart into safemode in 5 seconds"
 )
 "@
-Create-File -fileContent $Defender -fileName 'Enable - Defender' -fileDirectory $securityPath
+Create-File -fileContent $Defender -fileName 'Disable - Defender' -fileDirectory $securityPath
 
 # Toggle Smart Screen
 $smartScreen = @"
@@ -288,7 +288,7 @@ reg add %reg6% /v "EnableVirtualizationBasedSecurity" /t REG_DWORD /d 0 /f
 ren "%~dpnx0" "Enable - Core Isolation.cmd"
 )
 "@
-Create-File -fileContent $coreIsolation -fileName 'Enable - Core Isolation' -fileDirectory $securityPath
+Create-File -fileContent $coreIsolation -fileName 'Disable - Core Isolation' -fileDirectory $securityPath
 
 # System Management
 # Toggle Hibernation and Fast Startup

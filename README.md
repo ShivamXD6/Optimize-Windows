@@ -1,5 +1,5 @@
 # 🔮 Optimize Windows
-[![Version](https://img.shields.io/badge/Version-V4%20%7C%20Stable-2D9F2D?style=for-the-badge&logo=github&logoColor=white)](https://github.com/ShivamXD6/Optimize-Windows/releases/latest)
+[![Version](https://img.shields.io/badge/Version-V4.2%20-2D9F2D?style=for-the-badge&logo=github&logoColor=white)](https://github.com/ShivamXD6/Optimize-Windows/releases/latest)
 [![User Base](https://img.shields.io/github/downloads/ShivamXD6/Optimize-Windows/total?style=for-the-badge&logo=github&label=User%20Base&link=https%3A%2F%2Fgithub.com%2FShivamXD6%2FOptimize-Windows%2Freleases%2Flatest)](https://github.com/ShivamXD6/Optimize-Windows/releases/latest)
 [![License](https://img.shields.io/badge/License-GPL%20v3-0078D4?style=for-the-badge&logo=open-source-initiative&logoColor=white)](https://github.com/ShivamXD6/Optimize-Windows/blob/main/LICENSE)
 ![Last Updated](https://img.shields.io/github/last-commit/ShivamXD6/Optimize-Windows?style=for-the-badge&color=6A5ACD&label=Last%20Updated)
@@ -26,6 +26,11 @@
 
  - Automates Windows installation with optimized settings, debloating or tweaking Windows etc.
  - Ideal for new setups or reinstalling Windows.
+ 
+### Add More Features Script
+
+ - Adds some more features into Shivaay Folder.
+ - Ideal for more Customization and Tweaking System.
 
 ## 🚀 Features
 ### 1. **🚀 While Installation of Windows***
@@ -71,46 +76,62 @@
 - 🖨️ Disable Printer Spooler
 - 🔍 Disable Search Indexing
 - 💿 Disable Storage Sense
-- 🛡️ Fully Disable Windows Defender (Along with SmartScreen)
+- 🛡️ Disable Smart Screen
 - 🔒 Disable Biometrics (Fingerprint and Face Unlock)
 - 📀 Set SysMain (SuperFetch/Prefetch) to Manual not required for many SSD Users
 - ⏫ Disable Delivery Optimization (to avoid corrupted updates being downloaded or sharing of bandwidth)
 
 ### 6. **📂 Shivaay's Folder Options**
+- Everything which have "*" are only available in Add More Features Script. Not available by default to make folder less cluttered.
+
 #### 🔐 **Security**
-- 🛡️ Toggle Windows Defender (Along with SmartScreen), Core Isolation and Unused Security Pages
+- 🛡️ Toggle Windows Defender, SmartScreen and Core Isolation
+- 🛡️ Toggle Unused Security Pages*
 
 #### 📦 **Software**
-- Those are links only to install, doesn't included any of them by Default.
+- This are Links/Internet-Shortcuts to install them, doesn't included any of them by Default.
 - 🎮 Game Bar (Without Xbox Bloats)
-- 🔴 AMD Radeon Software (Without Bloats, also not available in Microsoft Store search)
-- 💡 Microsoft Tips (Fixes Safe Mode and Troubleshooting)
-- 🎧 Realtek Audio Console (As it's not available in Microsoft search)
+- 🔴 AMD Radeon Software* (Without Bloats, also not available in Microsoft Store search)
+- 💡 Microsoft Tips* (Fixes Safe Mode and Troubleshooting)
+- 🎧 Realtek Audio Console* (As it's not available in Microsoft search)
 - 🌐 Edge Webview (Some Apps Requires)
-- ♻️ Hi-Bit Uninstaller (Free and good for fully uninstalling any app)
+- ♻️ Hi-Bit Uninstaller* (Free and good for fully uninstalling any app)
 - 📂 Microsoft Store (To uninstall/install it again)
 - 🌐 Various Browsers like Edge, Chrome, Firefox, Brave and Zen (Normal + Portable)
-- 💽 Memory Reduct (Like sysinternals but Lightweight)
+- 💽 Memory Reduct* (Like sysinternals but Lightweight)
 
 #### 🛠️ **System Management**
 - 💤 Toggle Hibernation, Fast Startup
-- 🖨️ Toggle Printer Spooler
+- 🖨️ Toggle Printer Spooler*
 - 📵 Toggle Notifications and Background Apps
 - 🔍 Toggle Search Indexing
 - 🎥 Toggle GameDVR
-- 🔒 Toggle Biometrics (Fingerprint and Face Unlock)
-- 💿 Toggle Compact OS (Free up space by compressing Windows Binaries)
+- 🔒 Toggle Biometrics* (Fingerprint and Face Unlock)
+- 💿 Toggle Compact OS* (Free up space by compressing Windows Binaries)
 
 #### ⚡ **Optimizations**
 - 🔔 Toggle Update Notification
-- 🔄 Toggle File Discovery, 8.3 Char Name, Last Access Time, Multi-Plane Overlay
+- 🔄 Toggle Automatic Folder Discovery, 8.3 Char Name, Last Access Time, Multi-Plane Overlay*
 - 🧹 Cleanup Script to clean unnecessary files and free up space
+- 💽 Toggle Superfetch/Prefetch*
+- ⏬ Toggle Delivery Optimization*
 
 #### 🖥️ **User Interface**
-- 📁 Toggle Gallery, Network Pane and Removable Drives in File Explorer
-- ♻️ Pin/Unpin Recycle bin in file explorer.
+- 🖼️ Toggle Gallery and Home
+- 📁 Toggle Network Pane and Removable Drives in File Explorer*
+- ♻️ Pin/Unpin Recycle bin in file explorer*
 - 📜 Toggle Recent Items (Recent Apps, Recent Documents, Files etc)
-- 🔄 Toggle Windows Old/New Context Menu
+- 🔄 Toggle Windows Old/New Context Menu*
+
+#### 🎛️ **Context Menu***
+- 🔑 Add/Remove Get File Hash
+- 🔋 Add/Remove Select Performance Mode
+
+#### 🚪 **Useful Shortcuts***
+- 🗄️ Open God Mode
+- 🏁 Open Startup Programs
+- 📀 Open Apps Data
+- 🔁 Restart to Bios Settings, Safe mode or Normal Mode
 
 ### 7. **🔄 Miscellaneous**
 - 🖥️ Create Shortcuts in Shivaay Folder of CTT Winutil and Activate Windows.

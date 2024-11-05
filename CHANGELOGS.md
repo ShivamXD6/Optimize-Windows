@@ -1,3 +1,35 @@
+# Changelogs - V4.2
+## Answer File Changes
+ - Updated Pagefile Size, Min to 800MB and Max to 16GB to avoid Low Ram issues.
+ - Not Removing Shortcut Icons as it Breaks inner icons of explorer.
+ - Disable recall using dism too in non-Copilot+ PCs just after the user is created to avoid Explorer issues.
+ - Disabled EdgeUpdate Scheduled Tasks.
+ - Disabled Account Info for Privacy.
+ - Removed User Based Registry for Tablet Mode as it's already Disabling System Wide.
+ - Disable Copilot System Wide.
+ - Adjust Priority for best Performance of Programs.
+ - Using policy to disable windows error Reporting.
+ - Enable hardware accelerated GPU Scheduling.
+ - Disabling Background Apps System-Wide.
+ - Enable old Nvidia Sharpening for better Visuals.
+ - Removed Duplicate Registry.
+ - Hide Home (Win 11) and 3D Objects (Win 10)
+ - Not Disabling Defender and Core Isolation by default. (Although can be disable from Folder, not recommended disabling for a Normal User)
+
+## Shivaay Folder Changes
+ - Added Additional Features Script.
+ - Added Update Script (Providing Updates for V4 and Above Versions)
+ - Created a new toggle script for Smart Screen instead of managing by Defender.
+ - From Shivaay Folder Software, Removed AMD Radeon Software, Realtek Audio Console, Microsoft Tips, Memory Reduct and Hibit Uninstaller.
+ - From Shivaay Folder Security, Removed Unused Security Pages.
+ - From Shivaay Folder System Management, Removed Compact OS, Printer Service, Biometric Service.
+ - From Shivaay Folder Optimization, Removed Automatic Folder Discovery,  Last access time and 8.3 Naming and MPO.
+ - From Shivaay Folder User Interface, Removed Network Pane, Recycle Bin, Removable Drives and Context Menu.
+ - Updated Script for Toggling background apps and notifications.
+
+## Additional Features Script Changes
+ - Added Many new Scripts, with 2 new Folders (Context Menus, Shortcuts)
+
 # Changelogs - V4.1
 ## Shivaay Folder Changes
  - Updated Core Isolation Script, to make sure it's disabling VBS.

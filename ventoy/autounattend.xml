@@ -62,79 +62,6 @@
      <Order>11</Order>
      <Path>cmd /c echo 0 >> X:\Sources\ei.cfg</Path>
     </RunSynchronousCommand>
-<!--Disable Defender-->
-    <RunSynchronousCommand wcm:action="add">
-     <Order>12</Order>
-     <Path>cmd /c "&gt;&gt;"X:\disable-defender.cmd" echo @ECHO OFF"</Path>
-    </RunSynchronousCommand>
-    <RunSynchronousCommand wcm:action="add">
-     <Order>13</Order>
-     <Path>cmd /c "&gt;&gt;"X:\disable-defender.cmd" echo SET file=C:\$Windows.~BT\NewOS\Windows\System32\config\SYSTEM"</Path>
-    </RunSynchronousCommand>
-    <RunSynchronousCommand wcm:action="add">
-     <Order>14</Order>
-     <Path>cmd /c "&gt;&gt;"X:\disable-defender.cmd" echo FOR /L ^%^%i IN (0) DO ("</Path>
-    </RunSynchronousCommand>
-    <RunSynchronousCommand wcm:action="add">
-     <Order>15</Order>
-     <Path>cmd /c "&gt;&gt;"X:\disable-defender.cmd" echo CALL :sleep"</Path>
-    </RunSynchronousCommand>
-    <RunSynchronousCommand wcm:action="add">
-     <Order>16</Order>
-     <Path>cmd /c "&gt;&gt;"X:\disable-defender.cmd" echo IF EXIST ^%file^% ("</Path>
-    </RunSynchronousCommand>
-    <RunSynchronousCommand wcm:action="add">
-     <Order>17</Order>
-     <Path>cmd /c "&gt;&gt;"X:\disable-defender.cmd" echo CALL :load"</Path>
-    </RunSynchronousCommand>
-    <RunSynchronousCommand wcm:action="add">
-     <Order>18</Order>
-     <Path>cmd /c "&gt;&gt;"X:\disable-defender.cmd" echo FOR ^%^%s IN (Sense WdBoot WdFilter WdNisDrv WdNisSvc WinDefend MDCoreSvc) DO reg ADD HKLM\mount\ControlSet001\Services\^%^%s /v Start /t REG_DWORD /d 4 /f"</Path>
-    </RunSynchronousCommand>
-    <RunSynchronousCommand wcm:action="add">
-     <Order>19</Order>
-     <Path>cmd /c "&gt;&gt;"X:\disable-defender.cmd" echo reg UNLOAD HKLM\mount"</Path>
-    </RunSynchronousCommand>
-    <RunSynchronousCommand wcm:action="add">
-     <Order>20</Order>
-     <Path>cmd /c "&gt;&gt;"X:\disable-defender.cmd" echo EXIT ) )"</Path>
-    </RunSynchronousCommand>
-    <RunSynchronousCommand wcm:action="add">
-     <Order>21</Order>
-     <Path>cmd /c "&gt;&gt;"X:\disable-defender.cmd" echo GOTO :eof"</Path>
-    </RunSynchronousCommand>
-    <RunSynchronousCommand wcm:action="add">
-     <Order>22</Order>
-     <Path>cmd /c "&gt;&gt;"X:\disable-defender.cmd" echo :load"</Path>
-    </RunSynchronousCommand>
-    <RunSynchronousCommand wcm:action="add">
-     <Order>23</Order>
-     <Path>cmd /c "&gt;&gt;"X:\disable-defender.cmd" echo reg LOAD HKLM\mount ^%file^%"</Path>
-    </RunSynchronousCommand>
-    <RunSynchronousCommand wcm:action="add">
-     <Order>24</Order>
-     <Path>cmd /c "&gt;&gt;"X:\disable-defender.cmd" echo IF ^%errorlevel^% GTR 0 GOTO load"</Path>
-    </RunSynchronousCommand>
-    <RunSynchronousCommand wcm:action="add">
-     <Order>25</Order>
-     <Path>cmd /c "&gt;&gt;"X:\disable-defender.cmd" echo GOTO :eof"</Path>
-    </RunSynchronousCommand>
-    <RunSynchronousCommand wcm:action="add">
-     <Order>26</Order>
-     <Path>cmd /c "&gt;&gt;"X:\disable-defender.cmd" echo :sleep"</Path>
-    </RunSynchronousCommand>
-    <RunSynchronousCommand wcm:action="add">
-     <Order>27</Order>
-     <Path>cmd /c "&gt;&gt;"X:\disable-defender.cmd" echo ping -n 1 127.0.0.1 ^&gt; NUL"</Path>
-    </RunSynchronousCommand>
-    <RunSynchronousCommand wcm:action="add">
-     <Order>28</Order>
-     <Path>cmd /c "&gt;&gt;"X:\disable-defender.cmd" echo GOTO :eof"</Path>
-    </RunSynchronousCommand>
-    <RunSynchronousCommand wcm:action="add">
-     <Order>29</Order>
-     <Path>cmd /c "start /MIN X:\disable-defender.cmd"</Path>
-    </RunSynchronousCommand>
    </RunSynchronous>
   </component>
   <component name="Microsoft-Windows-Setup" processorArchitecture="arm64" publicKeyToken="31bf3856ad364e35" language="neutral" versionScope="nonSxS">
@@ -190,78 +117,6 @@
      <Order>11</Order>
      <Path>cmd /c echo 0 >> X:\Sources\ei.cfg</Path>
     </RunSynchronousCommand>
-    <RunSynchronousCommand wcm:action="add">
-     <Order>12</Order>
-     <Path>cmd /c "&gt;&gt;"X:\disable-defender.cmd" echo @ECHO OFF"</Path>
-    </RunSynchronousCommand>
-    <RunSynchronousCommand wcm:action="add">
-     <Order>13</Order>
-     <Path>cmd /c "&gt;&gt;"X:\disable-defender.cmd" echo SET file=C:\$Windows.~BT\NewOS\Windows\System32\config\SYSTEM"</Path>
-    </RunSynchronousCommand>
-    <RunSynchronousCommand wcm:action="add">
-     <Order>14</Order>
-     <Path>cmd /c "&gt;&gt;"X:\disable-defender.cmd" echo FOR /L ^%^%i IN (0) DO ("</Path>
-    </RunSynchronousCommand>
-    <RunSynchronousCommand wcm:action="add">
-     <Order>15</Order>
-     <Path>cmd /c "&gt;&gt;"X:\disable-defender.cmd" echo CALL :sleep"</Path>
-    </RunSynchronousCommand>
-    <RunSynchronousCommand wcm:action="add">
-     <Order>16</Order>
-     <Path>cmd /c "&gt;&gt;"X:\disable-defender.cmd" echo IF EXIST ^%file^% ("</Path>
-    </RunSynchronousCommand>
-    <RunSynchronousCommand wcm:action="add">
-     <Order>17</Order>
-     <Path>cmd /c "&gt;&gt;"X:\disable-defender.cmd" echo CALL :load"</Path>
-    </RunSynchronousCommand>
-    <RunSynchronousCommand wcm:action="add">
-     <Order>18</Order>
-     <Path>cmd /c "&gt;&gt;"X:\disable-defender.cmd" echo FOR ^%^%s IN (Sense WdBoot WdFilter WdNisDrv WdNisSvc WinDefend MDCoreSvc) DO reg ADD HKLM\mount\ControlSet001\Services\^%^%s /v Start /t REG_DWORD /d 4 /f"</Path>
-    </RunSynchronousCommand>
-    <RunSynchronousCommand wcm:action="add">
-     <Order>19</Order>
-     <Path>cmd /c "&gt;&gt;"X:\disable-defender.cmd" echo reg UNLOAD HKLM\mount"</Path>
-    </RunSynchronousCommand>
-    <RunSynchronousCommand wcm:action="add">
-     <Order>20</Order>
-     <Path>cmd /c "&gt;&gt;"X:\disable-defender.cmd" echo EXIT ) )"</Path>
-    </RunSynchronousCommand>
-    <RunSynchronousCommand wcm:action="add">
-     <Order>21</Order>
-     <Path>cmd /c "&gt;&gt;"X:\disable-defender.cmd" echo GOTO :eof"</Path>
-    </RunSynchronousCommand>
-    <RunSynchronousCommand wcm:action="add">
-     <Order>22</Order>
-     <Path>cmd /c "&gt;&gt;"X:\disable-defender.cmd" echo :load"</Path>
-    </RunSynchronousCommand>
-    <RunSynchronousCommand wcm:action="add">
-     <Order>23</Order>
-     <Path>cmd /c "&gt;&gt;"X:\disable-defender.cmd" echo reg LOAD HKLM\mount ^%file^%"</Path>
-    </RunSynchronousCommand>
-    <RunSynchronousCommand wcm:action="add">
-     <Order>24</Order>
-     <Path>cmd /c "&gt;&gt;"X:\disable-defender.cmd" echo IF ^%errorlevel^% GTR 0 GOTO load"</Path>
-    </RunSynchronousCommand>
-    <RunSynchronousCommand wcm:action="add">
-     <Order>25</Order>
-     <Path>cmd /c "&gt;&gt;"X:\disable-defender.cmd" echo GOTO :eof"</Path>
-    </RunSynchronousCommand>
-    <RunSynchronousCommand wcm:action="add">
-     <Order>26</Order>
-     <Path>cmd /c "&gt;&gt;"X:\disable-defender.cmd" echo :sleep"</Path>
-    </RunSynchronousCommand>
-    <RunSynchronousCommand wcm:action="add">
-     <Order>27</Order>
-     <Path>cmd /c "&gt;&gt;"X:\disable-defender.cmd" echo ping -n 1 127.0.0.1 ^&gt; NUL"</Path>
-    </RunSynchronousCommand>
-    <RunSynchronousCommand wcm:action="add">
-     <Order>28</Order>
-     <Path>cmd /c "&gt;&gt;"X:\disable-defender.cmd" echo GOTO :eof"</Path>
-    </RunSynchronousCommand>
-    <RunSynchronousCommand wcm:action="add">
-     <Order>29</Order>
-     <Path>cmd /c "start /MIN X:\disable-defender.cmd"</Path>
-    </RunSynchronousCommand>
    </RunSynchronous>
   </component>
   <component name="Microsoft-Windows-Setup" processorArchitecture="amd64" publicKeyToken="31bf3856ad364e35" language="neutral" versionScope="nonSxS">
@@ -316,78 +171,6 @@
     <RunSynchronousCommand wcm:action="add">
      <Order>11</Order>
      <Path>cmd /c echo 0 >> X:\Sources\ei.cfg</Path>
-    </RunSynchronousCommand>
-    <RunSynchronousCommand wcm:action="add">
-     <Order>12</Order>
-     <Path>cmd /c "&gt;&gt;"X:\disable-defender.cmd" echo @ECHO OFF"</Path>
-    </RunSynchronousCommand>
-    <RunSynchronousCommand wcm:action="add">
-     <Order>13</Order>
-     <Path>cmd /c "&gt;&gt;"X:\disable-defender.cmd" echo SET file=C:\$Windows.~BT\NewOS\Windows\System32\config\SYSTEM"</Path>
-    </RunSynchronousCommand>
-    <RunSynchronousCommand wcm:action="add">
-     <Order>14</Order>
-     <Path>cmd /c "&gt;&gt;"X:\disable-defender.cmd" echo FOR /L ^%^%i IN (0) DO ("</Path>
-    </RunSynchronousCommand>
-    <RunSynchronousCommand wcm:action="add">
-     <Order>15</Order>
-     <Path>cmd /c "&gt;&gt;"X:\disable-defender.cmd" echo CALL :sleep"</Path>
-    </RunSynchronousCommand>
-    <RunSynchronousCommand wcm:action="add">
-     <Order>16</Order>
-     <Path>cmd /c "&gt;&gt;"X:\disable-defender.cmd" echo IF EXIST ^%file^% ("</Path>
-    </RunSynchronousCommand>
-    <RunSynchronousCommand wcm:action="add">
-     <Order>17</Order>
-     <Path>cmd /c "&gt;&gt;"X:\disable-defender.cmd" echo CALL :load"</Path>
-    </RunSynchronousCommand>
-    <RunSynchronousCommand wcm:action="add">
-     <Order>18</Order>
-     <Path>cmd /c "&gt;&gt;"X:\disable-defender.cmd" echo FOR ^%^%s IN (Sense WdBoot WdFilter WdNisDrv WdNisSvc WinDefend MDCoreSvc) DO reg ADD HKLM\mount\ControlSet001\Services\^%^%s /v Start /t REG_DWORD /d 4 /f"</Path>
-    </RunSynchronousCommand>
-    <RunSynchronousCommand wcm:action="add">
-     <Order>19</Order>
-     <Path>cmd /c "&gt;&gt;"X:\disable-defender.cmd" echo reg UNLOAD HKLM\mount"</Path>
-    </RunSynchronousCommand>
-    <RunSynchronousCommand wcm:action="add">
-     <Order>20</Order>
-     <Path>cmd /c "&gt;&gt;"X:\disable-defender.cmd" echo EXIT ) )"</Path>
-    </RunSynchronousCommand>
-    <RunSynchronousCommand wcm:action="add">
-     <Order>21</Order>
-     <Path>cmd /c "&gt;&gt;"X:\disable-defender.cmd" echo GOTO :eof"</Path>
-    </RunSynchronousCommand>
-    <RunSynchronousCommand wcm:action="add">
-     <Order>22</Order>
-     <Path>cmd /c "&gt;&gt;"X:\disable-defender.cmd" echo :load"</Path>
-    </RunSynchronousCommand>
-    <RunSynchronousCommand wcm:action="add">
-     <Order>23</Order>
-     <Path>cmd /c "&gt;&gt;"X:\disable-defender.cmd" echo reg LOAD HKLM\mount ^%file^%"</Path>
-    </RunSynchronousCommand>
-    <RunSynchronousCommand wcm:action="add">
-     <Order>24</Order>
-     <Path>cmd /c "&gt;&gt;"X:\disable-defender.cmd" echo IF ^%errorlevel^% GTR 0 GOTO load"</Path>
-    </RunSynchronousCommand>
-    <RunSynchronousCommand wcm:action="add">
-     <Order>25</Order>
-     <Path>cmd /c "&gt;&gt;"X:\disable-defender.cmd" echo GOTO :eof"</Path>
-    </RunSynchronousCommand>
-    <RunSynchronousCommand wcm:action="add">
-     <Order>26</Order>
-     <Path>cmd /c "&gt;&gt;"X:\disable-defender.cmd" echo :sleep"</Path>
-    </RunSynchronousCommand>
-    <RunSynchronousCommand wcm:action="add">
-     <Order>27</Order>
-     <Path>cmd /c "&gt;&gt;"X:\disable-defender.cmd" echo ping -n 1 127.0.0.1 ^&gt; NUL"</Path>
-    </RunSynchronousCommand>
-    <RunSynchronousCommand wcm:action="add">
-     <Order>28</Order>
-     <Path>cmd /c "&gt;&gt;"X:\disable-defender.cmd" echo GOTO :eof"</Path>
-    </RunSynchronousCommand>
-    <RunSynchronousCommand wcm:action="add">
-     <Order>29</Order>
-     <Path>cmd /c "start /MIN X:\disable-defender.cmd"</Path>
     </RunSynchronousCommand>
    </RunSynchronous>
   </component>
@@ -657,12 +440,12 @@ Start-Transcript -Path $logFile
 
 # Create Shivaay Folders in Desktop
 $desktopPath = "C:\Users\Public\Desktop"
-$shivaayPath = New-Item -Path "$desktopPath\Shivaay" -ItemType Directory -Force
-$optimizationPath = New-Item -Path "$shivaayPath\Optimizations" -ItemType Directory -Force
-$securityPath = New-Item -Path $shivaayPath "$shivaayPath\Security" -ItemType Directory -Force
-$softwaresPath = New-Item -Path $shivaayPath "$shivaayPath\Softwares" -ItemType Directory -Force
-$managementPath = New-Item -Path $shivaayPath "$shivaayPath\System Management" -ItemType Directory -Force
-$interfacePath = New-Item -Path $shivaayPath "$shivaayPath\User Interface" -ItemType Directory -Force
+$shivaayPath = New-Item -Path $desktopPath -Name "Shivaay" -ItemType Directory -Force
+$optimizationPath = New-Item -Path $shivaayPath -Name "Optimizations" -ItemType Directory -Force
+$securityPath = New-Item -Path $shivaayPath -Name "Security" -ItemType Directory -Force
+$softwaresPath = New-Item -Path $shivaayPath -Name "Softwares" -ItemType Directory -Force
+$managementPath = New-Item -Path $shivaayPath -Name "System Management" -ItemType Directory -Force
+$interfacePath = New-Item -Path $shivaayPath -Name "User Interface" -ItemType Directory -Force
 
 # Create Shortcuts
 function Create-Shortcut {
@@ -690,6 +473,10 @@ $winUtilCommand = "irm https://christitus.com/win | iex"
 Create-Shortcut -target $winUtilCommand -shortcutName 'WinUtil-CTT.lnk'
 $activatedCommand = "irm https://get.activated.win | iex"
 Create-Shortcut -target $activatedCommand -shortcutName 'Activate-Windows.lnk'
+$addFeatures = "irm https://raw.githubusercontent.com/ShivamXD6/Optimize-Windows/main/Add-More-Features.ps1 | iex"
+Create-Shortcut -target $addFeatures -shortcutName 'Add More Features.lnk'
+$updateOS = "irm https://raw.githubusercontent.com/ShivamXD6/Optimize-Windows/main/Updates.ps1 | iex"
+Create-Shortcut -target $updateOS -shortcutName 'Update.lnk'
 
 # Create Files
 function Create-File {
@@ -831,7 +618,7 @@ bcdedit /set {current} safeboot minimal
 shutdown /r /f /t 5 /c "PC will restart into safemode in 5 seconds"
 )
 "@
-Create-File -fileContent $Defender -fileName 'Enable - Defender' -fileDirectory $securityPath
+Create-File -fileContent $Defender -fileName 'Disable - Defender' -fileDirectory $securityPath
 
 # Toggle Smart Screen
 $smartScreen = @"
@@ -911,7 +698,7 @@ powercfg /hibernate off
 ren "%~dpnx0" "Enable - Hibernation and Fast Startup.cmd"
 )
 "@
-Create-File -fileContent $hibernation -fileName 'Enable - Hibernation and Fast Startup' -fileDirectory $managementPath
+Create-File -fileContent $hibernation -fileName 'Disable - Hibernation and Fast Startup' -fileDirectory $managementPath
 
 # Toggle GameDVR
 $gameDVR = @"
@@ -1258,21 +1045,6 @@ del /s /q "C:\Windows\assembly\NativeImages_v4.0.30319_32\*.*"
 del /s /q "C:\Windows\Containers\*.*"
 del /s /q "C:\Windows\System32\Microsoft-Edge-WebView"
 
-:: Disable Defender
-reg add "HKLM\SYSTEM\CurrentControlSet\Services\Sense" /v Start /t REG_DWORD /d 4 /f
-reg add "HKLM\SYSTEM\CurrentControlSet\Services\WdBoot" /v Start /t REG_DWORD /d 4 /f
-reg add "HKLM\SYSTEM\CurrentControlSet\Services\WdFilter" /v Start /t REG_DWORD /d 4 /f
-reg add "HKLM\SYSTEM\CurrentControlSet\Services\WdNisDrv" /v Start /t REG_DWORD /d 4 /f
-reg add "HKLM\SYSTEM\CurrentControlSet\Services\WdNisSvc" /v Start /t REG_DWORD /d 4 /f
-reg add "HKLM\SYSTEM\CurrentControlSet\Services\WinDefend" /v Start /t REG_DWORD /d 4 /f
-reg add "HKLM\SYSTEM\CurrentControlSet\Services\MDCoreSvc" /v Start /t REG_DWORD /d 4 /f
-reg delete "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Run" /v "SecurityHealth" /f
-reg delete "HKCR\*\shellex\ContextMenuHandlers\EPP" /f
-reg delete "HKCR\CLSID\{09A47860-11B0-4DA5-AFA5-26D86198A780}" /f
-reg delete "HKCR\Directory\shellex\ContextMenuHandlers\EPP" /f
-reg delete "HKCR\Drive\shellex\ContextMenuHandlers\EPP" /f
-reg add "HKLM\SOFTWARE\Policies\Microsoft\Windows Defender Security Center\Virus and threat protection" /v UILockdown /t REG_DWORD /d 1 /f
-
 :: Disable Defender Auto Sample Submission
 reg add "HKLM\SOFTWARE\Microsoft\Windows Defender\Spynet" /v SubmitSamplesConsent /t REG_DWORD /d 2 /f
 
@@ -1291,14 +1063,6 @@ reg add "HKLM\SOFTWARE\Policies\Microsoft\Windows Defender Security Center\Devic
 reg add "HKLM\SOFTWARE\Policies\Microsoft\Windows Defender Security Center\Family options" /v "UILockdown" /t REG_DWORD /d 1 /f
 reg add "HKLM\SOFTWARE\Policies\Microsoft\Windows Defender Security Center\Account protection" /v "UILockdown" /t REG_DWORD /d 1 /f
 
-:: Disable Core Isolation (To Improve Performance)
-reg add "HKLM\SYSTEM\CurrentControlSet\Control\DeviceGuard\Scenarios\HypervisorEnforcedCodeIntegrity" /v Enabled /t REG_DWORD /d 0 /f
-reg add "HKLM\SOFTWARE\Policies\Microsoft\Windows Defender Security Center\Device security" /v "UILockdown" /t REG_DWORD /d 1 /f
-reg add "HKLM\SYSTEM\CurrentControlSet\Control\DeviceGuard\Scenarios\KernelShadowStacks" /v Enabled /t REG_DWORD /d 0 /f
-reg add "HKLM\SYSTEM\CurrentControlSet\Control\DeviceGuard\Scenarios\CredentialGuard" /v Enabled /t REG_DWORD /d 0 /f
-reg add "HKLM\SYSTEM\CurrentControlSet\Control\Lsa" /v RunAsPPL /t REG_DWORD /d 0 /f
-reg add "HKLM\SYSTEM\CurrentControlSet\Control\DeviceGuard" /v "EnableVirtualizationBasedSecurity" /t REG_DWORD /d 0 /f
-
 :: Disable Malicious Software Removal Tool From Installing 
 reg add "HKLM\SOFTWARE\Policies\Microsoft\MRT" /v "DontOfferThroughWUAU" /t REG_DWORD /d 1 /f
 
@@ -1309,8 +1073,8 @@ reg add "HKLM\SOFTWARE\Microsoft\OEM\Device\Capture" /v "NoPhysicalCameraLED" /t
 reg add "HKLM\SYSTEM\CurrentControlSet\Control\CrashControl" /v "AutoReboot" /t REG_DWORD /d 0 /f
 
 :: Add Shivaay OS in OEM Info
-reg add "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\OEMInformation" /v "Model" /t REG_SZ /d "ShivaayOS - V4.1" /f
-reg add "HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion" /v "RegisteredOrganization" /t REG_SZ /d "ShivaayOS - V4.1" /f
+reg add "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\OEMInformation" /v "Model" /t REG_SZ /d "ShivaayOS - V4.2" /f
+reg add "HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion" /v "RegisteredOrganization" /t REG_SZ /d "ShivaayOS - V4.2" /f
  
 :: Disable Multi-Plane Overlay (MPO) (Fixes Lags or Glitches On Nvidia or AMD GPUs)
 reg add "HKLM\SOFTWARE\Microsoft\Windows\Dwm" /v OverlayTestMode /t REG_DWORD /d 5 /f
