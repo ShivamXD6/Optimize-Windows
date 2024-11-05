@@ -139,13 +139,16 @@ if ($nextVersions.Count -gt 0) {
                 pause
             } catch {
                 Write-Host "Failed to execute the script from $scriptUrl." -ForegroundColor Red
+                pause
             }
         } else {
             Write-Host "Update.ps1 script not found for release: V$nextVersion" -ForegroundColor Red
+            pause
         }
     }
 } else {
     Write-Host "You are already on the latest version: $currentVersion" -ForegroundColor Green
+    pause
 }
 
 Write-Host "Updates completed!" -ForegroundColor Cyan

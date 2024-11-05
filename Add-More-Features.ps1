@@ -93,7 +93,7 @@ $winUtilCommand = "irm https://christitus.com/win | iex"
 Create-Shortcut -target $winUtilCommand -shortcutName 'WinUtil-CTT.lnk'
 $activatedCommand = "irm https://get.activated.win | iex"
 Create-Shortcut -target $activatedCommand -shortcutName 'Activate-Windows.lnk'
-$addFeatures = "irm https://raw.githubusercontent.com/ShivamXD6/Optimize-Windows/main/Add-More-Features.ps1 | iex"
+$addFeatures = "irm https://github.com/ShivamXD6/Optimize-Windows/releases/latest/download/Add-More-Features.ps1 | iex"
 Create-Shortcut -target $addFeatures -shortcutName 'Add More Features.lnk'
 $updateOS = "irm https://raw.githubusercontent.com/ShivamXD6/Optimize-Windows/main/Updates.ps1 | iex"
 Create-Shortcut -target $updateOS -shortcutName 'Update.lnk'
