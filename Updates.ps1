@@ -1,129 +1,151 @@
-# Load Windows Forms
-Add-Type -AssemblyName System.Windows.Forms
-Add-Type -AssemblyName System.Drawing
+# Variables
+$apiUrl = "https://api.github.com/repos/ShivamXD6/Optimize-Windows/releases"
 
-# Function to get the current version from the registry
+# Function to get the current version from the OEM information
 function Get-CurrentVersion {
-$modelKey = 'HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\OEMInformation'
-$orgKey = 'HKLM:\SOFTWARE\Microsoft\Windows NT\CurrentVersion'
+    $oemInfo = Get-ItemProperty "HKLM:\SOFTWARE\Microsoft\Windows NT\CurrentVersion"
     
-    $modelVersion = (Get-ItemProperty -Path $modelKey).Model
-    $orgVersion = (Get-ItemProperty -Path $orgKey).RegisteredOrganization
-
-    return $modelVersion, $orgVersion
+    if ($oemInfo.RegisteredOrganization -match "ShivaayOS - V(\d+(\.\d+)?)") {
+        return $matches[1]
+    } 
+    return "0.0"
 }
 
-# Function to update the UI
-function Update-UI {
+$currentVersion = Get-CurrentVersion
+
+# Function to display a decorated header
+function Show-Header {
+    param (
+        [string]$title
+    )
+    Clear-Host
+    $header = @"
+==========================================================
+               $title
+==========================================================
+"@
+    Write-Host $header -ForegroundColor Cyan
+}
+
+# Function to fetch releases
+function Fetch-Releases {
+    try {
+        $response = irm -Uri $apiUrl -Method Get -Headers @{ "User-Agent" = "PowerShell" }
+        return $response
+    } catch {
+        Write-Host "Failed to fetch releases. Please check your internet connection." -ForegroundColor Red
+        exit
+    }
+}
+
+# Function to display changelog with preview/full toggle
+function Toggle-Changelog {
     param (
         [string]$version,
-        [array]$availableUpdates,
-        [hashtable]$changeLogs
+        [string]$changelog,
+        [switch]$isPreview
     )
+    Clear-Host  # Clear previous output
+    Show-Header "Changelog for version V${version}"
 
-    # Create the form
-    $form = New-Object System.Windows.Forms.Form
-    $form.Text = "Update Manager"
-    $form.Size = New-Object System.Drawing.Size(400, 500)
-    $form.StartPosition = [System.Windows.Forms.FormStartPosition]::CenterScreen
-    $form.BackColor = [System.Drawing.Color]::FromArgb(240, 240, 240)
-
-    # Label for current version and update range
-    $label = New-Object System.Windows.Forms.Label
-    $label.Text = "Current Version: $version`nAvailable Update: $($availableUpdates[0]) to $($availableUpdates[-1])"
-    $label.AutoSize = $true
-    $label.Location = New-Object System.Drawing.Point(10, 10)
-    $label.Font = New-Object System.Drawing.Font("Segoe UI", 10, [System.Drawing.FontStyle]::Bold)
-    $form.Controls.Add($label)
-
-    # RichTextBox for showing all changelogs
-    $richTextBox = New-Object System.Windows.Forms.RichTextBox
-    $richTextBox.Location = New-Object System.Drawing.Point(10, 50)
-    $richTextBox.Size = New-Object System.Drawing.Size(360, 350)
-    $richTextBox.ReadOnly = $true
-    $richTextBox.ScrollBars = [System.Windows.Forms.RichTextBoxScrollBars]::Vertical
-    $richTextBox.Font = New-Object System.Drawing.Font("Segoe UI", 9)
-    $richTextBox.BackColor = [System.Drawing.Color]::FromArgb(255, 255, 255)
-    $richTextBox.BorderStyle = [System.Windows.Forms.BorderStyle]::Fixed3D
-    $form.Controls.Add($richTextBox)
-
-    # Display all changelogs in the RichTextBox by default
-    foreach ($update in $availableUpdates) {
-        $richTextBox.SelectionFont = New-Object System.Drawing.Font("Segoe UI", 9, [System.Drawing.FontStyle]::Bold)
-        $richTextBox.AppendText("Changelogs for ${update}:`n")
-        $richTextBox.SelectionFont = New-Object System.Drawing.Font("Segoe UI", 9)
-        $changeLogEntries = $changeLogs[$update] -split "`n"
-        for ($i = 0; $i -lt $changeLogEntries.Count; $i++) {
-            $richTextBox.AppendText("$($i + 1). $($changeLogEntries[$i])`n")
-        }
-        $richTextBox.AppendText("`n")
+    if ($isPreview) {
+        # Display preview (first 5 lines or a defined preview length)
+        Write-Host "Changelog Preview: (Press 'T' to expand for full changelog)" -ForegroundColor Yellow
+        $changelog -split "`n" | Select-Object -First 5 | ForEach-Object { Write-Host $_ -ForegroundColor Gray }
+    } else {
+        # Display full changelog
+        Write-Host "Full Changelog (Press 'T' to collapse)" -ForegroundColor Yellow
+        Write-Host $changelog -ForegroundColor Gray
     }
-
-    # Update button
-    $updateButton = New-Object System.Windows.Forms.Button
-    $updateButton.Text = "Apply Updates"
-    $updateButton.Location = New-Object System.Drawing.Point(10, 410)
-    $updateButton.Size = New-Object System.Drawing.Size(360, 30)
-    $updateButton.Font = New-Object System.Drawing.Font("Segoe UI", 10, [System.Drawing.FontStyle]::Bold)
-    $updateButton.BackColor = [System.Drawing.Color]::FromArgb(0, 120, 215)
-    $updateButton.ForeColor = [System.Drawing.Color]::White
-    $updateButton.FlatStyle = [System.Windows.Forms.FlatStyle]::Flat
-    $updateButton.Add_Click({
-        foreach ($selectedUpdate in $availableUpdates) {
-            Apply-Update $selectedUpdate
-        }
-        [System.Windows.Forms.MessageBox]::Show("All updates have been applied.", "Updates Applied")
-        $form.Close()
-    })
-    $form.Controls.Add($updateButton)
-
-    # Show the form
-    $form.ShowDialog() | Out-Null
 }
 
-# Function to apply the update
-function Apply-Update {
+# Function to get the next versions based on the current version
+function Get-NextVersions {
     param (
-        [string]$updateVersion
-    )
-    
-    # Placeholder for update commands based on the version
-    switch ($updateVersion) {
-        "4.1" {
-            Write-Host "Applying update 4.1..."
-        }
-        "4.5" {
-            Write-Host "Applying update 4.5..."
-        }
-        default {
-            Write-Host "No actions defined for version: $updateVersion"
+        [string]$currentVersion,
+        [array]$releases
+    )   
+    $currentMajor = [int]($currentVersion.Split('.')[0])
+    $currentMinor = [int]($currentVersion.Split('.')[1])
+    $nextVersions = @()
+    foreach ($release in $releases) {
+        $releaseVersion = $release.tag_name -replace "V", "" # Extract version without 'V'
+        $releaseMajor = [int]($releaseVersion.Split('.')[0])
+        $releaseMinor = [int]($releaseVersion.Split('.')[1])
+
+        # Find versions greater than the current version
+        if ($releaseMajor -gt $currentMajor -or ($releaseMajor -eq $currentMajor -and $releaseMinor -gt $currentMinor)) {
+            # Format as a valid version string
+            if ($releaseMinor -eq 0) {
+                $releaseVersion = "$releaseMajor.0"
+            }
+            $nextVersions += $releaseVersion
         }
     }
 
-    # Update the registry with the new version
-    $newVersion = "ShivaayOS - V$updateVersion"
-    Set-ItemProperty -Path 'HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\OEMInformation' -Name "Model" -Value $newVersion
-    Set-ItemProperty -Path 'HKLM:\SOFTWARE\Microsoft\Windows NT\CurrentVersion' -Name "RegisteredOrganization" -Value $newVersion
-    Write-Host "System version updated to $newVersion."
+    # Sort versions as System.Version objects
+    $nextVersions = $nextVersions | Sort-Object { [version]$_ }
+    return $nextVersions
 }
 
-# Main execution
-$currentVersion, $orgVersion = Get-CurrentVersion
-
-# Parse numeric part of current version (e.g., "4.1" from "ShivaayOS - V4.1")
-$currentVersionNumeric = ($currentVersion -split "V")[-1].Trim()
-
-# Filter available updates to exclude the current version
-$availableUpdates = @("4.1", "4.5") | Where-Object { $_ -gt $currentVersionNumeric }
-
-# Change logs for each update
-$changeLogs = @{
-    "4.1" = "Added Feature A.`nImproved Performance."
-    "4.5" = "Fixed bugs.`nEnhanced UI.`nAdded Feature B."
+# Function to update OEM information
+function Update-OEMInfo {
+    param (
+        [string]$version
+    )
+    reg add "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\OEMInformation" /v "Model" /t REG_SZ /d "ShivaayOS - V$version" /f
+    reg add "HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion" /v "RegisteredOrganization" /t REG_SZ /d "ShivaayOS - V$version" /f    
+    Write-Host "Updated to ShivaayOS - V$version." -ForegroundColor Green
 }
 
-if ($availableUpdates.Count -gt 0) {
-    Update-UI -version $currentVersion -availableUpdates $availableUpdates -changeLogs $changeLogs
+# Main script execution
+Show-Header "Checking for Updates"
+$releases = Fetch-Releases
+
+# Get the next versions to update to
+$nextVersions = Get-NextVersions -currentVersion $currentVersion -releases $releases
+
+if ($nextVersions.Count -gt 0) {
+    Write-Host "Current version: $currentVersion" -ForegroundColor Yellow
+    Write-Host "Available versions to update: $($nextVersions -join ', ')" -ForegroundColor Yellow
+    Write-Host ""
+
+    foreach ($nextVersion in $nextVersions) {
+        # Get changelog for the current version
+        $release = $releases | Where-Object { $_.tag_name -eq "V$nextVersion" }
+        $changelog = $release.body
+        $isPreview = $true  # Start with preview mode
+
+        # Toggle loop for changelog view
+        do {
+            Toggle-Changelog -version $nextVersion -changelog $changelog -isPreview:$isPreview
+            Write-Host "Press 'T' to toggle between preview and full changelog, or 'Enter' to continue to update." -ForegroundColor Cyan
+            $key = $Host.UI.RawUI.ReadKey("NoEcho,IncludeKeyDown")
+
+            # Toggle preview/full view on 'T'
+            if ($key.Character -eq 'T') {
+                $isPreview = -not $isPreview
+            }
+        } until ($key.VirtualKeyCode -eq 13)  # Continue on 'Enter'
+
+        # Find and execute the Update.ps1 script
+        $updateAsset = $release.assets | Where-Object { $_.name -eq "Update.ps1" }
+        if ($updateAsset) {
+            $scriptUrl = $updateAsset.browser_download_url
+            Write-Host "Executing script from: $scriptUrl" -ForegroundColor Green
+            try {
+                irm $scriptUrl | iex
+                Update-OEMInfo -version $nextVersion
+                pause
+            } catch {
+                Write-Host "Failed to execute the script from $scriptUrl." -ForegroundColor Red
+            }
+        } else {
+            Write-Host "Update.ps1 script not found for release: V$nextVersion" -ForegroundColor Red
+        }
+    }
 } else {
-    [System.Windows.Forms.MessageBox]::Show("No available updates for your version.", "No Updates")
+    Write-Host "You are already on the latest version: $currentVersion" -ForegroundColor Green
 }
+
+Write-Host "Updates completed!" -ForegroundColor Cyan
