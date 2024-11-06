@@ -3,9 +3,9 @@ $apiUrl = "https://api.github.com/repos/ShivamXD6/Optimize-Windows/releases"
 
 # Function to get the current version from the OEM information
 function Get-CurrentVersion {
-    $oemInfo = Get-ItemProperty "HKLM:\SOFTWARE\Microsoft\Windows NT\CurrentVersion"
+    $oemInfo = Get-ItemProperty "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\OEMInformation"
     
-    if ($oemInfo.RegisteredOrganization -match "ShivaayOS - V(\d+(\.\d+)?)") {
+    if ($oemInfo.Model -match "ShivaayOS - V(\d+(\.\d+)?)") {
         return $matches[1]
     } 
     return "0.0"
@@ -94,7 +94,6 @@ function Update-OEMInfo {
         [string]$version
     )
     reg add "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\OEMInformation" /v "Model" /t REG_SZ /d "ShivaayOS - V$version" /f
-    reg add "HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion" /v "RegisteredOrganization" /t REG_SZ /d "ShivaayOS - V$version" /f    
     Write-Host "Updated to ShivaayOS - V$version." -ForegroundColor Green
 }
 

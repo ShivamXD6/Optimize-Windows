@@ -8,7 +8,7 @@
 [![Discord](https://img.shields.io/badge/Join-Discord-5865F2?style=for-the-badge&logo=discord&logoColor=white)](https://discord.gg/gw3cRp6xBw)  
 [![Contribute](https://img.shields.io/badge/Contribute-Start%20a%20PR-FF4500?style=for-the-badge&logo=github&logoColor=white)](https://github.com/ShivamXD6/Optimize-Windows/compare)
 
- - This repository contains an Answer File designed to optimize and streamline your Windows installation, making it ideal for gaming, power users, and even low-end laptops or PCs. 🎮💻
+ - This repository contains an Answer File and Some Scripts designed to optimize and streamline your Windows installation, making it ideal for gaming, power users, and even low-end laptops or PCs. 🎮💻
  - For existing Windows and if you don't want to reinstall then it's recommended to use [WinUtil by CTT.](https://github.com/ChrisTitusTech/winutil)
 
 ## 📑 Table of Contents
@@ -29,11 +29,16 @@
  
 ### Add More Features Script
 
- - Adds some more features into Shivaay Folder.
- - Ideal for more Customization and Tweaking System.
+ - Expands the Shivaay Folder with additional tweaks or customization options.
+ - Perfect for enhancing personalization and system performance.
+
+### Update Script
+
+ - Fetches and applies the latest updates from the Optimize-Windows repository.
+ - Keeps your system configurations and tweaks up to date effortlessly.
 
 ## 🚀 Features
-### 1. **🚀 While Installation of Windows***
+### 1. **🚀 While Installation of Windows**
 - 🚧 Bypass Windows 11 Requirements
 - 🌐 Support for Local Account During Setup
 - 🗂️ Show All Available Windows Editions
@@ -46,7 +51,7 @@
 - ❌ Disable Error Reporting, Delivery Optimization, and Remote Assistance
 - 🚀 Various Services Optimization
 - 🚫 Disable Automatic File Discovery
-- 🎮 Turn on Game Mode
+- 🎮 Turn on Game Mode and Hardware GPU Acceleration
 - 💿 Dynamically Adjust Virtual Ram upto 16GB
 - 🌟 Configure Visual Effects for Snappy Experience
 - 🤖 Debloat Copilot and Disable Recall
@@ -86,55 +91,55 @@
 
 #### 🔐 **Security**
 - 🛡️ Toggle Windows Defender, SmartScreen and Core Isolation
-- 🛡️ Toggle Unused Security Pages*
+- 🛡️ *Toggle Unused Security Pages
 
 #### 📦 **Software**
 - This are Links/Internet-Shortcuts to install them, doesn't included any of them by Default.
 - 🎮 Game Bar (Without Xbox Bloats)
-- 🔴 AMD Radeon Software* (Without Bloats, also not available in Microsoft Store search)
-- 💡 Microsoft Tips* (Fixes Safe Mode and Troubleshooting)
-- 🎧 Realtek Audio Console* (As it's not available in Microsoft search)
+- 🔴 *AMD Radeon Software (Without Bloats, also not available in Microsoft Store search)
+- 💡 *Microsoft Tips (Fixes Safe Mode and Troubleshooting)
+- 🎧 *Realtek Audio Console (As it's not available in Microsoft search)
 - 🌐 Edge Webview (Some Apps Requires)
-- ♻️ Hi-Bit Uninstaller* (Free and good for fully uninstalling any app)
+- ♻️ *Hi-Bit Uninstaller (Free and good for fully uninstalling any app)
 - 📂 Microsoft Store (To uninstall/install it again)
 - 🌐 Various Browsers like Edge, Chrome, Firefox, Brave and Zen (Normal + Portable)
-- 💽 Memory Reduct* (Like sysinternals but Lightweight)
+- 💽 *Memory Reduct (Like sysinternals but Lightweight)
 
 #### 🛠️ **System Management**
 - 💤 Toggle Hibernation, Fast Startup
-- 🖨️ Toggle Printer Spooler*
+- 🖨️ *Toggle Printer Spooler
 - 📵 Toggle Notifications and Background Apps
 - 🔍 Toggle Search Indexing
 - 🎥 Toggle GameDVR
-- 🔒 Toggle Biometrics* (Fingerprint and Face Unlock)
-- 💿 Toggle Compact OS* (Free up space by compressing Windows Binaries)
+- 🔒 *Toggle Biometrics (Fingerprint and Face Unlock)
+- 💿 *Toggle Compact OS (Free up space by compressing Windows Binaries)
 
 #### ⚡ **Optimizations**
 - 🔔 Toggle Update Notification
-- 🔄 Toggle Automatic Folder Discovery, 8.3 Char Name, Last Access Time, Multi-Plane Overlay*
+- 🔄 *Toggle Automatic Folder Discovery, 8.3 Char Name, Last Access Time, Multi-Plane Overlay
 - 🧹 Cleanup Script to clean unnecessary files and free up space
-- 💽 Toggle Superfetch/Prefetch*
-- ⏬ Toggle Delivery Optimization*
+- 💽 *Toggle Superfetch/Prefetch
+- ⏬ *Toggle Delivery Optimization
 
 #### 🖥️ **User Interface**
 - 🖼️ Toggle Gallery and Home
-- 📁 Toggle Network Pane and Removable Drives in File Explorer*
-- ♻️ Pin/Unpin Recycle bin in file explorer*
+- 📁 *Toggle Network Pane and Removable Drives in File Explorer
+- ♻️ *Pin/Unpin Recycle bin in file explorer
 - 📜 Toggle Recent Items (Recent Apps, Recent Documents, Files etc)
-- 🔄 Toggle Windows Old/New Context Menu*
+- 🔄 *Toggle Windows Old/New Context Menu
 
-#### 🎛️ **Context Menu***
+#### 🎛️ ***Context Menu**
 - 🔑 Add/Remove Get File Hash
 - 🔋 Add/Remove Select Performance Mode
 
-#### 🚪 **Useful Shortcuts***
+#### 🚪 ***Useful Shortcuts**
 - 🗄️ Open God Mode
 - 🏁 Open Startup Programs
 - 📀 Open Apps Data
 - 🔁 Restart to Bios Settings, Safe mode or Normal Mode
 
 ### 7. **🔄 Miscellaneous**
-- 🖥️ Create Shortcuts in Shivaay Folder of CTT Winutil and Activate Windows.
+- 🖥️ Create Internet Shortcuts in Shivaay Folder of CTT Winutil, Activate Windows, Add more features and Update Script.
 - ⚡ Added a Custom Power Plan (Shivaay - Power Within)
 - 🛑 Disable Auto Restart on BSOD (To Capture Detailed Logs)
 
