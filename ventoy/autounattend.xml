@@ -199,12 +199,12 @@
 <!-- Executes the HKLM Registry Entries Script -->
     <RunSynchronousCommand wcm:action="add">
      <Order>4</Order>
-     <Path>cmd /c "C:\Windows\Setup\Scripts\localmachine.cmd &gt;&gt;"C:\Windows\Setup\Scripts\localmachine.log" 2&gt;&amp;1"</Path>
+     <Path>cmd /c "C:\Windows\Setup\Scripts\localmachine.cmd"</Path>
     </RunSynchronousCommand>
 <!-- Adds Items to Right-Click Context Menu -->
     <RunSynchronousCommand wcm:action="add">
      <Order>5</Order>
-     <Path>cmd /c "reg import "C:\Windows\Setup\Scripts\contextmenu.reg" &gt;&gt;"C:\Windows\Setup\Scripts\contextmenu.log" 2&gt;&amp;1"</Path>
+     <Path>cmd /c "reg import C:\Windows\Setup\Scripts\contextmenu.reg"</Path>
     </RunSynchronousCommand>
 <!-- Loads the Default User Registry Hive so Changes Can be Made to It -->
     <RunSynchronousCommand wcm:action="add">
@@ -239,11 +239,11 @@
     </RunSynchronousCommand>
     <RunSynchronousCommand wcm:action="add">
      <Order>4</Order>
-     <Path>cmd /c "C:\Windows\Setup\Scripts\localmachine.cmd &gt;&gt;"C:\Windows\Setup\Scripts\localmachine.log" 2&gt;&amp;1"</Path>
+     <Path>cmd /c "C:\Windows\Setup\Scripts\localmachine.cmd"</Path>
     </RunSynchronousCommand>
     <RunSynchronousCommand wcm:action="add">
      <Order>5</Order>
-     <Path>cmd /c "reg import "C:\Windows\Setup\Scripts\contextmenu.reg" &gt;&gt;"C:\Windows\Setup\Scripts\contextmenu.log" 2&gt;&amp;1"</Path>
+     <Path>cmd /c "reg import C:\Windows\Setup\Scripts\contextmenu.reg"</Path>
     </RunSynchronousCommand>
     <RunSynchronousCommand wcm:action="add">
      <Order>6</Order>
@@ -275,11 +275,11 @@
     </RunSynchronousCommand>
     <RunSynchronousCommand wcm:action="add">
      <Order>4</Order>
-     <Path>cmd /c "C:\Windows\Setup\Scripts\localmachine.cmd &gt;&gt;"C:\Windows\Setup\Scripts\localmachine.log" 2&gt;&amp;1"</Path>
+     <Path>cmd /c "C:\Windows\Setup\Scripts\localmachine.cmd"</Path>
     </RunSynchronousCommand>
     <RunSynchronousCommand wcm:action="add">
      <Order>5</Order>
-     <Path>cmd /c "reg import "C:\Windows\Setup\Scripts\contextmenu.reg" &gt;&gt;"C:\Windows\Setup\Scripts\contextmenu.log" 2&gt;&amp;1"</Path>
+     <Path>cmd /c "reg import C:\Windows\Setup\Scripts\contextmenu.reg"</Path>
     </RunSynchronousCommand>
     <RunSynchronousCommand wcm:action="add">
      <Order>6</Order>
@@ -434,10 +434,6 @@ Where-Object -FilterScript {
 <!-- 6+ Windows Powershell Tweaks -->
   <File path="C:\Windows\Setup\Scripts\wintweaks.ps1">
    <![CDATA[
-# Start Capturing Logs
-$logFile = "C:\Windows\Setup\Scripts\wintweaks.log"
-Start-Transcript -Path $logFile
-
 # Create Shivaay Folders in Desktop
 $desktopPath = "C:\Users\Public\Desktop"
 $shivaayPath = New-Item -Path $desktopPath -Name "Shivaay" -ItemType Directory -Force
@@ -1030,8 +1026,6 @@ $ms = @('BITS', 'CDPSvc', 'DusmSvc', 'LanmanServer', 'LanmanWorkstation', 'Spool
 foreach ($mnm in $ms) {
   Set-Service -Name $mnm -StartupType Manual -ErrorAction Continue
 }
-
-Stop-Transcript
    ]]>
   </File>
 
