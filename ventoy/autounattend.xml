@@ -417,7 +417,6 @@ Where-Object -Property 'DisplayName' -In -Value @(
 Get-WindowsCapability -Online |
 Where-Object -FilterScript {
   ($_.Name -split '~')[0] -in @(
-'Browser.InternetExplorer';
 'MathRecognizer';
 'OpenSSH.Client';
 'Microsoft.Windows.MSPaint';

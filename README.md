@@ -59,7 +59,7 @@
 ### 3. **🔐 Privacy & Security**
 - 👁️ Disable Telemetry and Tracking
 - 🔔 Display Camera On/Off Notification
-- 🔒 Configure Windows Update: Security Updates by 7 Days and Features Updates by 6 Months from Stable Updates Channel
+- 🔒 Configure Windows Update: Security Updates by 7 Days and Features Updates by 6 Months from Broad Updates Channel
 - 🔒 Prevent Installation of Dev Home, New Outlook, Chat, Bitlocker Auto-Encryption
 - 🔒 Disabled UAC (irritating for some users,although can be enabled manually later)
 
