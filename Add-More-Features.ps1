@@ -7,7 +7,12 @@ if (-not ([Security.Principal.WindowsPrincipal][Security.Principal.WindowsIdenti
 
 # 1+ Directories and Functions
 $desktopPath = "C:\Users\Public\Desktop"
-$shivaayPath = "$desktopPath\Shivaay"
+$customPath = "HKLM:\Software\ShivaayOS"
+if (Test-Path $customPath) {
+    $shivaayPath = (Get-ItemProperty -Path $customPath -Name "ShivaayFolderPath")."ShivaayFolderPath"
+} else {
+    $shivaayPath = "$desktopPath\Shivaay"
+}
 $optimizationPath = "$shivaayPath\Optimizations"
 $securityPath = "$shivaayPath\Security"
 $softwaresPath = "$shivaayPath\Softwares"
@@ -44,7 +49,7 @@ function Create-File {
     [string]$fileName,
     [string]$fileDirectory
   )
-  $outputFilePath = [System.IO.Path]::Combine($fileDirectory, "$fileName.cmd")
+  $outputFilePath = [System.IO.Path]::Combine($fileDirectory, "$fileName")
   $fileContent | Out-File -FilePath $outputFilePath -Encoding ASCII
 }
 
@@ -60,12 +65,10 @@ function Add-Fea {
     $FNB = $FN
     $FN = Join-Path $Loc "$FN"
     $FNA = Join-Path $Loc "$FNA"
-    $EXT = if (-not $SCUT) { ".cmd" }
     # Check if either script exists
-    if (-not (Test-Path "$FN$EXT") -and -not (Test-Path "$FNA$EXT")) {
+    if (-not (Test-Path "$FN") -and -not (Test-Path "$FNA")) {
       Write-Host "- Adding $FNB -> $Loc"
       $global:AF="yes"
-      Start-Sleep -Seconds 1
       if ($SCUT) {
         Create-Shortcut -target $FC -shortcutName $FNB -shortcutType "url"
       } else {
@@ -75,8 +78,7 @@ function Add-Fea {
 }
 
 # 2+ Check for Shivaay Folder if not exist, restore it
-if (-not (Test-Path -Path "$shivaayPath")) {
-$shivaayPath = New-Item -Path "$desktopPath\Shivaay" -ItemType Directory -Force
+if (-not (Test-Path -Path "$optimizationPath")) {
 $optimizationPath = New-Item -Path "$shivaayPath\Optimizations" -ItemType Directory -Force
 $securityPath = New-Item -Path "$shivaayPath\Security" -ItemType Directory -Force
 $softwaresPath = New-Item -Path "$shivaayPath\Softwares" -ItemType Directory -Force
@@ -85,7 +87,7 @@ $interfacePath = New-Item -Path "$shivaayPath\User Interface" -ItemType Director
 
 Write-Host ""
 Write-Host "! Warning: The 'Shivaay' folder is missing or broken." -ForegroundColor Red
-Write-Host "- Restoring the 'Shivaay' folder to your Desktop..." -ForegroundColor Yellow
+Write-Host "- Restoring the 'Shivaay' folder to $shivaayPath..." -ForegroundColor Yellow
 Start-Sleep -Seconds 2
 
 # 2.1+ Create Shortcuts
@@ -154,7 +156,7 @@ PowerShell -ExecutionPolicy Bypass -Command "Get-AppxPackage -Allusers Microsoft
 ren "%~dpnx0" "Install - Microsoft Store.cmd"
 exit /b
 '@
-Create-File -fileContent $MSStore -fileName 'Uninstall - Microsoft Store' -fileDirectory $softwaresPath
+Create-File -fileContent $MSStore -fileName 'Uninstall - Microsoft Store.cmd' -fileDirectory $softwaresPath
 
 # Security
 # Toggle Defender
@@ -227,7 +229,7 @@ bcdedit /set {current} safeboot minimal
 shutdown /r /f /t 5 /c "PC will restart into safemode in 5 seconds"
 )
 "@
-Create-File -fileContent $Defender -fileName 'Disable - Defender' -fileDirectory $securityPath
+Create-File -fileContent $Defender -fileName 'Disable - Defender.cmd' -fileDirectory $securityPath
 
 # Toggle Smart Screen
 $smartScreen = @"
@@ -254,7 +256,7 @@ reg add %reg4% /v "UILockdown" /t REG_DWORD /d 1 /f
 ren "%~dpnx0" "Enable - Smart Screen.cmd"
 )
 "@
-Create-File -fileContent $smartScreen -fileName 'Enable - Smart Screen' -fileDirectory $securityPath
+Create-File -fileContent $smartScreen -fileName 'Enable - Smart Screen.cmd' -fileDirectory $securityPath
 
 # Toggle Core Isolation 
 $coreIsolation = @"
@@ -288,7 +290,7 @@ reg add %reg6% /v "EnableVirtualizationBasedSecurity" /t REG_DWORD /d 0 /f
 ren "%~dpnx0" "Enable - Core Isolation.cmd"
 )
 "@
-Create-File -fileContent $coreIsolation -fileName 'Disable - Core Isolation' -fileDirectory $securityPath
+Create-File -fileContent $coreIsolation -fileName 'Disable - Core Isolation.cmd' -fileDirectory $securityPath
 
 # System Management
 # Toggle Hibernation and Fast Startup
@@ -307,56 +309,30 @@ powercfg /hibernate off
 ren "%~dpnx0" "Enable - Hibernation and Fast Startup.cmd"
 )
 "@
-Create-File -fileContent $hibernation -fileName 'Enable - Hibernation and Fast Startup' -fileDirectory $managementPath
+Create-File -fileContent $hibernation -fileName 'Enable - Hibernation and Fast Startup.cmd' -fileDirectory $managementPath
 
-# Toggle GameDVR
-$gameDVR = @"
+# Toggle Update Notifications
+$updateNotify = @"
 @echo off & reg query "HKU\S-1-5-19" >nul 2>&1
 if %errorLevel% neq 0 (
 echo Please Run as Administrator.
 pause & exit
 )
-set reg1="HKCU\System\GameConfigStore"
-set reg2="HKLM\SOFTWARE\Policies\Microsoft\Windows\GameDVR"
-if "%~n0"=="Enable - GameDVR" (
-reg add %reg1% /v GameDVR_FSEBehavior /t REG_DWORD /d 0 /f
-reg add %reg1% /v GameDVR_Enabled /t REG_DWORD /d 1 /f
-reg add %reg1% /v GameDVR_DXGIHonorFSEWindowsCompatible /t REG_DWORD /d 0 /f
-reg add %reg1% /v GameDVR_HonorUserFSEBehaviorMode /t REG_DWORD /d 0 /f
-reg add %reg1% /v GameDVR_EFSEFeatureFlags /t REG_DWORD /d 1 /f
-reg add %reg2% /v AllowGameDVR /t REG_DWORD /d 1 /f
-    ren "%~dpnx0" "Disable - GameDVR.cmd"
+set reg1="HKLM\SOFTWARE\Microsoft\WindowsUpdate\UX\Settings"
+set reg2="HKLM\SOFTWARE\Policies\Microsoft\Windows\WindowsUpdate"
+if "%~n0"=="Enable - Update Notifications" (
+reg delete %reg1% /v RestartNotificationsAllowed2 /f
+reg delete %reg2% /v SetAutoRestartNotificationDisable /f
+reg delete %reg2% /v SetUpdateNotificationLevel /f
+ren "%~dpnx0" "Disable - Update Notifications.cmd"
 ) else (
-reg delete %reg1% /v GameDVR_FSEBehavior /f
-reg delete %reg1% /v GameDVR_Enabled /f
-reg delete %reg1% /v GameDVR_DXGIHonorFSEWindowsCompatible /f
-reg delete %reg1% /v GameDVR_HonorUserFSEBehaviorMode /f
-reg delete %reg1% /v GameDVR_EFSEFeatureFlags /f
-reg delete %reg2% /v AllowGameDVR /f
-ren "%~dpnx0" "Enable - GameDVR.cmd"
+reg add %reg1% /v RestartNotificationsAllowed2 /t REG_DWORD /d 0 /f
+reg add %reg2% /v SetAutoRestartNotificationDisable /t REG_DWORD /d 1 /f
+reg add %reg2% /v SetUpdateNotificationLevel /t REG_DWORD /d 2 /f
+ren "%~dpnx0" "Enable - Update Notifications.cmd"
 )
 "@
-Create-File -fileContent $gameDVR -fileName 'Enable - GameDVR' -fileDirectory $managementPath
-
-# Toggle Search Indexing Service
-$searchIndex = @"
-@echo off & reg query "HKU\S-1-5-19" >nul 2>&1
-if %errorLevel% neq 0 (
-echo Please Run as Administrator.
-pause & exit
-)
-if "%~n0"=="Enable - Search Indexing" (
-sc config WSearch start=auto
-net start WSearch
-set st="Disable - Search Indexing.cmd"
-) else (
-net stop WSearch
-sc config WSearch start=disabled
-set st="Enable - Search Indexing.cmd"
-)
-ren "%~dpnx0" %st% & taskkill /f /im explorer.exe & start explorer.exe
-"@
-Create-File -fileContent $searchIndex -fileName 'Enable - Search Indexing' -fileDirectory $managementPath
+Create-File -fileContent $updateNotify -fileName 'Disable - Update Notifications.cmd' -fileDirectory $managementPath
 
 # Toggle Notifications and Background Apps
 $notification = @"
@@ -381,7 +357,7 @@ set st="Enable - Notifications and Background Apps.cmd"
 )
 ren "%~dpnx0" %st% & taskkill /f /im explorer.exe & start explorer.exe
 "@
-Create-File -fileContent $notification -fileName 'Enable - Notifications and Background Apps' -fileDirectory $managementPath
+Create-File -fileContent $notification -fileName 'Enable - Notifications and Background Apps.cmd' -fileDirectory $managementPath
 
 # Optimizations
 # Cleanup
@@ -449,30 +425,56 @@ pause
 goto :EOF
 
 "@
-Create-File -fileContent $cleanup -fileName 'Cleanup' -fileDirectory $optimizationPath
+Create-File -fileContent $cleanup -fileName 'Cleanup.cmd' -fileDirectory $optimizationPath
 
-# Toggle Update Notifications
-$updateNotify = @"
+# Toggle GameDVR
+$gameDVR = @"
 @echo off & reg query "HKU\S-1-5-19" >nul 2>&1
 if %errorLevel% neq 0 (
 echo Please Run as Administrator.
 pause & exit
 )
-set reg1="HKLM\SOFTWARE\Microsoft\WindowsUpdate\UX\Settings"
-set reg2="HKLM\SOFTWARE\Policies\Microsoft\Windows\WindowsUpdate"
-if "%~n0"=="Enable - Update Notifications" (
-reg delete %reg1% /v RestartNotificationsAllowed2 /f
-reg delete %reg2% /v SetAutoRestartNotificationDisable /f
-reg delete %reg2% /v SetUpdateNotificationLevel /f
-ren "%~dpnx0" "Disable - Update Notifications.cmd"
+set reg1="HKCU\System\GameConfigStore"
+set reg2="HKLM\SOFTWARE\Policies\Microsoft\Windows\GameDVR"
+if "%~n0"=="Enable - GameDVR" (
+reg add %reg1% /v GameDVR_FSEBehavior /t REG_DWORD /d 0 /f
+reg add %reg1% /v GameDVR_Enabled /t REG_DWORD /d 1 /f
+reg add %reg1% /v GameDVR_DXGIHonorFSEWindowsCompatible /t REG_DWORD /d 0 /f
+reg add %reg1% /v GameDVR_HonorUserFSEBehaviorMode /t REG_DWORD /d 0 /f
+reg add %reg1% /v GameDVR_EFSEFeatureFlags /t REG_DWORD /d 1 /f
+reg add %reg2% /v AllowGameDVR /t REG_DWORD /d 1 /f
+    ren "%~dpnx0" "Disable - GameDVR.cmd"
 ) else (
-reg add %reg1% /v RestartNotificationsAllowed2 /t REG_DWORD /d 0 /f
-reg add %reg2% /v SetAutoRestartNotificationDisable /t REG_DWORD /d 1 /f
-reg add %reg2% /v SetUpdateNotificationLevel /t REG_DWORD /d 2 /f
-ren "%~dpnx0" "Enable - Update Notifications.cmd"
+reg delete %reg1% /v GameDVR_FSEBehavior /f
+reg delete %reg1% /v GameDVR_Enabled /f
+reg delete %reg1% /v GameDVR_DXGIHonorFSEWindowsCompatible /f
+reg delete %reg1% /v GameDVR_HonorUserFSEBehaviorMode /f
+reg delete %reg1% /v GameDVR_EFSEFeatureFlags /f
+reg delete %reg2% /v AllowGameDVR /f
+ren "%~dpnx0" "Enable - GameDVR.cmd"
 )
 "@
-Create-File -fileContent $updateNotify -fileName 'Disable - Update Notifications' -fileDirectory $optimizationPath
+Create-File -fileContent $gameDVR -fileName 'Enable - GameDVR.cmd' -fileDirectory $optimizationPath
+
+# Toggle Search Indexing Service
+$searchIndex = @"
+@echo off & reg query "HKU\S-1-5-19" >nul 2>&1
+if %errorLevel% neq 0 (
+echo Please Run as Administrator.
+pause & exit
+)
+if "%~n0"=="Enable - Search Indexing" (
+sc config WSearch start=auto
+net start WSearch
+set st="Disable - Search Indexing.cmd"
+) else (
+net stop WSearch
+sc config WSearch start=disabled
+set st="Enable - Search Indexing.cmd"
+)
+ren "%~dpnx0" %st% & taskkill /f /im explorer.exe & start explorer.exe
+"@
+Create-File -fileContent $searchIndex -fileName 'Enable - Search Indexing.cmd' -fileDirectory $optimizationPath
 
 # User Interface
 # Toggle Gallery in File Explorer
@@ -495,7 +497,7 @@ set st="Show - Gallery and Home In File Explorer.cmd"
 )
 ren "%~dpnx0" %st% & taskkill /f /im explorer.exe & start explorer.exe
 "@
-Create-File -fileContent $gallery -fileName 'Show - Gallery and Home In File Explorer' -fileDirectory $interfacePath
+Create-File -fileContent $gallery -fileName 'Show - Gallery and Home In File Explorer.cmd' -fileDirectory $interfacePath
 
 # Toggle Recent Items in Windows
 $recentItems = @"
@@ -536,14 +538,14 @@ set st="Disable - Recent Items.cmd"
 )
 ren "%~dpnx0" %st% & taskkill /f /im explorer.exe & start explorer.exe
 "@
-Create-File -fileContent $recentItems -fileName 'Enable - Recent Items' -fileDirectory $interfacePath
+Create-File -fileContent $recentItems -fileName 'Enable - Recent Items.cmd' -fileDirectory $interfacePath
 
 Write-Host "- Successfully restored the 'Shivaay' folder!" -ForegroundColor Green
 Write-Host ""
 
 }
 Write-Host "- Adding additional features..." -ForegroundColor Yellow
-Write-Host "- Script Version - V2" -ForegroundColor Blue
+Write-Host "- Script Version - V3" -ForegroundColor Blue
 Write-Host ""
 
 $contextMenus = New-Item -Path "$shivaayPath\Context Menu" -ItemType Directory -Force
@@ -593,26 +595,9 @@ reg delete %reg3% /v "UILockdown" /f
 ren "%~dpnx0" "Hide - Unused Security Pages.cmd"
 )
 "@
-Add-Fea -FC $unusedSecurityPages -FN "Show - Unused Security Pages" -FNA "Hide - Unused Security Pages" -Loc $securityPath
+Add-Fea -FC $unusedSecurityPages -FN "Show - Unused Security Pages.cmd" -FNA "Hide - Unused Security Pages.cmd" -Loc $securityPath
 
 # 5+ System Management
-# Toggle Compact OS Mode
-$compactOS = @"
-@echo off & reg query "HKU\S-1-5-19" >nul 2>&1
-if %errorLevel% neq 0 (
-echo Please Run as Administrator.
-pause & exit
-)
-if "%~n0"=="Enable - Compact OS" (
-compact /CompactOS:always
-ren "%~dpnx0" "Disable - Compact OS.cmd"
-) else (
-compact /CompactOS:never
-ren "%~dpnx0" "Enable - Compact OS.cmd"
-)
-"@
-Add-Fea -FC $compactOS -FN "Enable - Compact OS" -FNA "Disable - Compact OS" -Loc $managementPath
-
 # Toggle Printer Service
 $printer = @"
 @echo off & reg query "HKU\S-1-5-19" >nul 2>&1
@@ -630,7 +615,7 @@ sc config Spooler start=disabled
 ren "%~dpnx0" "Enable - Printer Spooler.cmd"
 )
 "@
-Add-Fea -FC $printer -FN "Enable - Printer Spooler" -FNA "Disable - Printer Spooler" -Loc $managementPath
+Add-Fea -FC $printer -FN "Enable - Printer Spooler.cmd" -FNA "Disable - Printer Spooler.cmd" -Loc $managementPath
 
 # Toggle Biometric Service
 $biometric = @"
@@ -649,26 +634,138 @@ sc config WbioSrvc start=disabled
 ren "%~dpnx0" "Enable - Biometric.cmd"
 )
 "@
-Add-Fea -FC $biometric -FN "Enable - Biometric" -FNA "Disable - Biometric" -Loc $managementPath
+Add-Fea -FC $biometric -FN "Enable - Biometric.cmd" -FNA "Disable - Biometric.cmd" -Loc $managementPath
+
+# Configure Shivaay OS Settings
+$shivaayOS = @'
+# Set Console UI colors
+$CY = [System.ConsoleColor]::Cyan
+$GR = [System.ConsoleColor]::Green
+$YE = [System.ConsoleColor]::Yellow
+$MA = [System.ConsoleColor]::Magenta
+$WH = [System.ConsoleColor]::White
+
+# Define registry paths
+$registryPath = "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\OEMInformation"
+$shivaayFolderRegistryPath = "HKLM:\Software\ShivaayOS"
+$shivaayFolderRegistryValueName = "ShivaayFolderPath"
+
+# Fetch information from registry for OS name and version
+$osName = (Get-ItemProperty -Path $registryPath -Name "Model").Model -replace " - V\d+\.\d+$", ""
+$osVersion = (Get-ItemProperty -Path $registryPath -Name "Model").Model -replace ".*- V", "V"
+
+# Fetch Shivaay Folder Path from registry or use default if not set
+if (Test-Path $shivaayFolderRegistryPath) {
+    $currentShivaayFolder = (Get-ItemProperty -Path $shivaayFolderRegistryPath -Name $shivaayFolderRegistryValueName).$shivaayFolderRegistryValueName
+} else {
+    $currentShivaayFolder = "C:\Users\Public\Desktop\Shivaay"
+}
+
+# Default values for reset
+$defaultOSName = "ShivaayOS"
+$defaultShivaayFolder = "C:\Users\Public\Desktop\Shivaay"
+
+function Show-UI {
+    Clear-Host
+    Write-Host "==================================" -ForegroundColor $WH
+    Write-Host "       Shivaay-OS Config      " -ForegroundColor $CY
+    Write-Host "==================================" -ForegroundColor $WH
+    Write-Host
+    Write-Host "Current OS Name       : " -ForegroundColor $CY -NoNewline; Write-Host "$osName" -ForegroundColor $WH
+    Write-Host "Current Version       : " -ForegroundColor $GR -NoNewline; Write-Host "$osVersion" -ForegroundColor $WH
+    Write-Host "Current Shivaay Folder: " -ForegroundColor $YE -NoNewline; Write-Host "$currentShivaayFolder" -ForegroundColor $WH
+    Write-Host
+    Write-Host "==================================" -ForegroundColor $WH
+}
+
+function Update-Registry {
+    param (
+        [string]$newOSName
+    )
+    # Update the OS name without modifying version
+    $newModel = "$newOSName - $osVersion"
+    Set-ItemProperty -Path $registryPath -Name "Model" -Value $newModel
+    $osName = $newOSName # Update variable for display
+}
+
+function Update-ShivaayFolderInRegistry {
+    param (
+        [string]$newShivaayFolder
+    )
+    # Ensure the registry path exists
+    if (-not (Test-Path $shivaayFolderRegistryPath)) {
+        New-Item -Path $shivaayFolderRegistryPath -Force | Out-Null
+    }
+    # Update the Shivaay Folder path in the registry
+    Set-ItemProperty -Path $shivaayFolderRegistryPath -Name $shivaayFolderRegistryValueName -Value $newShivaayFolder
+    $currentShivaayFolder = $newShivaayFolder # Update variable for display
+}
+
+function Reset-Settings {
+    # Reset OS Name and Shivaay Folder to default values
+    Update-Registry -newOSName $defaultOSName
+    Update-ShivaayFolderInRegistry -newShivaayFolder $defaultShivaayFolder
+    Write-Host "Settings have been reset to default values." -ForegroundColor "Green"
+}
+
+function Get-UserInput {
+    # Prompt for Reset option
+    Write-Host "Would you like to reset the settings to default? (Y/N):" -ForegroundColor $MA
+    $resetChoice = Read-Host
+    if ($resetChoice -eq "Y" -or $resetChoice -eq "y") {
+        Reset-Settings
+    }
+
+    # Prompt to update OS name
+    Write-Host "Enter new OS Name (leave blank to skip):" -ForegroundColor $MA
+    $newOSName = Read-Host
+    if ($newOSName -ne "") {
+        Update-Registry -newOSName $newOSName
+    }
+
+    # Prompt to update Shivaay folder path
+    while ($true) {
+        Write-Host "Enter new Shivaay Folder Path (leave blank to keep current):" -ForegroundColor $MA
+        $newShivaayFolder = Read-Host
+
+        # Strip surrounding quotes if present
+        $newShivaayFolder = $newShivaayFolder -replace '^"|"$', ''
+
+        if ($newShivaayFolder -eq "") {
+            break
+        } elseif (Test-Path -Path $newShivaayFolder -PathType Container) {
+            Update-ShivaayFolderInRegistry -newShivaayFolder $newShivaayFolder
+            break
+        } else {
+            Write-Host "Invalid directory path. Please enter a valid folder path." -ForegroundColor "Red"
+        }
+    }
+}
+
+# Display UI and Prompt for input
+Show-UI
+Get-UserInput
+Show-UI
+'@
+Add-Fea -FC $shivaayOS -FN "Configure ShivaayOS.ps1" -Loc $managementPath
 
 # 6+ Optimizations
-# Toggle Automatic Folder Discovery
-$automaticFolder = @"
+# Toggle Compact OS Mode
+$compactOS = @"
 @echo off & reg query "HKU\S-1-5-19" >nul 2>&1
 if %errorLevel% neq 0 (
 echo Please Run as Administrator.
 pause & exit
 )
-set reg1="HKCU\Software\Classes\Local Settings\Software\Microsoft\Windows\Shell\Bags\AllFolders\Shell"
-if "%~n0"=="Enable - Automatic Folder Discovery" (
-reg delete %reg1% /f
-ren "%~dpnx0" "Disable - Automatic Folder Discovery.cmd"
+if "%~n0"=="Enable - Compact OS" (
+compact /CompactOS:always
+ren "%~dpnx0" "Disable - Compact OS.cmd"
 ) else (
-reg add %reg1% /v "FolderType" /t REG_SZ /d "NotSpecified" /f
-ren "%~dpnx0" "Enable - Automatic Folder Discovery.cmd"
+compact /CompactOS:never
+ren "%~dpnx0" "Enable - Compact OS.cmd"
 )
 "@
-Add-Fea -FC $automaticFolder -FN "Enable - Automatic Folder Discovery" -FNA "Disable - Automatic Folder Discovery" -Loc $optimizationPath
+Add-Fea -FC $compactOS -FN "Enable - Compact OS.cmd" -FNA "Disable - Compact OS.cmd" -Loc $optimizationPath
 
 # Toggle Last Access Time Stamp and 8.3 Char Length File Name Creation
 $timeChar = @"
@@ -687,7 +784,7 @@ fsutil behavior set disable8dot3 0
 ren "%~dpnx0" "Disable - Last Access Time and 8.3 Name.cmd"
 )
 "@
-Add-Fea -FC $timeChar -FN "Enable - Last Access Time and 8.3 Name" -FNA "Disable - Last Access Time and 8.3 Name" -Loc $optimizationPath
+Add-Fea -FC $timeChar -FN "Enable - Last Access Time and 8.3 Name.cmd" -FNA "Disable - Last Access Time and 8.3 Name.cmd" -Loc $optimizationPath
 
 # Toggle Multi-Plane Overlay
 $MPO = @"
@@ -705,7 +802,7 @@ reg add %reg1% /v OverlayTestMode /t REG_DWORD /d 5 /f
 ren "%~dpnx0" "Enable - Multi-Plane Overlay.cmd"
 )
 "@
-Add-Fea -FC $MPO -FN "Enable - Multi-Plane Overlay" -FNA "Disable - Multi-Plane Overlay" -Loc $optimizationPath
+Add-Fea -FC $MPO -FN "Enable - Multi-Plane Overlay.cmd" -FNA "Disable - Multi-Plane Overlay.cmd" -Loc $optimizationPath
 
 # Toggle Delivery Optimization
 $deliveryOptimization = @"
@@ -722,7 +819,7 @@ reg add "HKLM\SOFTWARE\Policies\Microsoft\Windows\DeliveryOptimization" /v DODow
 ren "%~dpnx0" "Enable - Delivery Optimization.cmd"
 )
 "@
-Add-Fea -FC $deliveryOptimization -FN "Enable - Delivery Optimization" -FNA "Disable - Delivery Optimization" -Loc $optimizationPath
+Add-Fea -FC $deliveryOptimization -FN "Enable - Delivery Optimization.cmd" -FNA "Disable - Delivery Optimization.cmd" -Loc $optimizationPath
 
 # Toggle SuperFetch
 $superFetch = @"
@@ -741,9 +838,27 @@ net stop SysMain
 ren "%~dpnx0" "Enable - SuperFetch.cmd"
 )
 "@
-Add-Fea -FC $superFetch -FN "Enable - SuperFetch" -FNA "Disable - SuperFetch" -Loc $optimizationPath
+Add-Fea -FC $superFetch -FN "Enable - SuperFetch.cmd" -FNA "Disable - SuperFetch.cmd" -Loc $optimizationPath
 
 # 7+ User Interface
+# Toggle Automatic Folder Discovery
+$automaticFolder = @"
+@echo off & reg query "HKU\S-1-5-19" >nul 2>&1
+if %errorLevel% neq 0 (
+echo Please Run as Administrator.
+pause & exit
+)
+set reg1="HKCU\Software\Classes\Local Settings\Software\Microsoft\Windows\Shell\Bags\AllFolders\Shell"
+if "%~n0"=="Enable - Automatic Folder Discovery" (
+reg delete %reg1% /f
+ren "%~dpnx0" "Disable - Automatic Folder Discovery.cmd"
+) else (
+reg add %reg1% /v "FolderType" /t REG_SZ /d "NotSpecified" /f
+ren "%~dpnx0" "Enable - Automatic Folder Discovery.cmd"
+)
+"@
+Add-Fea -FC $automaticFolder -FN "Enable - Automatic Folder Discovery.cmd" -FNA "Disable - Automatic Folder Discovery.cmd" -Loc $interfacePath
+
 # Toggle Network Navigation Pane in File Explorer
 $netNavigation = @"
 @echo off & reg query "HKU\S-1-5-19" >nul 2>&1
@@ -761,7 +876,7 @@ set st="Show - Network Navigation In File Explorer.cmd"
 )
 ren "%~dpnx0" %st% & taskkill /f /im explorer.exe & start explorer.exe
 "@
-Add-Fea -FC $netNavigation -FN "Show - Network Navigation In File Explorer" -FNA "Hide - Network Navigation In File Explorer" -Loc $interfacePath
+Add-Fea -FC $netNavigation -FN "Show - Network Navigation In File Explorer.cmd" -FNA "Hide - Network Navigation In File Explorer.cmd" -Loc $interfacePath
 
 # Toggle Recycle Bin in File Explorer
 $recycleBin = @"
@@ -781,7 +896,7 @@ set st="Pin - Recycle Bin In File Explorer.cmd"
 )
 ren "%~dpnx0" %st% & taskkill /f /im explorer.exe & start explorer.exe
 "@
-Add-Fea -FC $recycleBin -FN "Unpin - Recycle Bin In File Explorer" -FNA "Pin - Recycle Bin In File Explorer" -Loc $interfacePath
+Add-Fea -FC $recycleBin -FN "Unpin - Recycle Bin In File Explorer.cmd" -FNA "Pin - Recycle Bin In File Explorer.cmd" -Loc $interfacePath
 
 # Toggle Removable Drives in File Explorer
 $rmvDrives = @"
@@ -803,7 +918,7 @@ set st="Show - Removable Drives In File Explorer Quick Access.cmd"
 )
 ren "%~dpnx0" %st% & taskkill /f /im explorer.exe & start explorer.exe
 "@
-Add-Fea -FC $rmvDrives -FN "Show - Removable Drives In File Explorer Quick Access" -FNA "Hide - Removable Drives In File Explorer Quick Access" -Loc $interfacePath
+Add-Fea -FC $rmvDrives -FN "Show - Removable Drives In File Explorer Quick Access.cmd" -FNA "Hide - Removable Drives In File Explorer Quick Access.cmd" -Loc $interfacePath
 
 # Toggle Context Menu
 $contextMenu = @"
@@ -821,7 +936,7 @@ set st="Enable - New Context Menu.cmd"
 )
 ren "%~dpnx0" %st% & taskkill /f /im explorer.exe & start explorer.exe
 "@
-Add-Fea -FC $contextMenu -FN "Enable - New Context Menu" -FNA "Enable - Old Context Menu" -Loc $interfacePath
+Add-Fea -FC $contextMenu -FN "Enable - New Context Menu.cmd" -FNA "Enable - Old Context Menu.cmd" -Loc $interfacePath
 
 # 8+ Context Menu
 # Get File Hash
@@ -854,7 +969,7 @@ reg delete "HKCR\*\shell\GetFileHash" /f
 ren "%~dpnx0" "Add - Get File Hash.cmd"
 )
 "@
-Add-Fea -FC $fileHash -FN "Add - Get File Hash" -FNA "Remove - Get File Hash" -Loc $contextMenus
+Add-Fea -FC $fileHash -FN "Add - Get File Hash.cmd" -FNA "Remove - Get File Hash.cmd" -Loc $contextMenus
 
 # Select Power Plan
 $powerPlan = @"
@@ -890,7 +1005,7 @@ reg delete "HKCR\DesktopBackground\Shell\PowerPlan" /f
 ren "%~dpnx0" "Add - Select Power Plan.cmd"
 )
 "@
-Add-Fea -FC $powerPlan -FN "Add - Select Power Plan" -FNA "Remove - Select Power Plan" -Loc $contextMenus
+Add-Fea -FC $powerPlan -FN "Add - Select Power Plan.cmd" -FNA "Remove - Select Power Plan.cmd" -Loc $contextMenus
 
 # 9+ Useful Shortcuts
 # God Mode
@@ -902,7 +1017,7 @@ pause & exit
 )
 explorer shell:::{ED7BA470-8E54-465E-825C-99712043E01C}
 "@
-Add-Fea -FC $godMode -FN "Open - God Mode" -Loc $usefulShortcuts
+Add-Fea -FC $godMode -FN "Open - God Mode.cmd" -Loc $usefulShortcuts
 
 # Startup Programs
 $startPro = @"
@@ -913,7 +1028,7 @@ pause & exit
 )
 explorer shell:startup
 "@
-Add-Fea -FC $startPro -FN "Open - Startup Programs" -Loc $usefulShortcuts
+Add-Fea -FC $startPro -FN "Open - Startup Programs.cmd" -Loc $usefulShortcuts
 
 # Apps Data
 $appData = @"
@@ -926,7 +1041,7 @@ explorer %appdata%
 timeout /t 3
 explorer %localappdata%
 "@
-Add-Fea -FC $appData -FN "Open - Apps Data" -Loc $usefulShortcuts
+Add-Fea -FC $appData -FN "Open - Apps Data.cmd" -Loc $usefulShortcuts
 
 # Reboot to BIOS Settings
 $rebootBios = @"
@@ -937,7 +1052,7 @@ pause & exit
 )
 shutdown /r /fw /f /t 5 /c "Rebooting PC into BIOS Settings in 5 Seconds"
 "@
-Add-Fea -FC $rebootBios -FN "Reboot to - BIOS Settings" -Loc $usefulShortcuts
+Add-Fea -FC $rebootBios -FN "Reboot to - BIOS Settings.cmd" -Loc $usefulShortcuts
 
 # Reboot to Normal or Safemode
 $rebootSmode = @"
@@ -956,7 +1071,7 @@ shutdown /r /f /t 5 /c "PC will restart into Normal mode in 5 seconds"
 ren "%~dpnx0" "Reboot to - Safe Mode.cmd"
 )
 "@
-Add-Fea -FC $rebootSmode -FN "Reboot to - Safe Mode" -FNA "Reboot to - Normal Mode" -Loc $usefulShortcuts
+Add-Fea -FC $rebootSmode -FN "Reboot to - Safe Mode.cmd" -FNA "Reboot to - Normal Mode.cmd" -Loc $usefulShortcuts
 
 Write-Host ""
 if ($AF -eq "yes") { Write-Host "- All additional features have been successfully added!" -ForegroundColor Green } else { Write-Host "! Additional features are already added, please try again later" -ForegroundColor Red }
