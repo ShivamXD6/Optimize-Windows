@@ -644,6 +644,7 @@ $GR = [System.ConsoleColor]::Green
 $YE = [System.ConsoleColor]::Yellow
 $MA = [System.ConsoleColor]::Magenta
 $WH = [System.ConsoleColor]::White
+$RE = [System.ConsoleColor]::Red
 
 # Define registry paths
 $registryPath = "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\OEMInformation"
@@ -668,7 +669,7 @@ $defaultShivaayFolder = "C:\Users\Public\Desktop\Shivaay"
 function Show-UI {
     Clear-Host
     Write-Host "==================================" -ForegroundColor $WH
-    Write-Host "       Shivaay-OS Config      " -ForegroundColor $CY
+    Write-Host "       ShivaayOS Config      " -ForegroundColor $CY
     Write-Host "==================================" -ForegroundColor $WH
     Write-Host
     Write-Host "Current OS Name       : " -ForegroundColor $CY -NoNewline; Write-Host "$osName" -ForegroundColor $WH
@@ -686,6 +687,8 @@ function Update-Registry {
     $newModel = "$newOSName - $osVersion"
     Set-ItemProperty -Path $registryPath -Name "Model" -Value $newModel
     $osName = $newOSName # Update variable for display
+    Write-Host "OS Name updated to: $newOSName" -ForegroundColor $GR
+    Show-UI # Refresh UI after update
 }
 
 function Update-ShivaayFolderInRegistry {
@@ -699,45 +702,71 @@ function Update-ShivaayFolderInRegistry {
     # Update the Shivaay Folder path in the registry
     Set-ItemProperty -Path $shivaayFolderRegistryPath -Name $shivaayFolderRegistryValueName -Value $newShivaayFolder
     $currentShivaayFolder = $newShivaayFolder # Update variable for display
+    Write-Host "Shivaay Folder Path updated to: $newShivaayFolder" -ForegroundColor $GR
+    Show-UI # Refresh UI after update
 }
 
 function Reset-Settings {
     # Reset OS Name and Shivaay Folder to default values
     Update-Registry -newOSName $defaultOSName
     Update-ShivaayFolderInRegistry -newShivaayFolder $defaultShivaayFolder
-    Write-Host "Settings have been reset to default values." -ForegroundColor "Green"
+    Write-Host "Settings have been reset to default values." -ForegroundColor $GR
+    Show-UI # Refresh UI after reset
+}
+
+function Show-Menu {
+    Write-Host "Choose an option:" -ForegroundColor $MA
+    Write-Host "1. Update OS Name" -ForegroundColor $CY
+    Write-Host "2. Update Shivaay Folder Path" -ForegroundColor $YE
+    Write-Host "3. Reset Settings to Default" -ForegroundColor $RE
+    Write-Host "4. Exit" -ForegroundColor $WH
+    $choice = Read-Host "Enter your choice (1-4)"
+    return $choice
 }
 
 function Get-UserInput {
-    # Prompt for Reset option
-    Write-Host "Would you like to reset the settings to default? (Y/N):" -ForegroundColor $MA
-    $resetChoice = Read-Host
-    if ($resetChoice -eq "Y" -or $resetChoice -eq "y") {
-        Reset-Settings
-    }
+    $exitFlag = $false
+    while (-not $exitFlag) {
+        $choice = Show-Menu
+        switch ($choice) {
+            1 {
+                Write-Host "Enter new OS Name:" -ForegroundColor $CY
+                $newOSName = Read-Host
+                if ($newOSName -ne "") {
+                    Update-Registry -newOSName $newOSName
+                } else {
+                    Write-Host "OS Name not changed." -ForegroundColor $WH
+                }
+            }
+            2 {
+                while ($true) {
+                    Write-Host "Enter new Shivaay Folder Path:" -ForegroundColor $YE
+                    $newShivaayFolder = Read-Host
 
-    # Prompt to update OS name
-    Write-Host "Enter new OS Name (leave blank to skip):" -ForegroundColor $MA
-    $newOSName = Read-Host
-    if ($newOSName -ne "") {
-        Update-Registry -newOSName $newOSName
-    }
+                    # Strip surrounding quotes if present
+                    $newShivaayFolder = $newShivaayFolder -replace '^"|"$', ''
 
-    # Prompt to update Shivaay folder path
-    while ($true) {
-        Write-Host "Enter new Shivaay Folder Path (leave blank to keep current):" -ForegroundColor $MA
-        $newShivaayFolder = Read-Host
-
-        # Strip surrounding quotes if present
-        $newShivaayFolder = $newShivaayFolder -replace '^"|"$', ''
-
-        if ($newShivaayFolder -eq "") {
-            break
-        } elseif (Test-Path -Path $newShivaayFolder -PathType Container) {
-            Update-ShivaayFolderInRegistry -newShivaayFolder $newShivaayFolder
-            break
-        } else {
-            Write-Host "Invalid directory path. Please enter a valid folder path." -ForegroundColor "Red"
+                    if ($newShivaayFolder -eq "") {
+                        Write-Host "Shivaay Folder Path not changed." -ForegroundColor $WH
+                        break
+                    } elseif (Test-Path -Path $newShivaayFolder -PathType Container) {
+                        Update-ShivaayFolderInRegistry -newShivaayFolder $newShivaayFolder
+                        break
+                    } else {
+                        Write-Host "Invalid directory path. Please enter a valid folder path." -ForegroundColor $RE
+                    }
+                }
+            }
+            3 {
+                Reset-Settings
+            }
+            4 {
+                Write-Host "Exiting..." -ForegroundColor $GR
+                $exitFlag = $true
+            }
+            Default {
+                Write-Host "Invalid choice. Please select a valid option." -ForegroundColor $RE
+            }
         }
     }
 }
@@ -745,7 +774,6 @@ function Get-UserInput {
 # Display UI and Prompt for input
 Show-UI
 Get-UserInput
-Show-UI
 '@
 Add-Fea -FC $shivaayOS -FN "Configure ShivaayOS.ps1" -Loc $managementPath
 
