@@ -54,25 +54,25 @@ function Create-File {
 }
 
 # 1.3+ Add Features
+if (-not (Test-Path "$customPath\Features")) { New-Item -Path "$customPath" -Name "Features" -Force | Out-Null }
 function Add-Fea {
   param (
     [string]$FN,
-    [string]$FNA = $FN,
     [string]$FC,
     [string]$Loc,
     [bool]$SCUT = $false
     )
-    $FNB = $FN
-    $FN = Join-Path $Loc "$FN"
-    $FNA = Join-Path $Loc "$FNA"
-    # Check if either script exists
-    if (-not (Test-Path "$FN") -and -not (Test-Path "$FNA")) {
-      Write-Host "- Adding $FNB -> $Loc"
+     $featureExists = (Get-ItemProperty -Path "$customPath\Features" -Name $FN -ErrorAction SilentlyContinue) -ne $null
+    # Check if feature already added or not exist
+    if (-not $featureExists) {
+      Write-Host "- Adding $FN -> $Loc"
+      Set-ItemProperty -Path "$customPath\Features" -Name $FN -Value Yes
       $global:AF="yes"
+      Start-Sleep -Milliseconds 100
       if ($SCUT) {
-        Create-Shortcut -target $FC -shortcutName $FNB -shortcutType "url"
+        Create-Shortcut -target $FC -shortcutName $FN -shortcutType "url"
       } else {
-        Create-File -fileContent $FC -fileName $FNB -fileDirectory $Loc
+        Create-File -fileContent $FC -fileName $FN -fileDirectory $Loc
         }
     }
 }
@@ -595,7 +595,7 @@ reg delete %reg3% /v "UILockdown" /f
 ren "%~dpnx0" "Hide - Unused Security Pages.cmd"
 )
 "@
-Add-Fea -FC $unusedSecurityPages -FN "Show - Unused Security Pages.cmd" -FNA "Hide - Unused Security Pages.cmd" -Loc $securityPath
+Add-Fea -FC $unusedSecurityPages -FN "Show - Unused Security Pages.cmd" -Loc $securityPath
 
 # 5+ System Management
 # Toggle Printer Service
@@ -615,7 +615,7 @@ sc config Spooler start=disabled
 ren "%~dpnx0" "Enable - Printer Spooler.cmd"
 )
 "@
-Add-Fea -FC $printer -FN "Enable - Printer Spooler.cmd" -FNA "Disable - Printer Spooler.cmd" -Loc $managementPath
+Add-Fea -FC $printer -FN "Enable - Printer Spooler.cmd" -Loc $managementPath
 
 # Toggle Biometric Service
 $biometric = @"
@@ -634,7 +634,7 @@ sc config WbioSrvc start=disabled
 ren "%~dpnx0" "Enable - Biometric.cmd"
 )
 "@
-Add-Fea -FC $biometric -FN "Enable - Biometric.cmd" -FNA "Disable - Biometric.cmd" -Loc $managementPath
+Add-Fea -FC $biometric -FN "Enable - Biometric.cmd" -Loc $managementPath
 
 # Configure Shivaay OS Settings
 $shivaayOS = @'
@@ -710,14 +710,15 @@ function Reset-Settings {
     # Reset OS Name and Shivaay Folder to default values
     Update-Registry -newOSName $defaultOSName
     Update-ShivaayFolderInRegistry -newShivaayFolder $defaultShivaayFolder
+    Remove-Item -Path "HKLM:\Software\ShivaayOS\Features" -Recurse -Force | Out-Null
     Write-Host "Settings have been reset to default values." -ForegroundColor $GR
     Show-UI # Refresh UI after reset
 }
 
 function Show-Menu {
     Write-Host "Choose an option:" -ForegroundColor $MA
-    Write-Host "1. Update OS Name" -ForegroundColor $CY
-    Write-Host "2. Update Shivaay Folder Path" -ForegroundColor $YE
+    Write-Host "1. Change OS Name" -ForegroundColor $CY
+    Write-Host "2. Change Shivaay Folder Path" -ForegroundColor $YE
     Write-Host "3. Reset Settings to Default" -ForegroundColor $RE
     Write-Host "4. Exit" -ForegroundColor $WH
     $choice = Read-Host "Enter your choice (1-4)"
@@ -793,7 +794,7 @@ compact /CompactOS:never
 ren "%~dpnx0" "Enable - Compact OS.cmd"
 )
 "@
-Add-Fea -FC $compactOS -FN "Enable - Compact OS.cmd" -FNA "Disable - Compact OS.cmd" -Loc $optimizationPath
+Add-Fea -FC $compactOS -FN "Enable - Compact OS.cmd" -Loc $optimizationPath
 
 # Toggle Last Access Time Stamp and 8.3 Char Length File Name Creation
 $timeChar = @"
@@ -812,7 +813,7 @@ fsutil behavior set disable8dot3 0
 ren "%~dpnx0" "Disable - Last Access Time and 8.3 Name.cmd"
 )
 "@
-Add-Fea -FC $timeChar -FN "Enable - Last Access Time and 8.3 Name.cmd" -FNA "Disable - Last Access Time and 8.3 Name.cmd" -Loc $optimizationPath
+Add-Fea -FC $timeChar -FN "Enable - Last Access Time and 8.3 Name.cmd" -Loc $optimizationPath
 
 # Toggle Multi-Plane Overlay
 $MPO = @"
@@ -830,7 +831,7 @@ reg add %reg1% /v OverlayTestMode /t REG_DWORD /d 5 /f
 ren "%~dpnx0" "Enable - Multi-Plane Overlay.cmd"
 )
 "@
-Add-Fea -FC $MPO -FN "Enable - Multi-Plane Overlay.cmd" -FNA "Disable - Multi-Plane Overlay.cmd" -Loc $optimizationPath
+Add-Fea -FC $MPO -FN "Enable - Multi-Plane Overlay.cmd" -Loc $optimizationPath
 
 # Toggle Delivery Optimization
 $deliveryOptimization = @"
@@ -847,7 +848,7 @@ reg add "HKLM\SOFTWARE\Policies\Microsoft\Windows\DeliveryOptimization" /v DODow
 ren "%~dpnx0" "Enable - Delivery Optimization.cmd"
 )
 "@
-Add-Fea -FC $deliveryOptimization -FN "Enable - Delivery Optimization.cmd" -FNA "Disable - Delivery Optimization.cmd" -Loc $optimizationPath
+Add-Fea -FC $deliveryOptimization -FN "Enable - Delivery Optimization.cmd" -Loc $optimizationPath
 
 # Toggle SuperFetch
 $superFetch = @"
@@ -866,7 +867,7 @@ net stop SysMain
 ren "%~dpnx0" "Enable - SuperFetch.cmd"
 )
 "@
-Add-Fea -FC $superFetch -FN "Enable - SuperFetch.cmd" -FNA "Disable - SuperFetch.cmd" -Loc $optimizationPath
+Add-Fea -FC $superFetch -FN "Enable - SuperFetch.cmd" -Loc $optimizationPath
 
 # 7+ User Interface
 # Toggle Automatic Folder Discovery
@@ -885,7 +886,7 @@ reg add %reg1% /v "FolderType" /t REG_SZ /d "NotSpecified" /f
 ren "%~dpnx0" "Enable - Automatic Folder Discovery.cmd"
 )
 "@
-Add-Fea -FC $automaticFolder -FN "Enable - Automatic Folder Discovery.cmd" -FNA "Disable - Automatic Folder Discovery.cmd" -Loc $interfacePath
+Add-Fea -FC $automaticFolder -FN "Enable - Automatic Folder Discovery.cmd" -Loc $interfacePath
 
 # Toggle Network Navigation Pane in File Explorer
 $netNavigation = @"
@@ -904,7 +905,7 @@ set st="Show - Network Navigation In File Explorer.cmd"
 )
 ren "%~dpnx0" %st% & taskkill /f /im explorer.exe & start explorer.exe
 "@
-Add-Fea -FC $netNavigation -FN "Show - Network Navigation In File Explorer.cmd" -FNA "Hide - Network Navigation In File Explorer.cmd" -Loc $interfacePath
+Add-Fea -FC $netNavigation -FN "Show - Network Navigation In File Explorer.cmd" -Loc $interfacePath
 
 # Toggle Recycle Bin in File Explorer
 $recycleBin = @"
@@ -924,7 +925,7 @@ set st="Pin - Recycle Bin In File Explorer.cmd"
 )
 ren "%~dpnx0" %st% & taskkill /f /im explorer.exe & start explorer.exe
 "@
-Add-Fea -FC $recycleBin -FN "Unpin - Recycle Bin In File Explorer.cmd" -FNA "Pin - Recycle Bin In File Explorer.cmd" -Loc $interfacePath
+Add-Fea -FC $recycleBin -FN "Unpin - Recycle Bin In File Explorer.cmd" -Loc $interfacePath
 
 # Toggle Removable Drives in File Explorer
 $rmvDrives = @"
@@ -946,7 +947,7 @@ set st="Show - Removable Drives In File Explorer Quick Access.cmd"
 )
 ren "%~dpnx0" %st% & taskkill /f /im explorer.exe & start explorer.exe
 "@
-Add-Fea -FC $rmvDrives -FN "Show - Removable Drives In File Explorer Quick Access.cmd" -FNA "Hide - Removable Drives In File Explorer Quick Access.cmd" -Loc $interfacePath
+Add-Fea -FC $rmvDrives -FN "Show - Removable Drives In File Explorer Quick Access.cmd" -Loc $interfacePath
 
 # Toggle Context Menu
 $contextMenu = @"
@@ -964,7 +965,7 @@ set st="Enable - New Context Menu.cmd"
 )
 ren "%~dpnx0" %st% & taskkill /f /im explorer.exe & start explorer.exe
 "@
-Add-Fea -FC $contextMenu -FN "Enable - New Context Menu.cmd" -FNA "Enable - Old Context Menu.cmd" -Loc $interfacePath
+Add-Fea -FC $contextMenu -FN "Enable - New Context Menu.cmd" -Loc $interfacePath
 
 # 8+ Context Menu
 # Get File Hash
@@ -997,7 +998,7 @@ reg delete "HKCR\*\shell\GetFileHash" /f
 ren "%~dpnx0" "Add - Get File Hash.cmd"
 )
 "@
-Add-Fea -FC $fileHash -FN "Add - Get File Hash.cmd" -FNA "Remove - Get File Hash.cmd" -Loc $contextMenus
+Add-Fea -FC $fileHash -FN "Add - Get File Hash.cmd" -Loc $contextMenus
 
 # Select Power Plan
 $powerPlan = @"
@@ -1033,7 +1034,7 @@ reg delete "HKCR\DesktopBackground\Shell\PowerPlan" /f
 ren "%~dpnx0" "Add - Select Power Plan.cmd"
 )
 "@
-Add-Fea -FC $powerPlan -FN "Add - Select Power Plan.cmd" -FNA "Remove - Select Power Plan.cmd" -Loc $contextMenus
+Add-Fea -FC $powerPlan -FN "Add - Select Power Plan.cmd" -Loc $contextMenus
 
 # 9+ Useful Shortcuts
 # God Mode
@@ -1099,7 +1100,7 @@ shutdown /r /f /t 5 /c "PC will restart into Normal mode in 5 seconds"
 ren "%~dpnx0" "Reboot to - Safe Mode.cmd"
 )
 "@
-Add-Fea -FC $rebootSmode -FN "Reboot to - Safe Mode.cmd" -FNA "Reboot to - Normal Mode.cmd" -Loc $usefulShortcuts
+Add-Fea -FC $rebootSmode -FN "Reboot to - Safe Mode.cmd" -Loc $usefulShortcuts
 
 Write-Host ""
 if ($AF -eq "yes") { Write-Host "- All additional features have been successfully added!" -ForegroundColor Green } else { Write-Host "! Additional features are already added, please try again later" -ForegroundColor Red }
