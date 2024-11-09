@@ -1,6 +1,15 @@
 # Variables
 $apiUrl = "https://api.github.com/repos/ShivamXD6/Optimize-Windows/releases"
+$customPath = "HKLM:\Software\ShivaayOS"
+if (Test-Path $customPath) {
+    $shivaayPath = (Get-ItemProperty -Path $customPath -Name "ShivaayFolderPath")."ShivaayFolderPath"
+} else {
+    $shivaayPath = "$desktopPath\Shivaay"
+}
+$logFile = "$shivaayPath\Update.log"
+Start-Transcript -Path $logFile
 
+# Functions
 # Function to get the current version from the OEM information
 function Get-CurrentVersion {
     $oemInfo = Get-ItemProperty "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\OEMInformation"

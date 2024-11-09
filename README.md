@@ -190,6 +190,9 @@
 > Drivers should be placed in their respective subfolders with `.inf` files included. `.exe` driver files are not supported.
 
 ### 3. Installing Windows via Ventoy
+> [!TIP]
+> Don't connect to internet or lan cable while installing.
+
 1. Now Restart into Boot Selection Menu (By Pressing F12, F9, or ESC Repeatedly).
 2. Select your USB Drive.
 3. If it Says "Verification Failed: (0x1A) Security Violation" Then, Follow this, or Simply Disable secure boot from BIOS:-
@@ -244,6 +247,9 @@
 > Only Official Windows 10/11 ISO are supported. 
  
 ### 2. Installing Windows via Rufus
+> [!TIP]
+> Don't connect to internet or lan cable while installing.
+
 1. Now Restart into Boot Selection Menu (By Pressing F12, F9, or ESC Repeatedly).
 2. Select your USB Drive.
 3. Now you'll see some commands running.
