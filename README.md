@@ -66,7 +66,7 @@
 ### 4. **👤 User-Based Customizations**
 - 📁 Hide Gallery and Network Navigation (In File Explorer)
 - 🔄 Hide Removable Drives (In File Explorer)
-- ✔️ Enable item Check boxes in file explorer for quickly select files or folders.
+- ✔️ Enable item Check boxes in file explorer to quickly select files or folders by mouse.
 - ♻️ Pin Recycle bin In File Explorer.
 - ⚙️ Hide Homepage(In Settings)
 - 🛡️Hide Unused Security Pages(In Windows Security)
@@ -80,7 +80,6 @@
 - 💤 Disable Hibernation and Reserved Storage
 - 🖨️ Disable Printer Spooler
 - 🔍 Disable Search Indexing
-- 💿 Disable Storage Sense
 - 🛡️ Disable Smart Screen
 - 🔒 Disable Biometrics (Fingerprint and Face Unlock)
 - 📀 Set SysMain (SuperFetch/Prefetch) to Manual not required for many SSD Users

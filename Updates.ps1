@@ -6,8 +6,6 @@ if (Test-Path $customPath) {
 } else {
     $shivaayPath = "$desktopPath\Shivaay"
 }
-$logFile = "$shivaayPath\Update.log"
-Start-Transcript -Path $logFile
 
 # Functions
 # Function to get the current version from the OEM information
@@ -160,5 +158,3 @@ if ($nextVersions.Count -gt 0) {
 }
 
 Write-Host "Updates completed!" -ForegroundColor Cyan
-
-Stop-Transcript

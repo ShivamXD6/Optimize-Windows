@@ -707,7 +707,7 @@ function Update-ShivaayFolderInRegistry {
 }
 
 function Reset-Settings {
-    # Reset OS Name and Shivaay Folder to default values
+    # Reset OS Name and Shivaay Folder to default values also resets reg values related to OS
     Update-Registry -newOSName $defaultOSName
     Update-ShivaayFolderInRegistry -newShivaayFolder $defaultShivaayFolder
     Remove-Item -Path "HKLM:\Software\ShivaayOS\Features" -Recurse -Force | Out-Null
