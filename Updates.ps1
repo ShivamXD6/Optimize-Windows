@@ -160,3 +160,5 @@ if ($nextVersions.Count -gt 0) {
 }
 
 Write-Host "Updates completed!" -ForegroundColor Cyan
+
+Stop-Transcript

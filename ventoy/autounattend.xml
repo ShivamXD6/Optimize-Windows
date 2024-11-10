@@ -1332,9 +1332,6 @@ powercfg -setacvalueindex scheme_current sub_processor CPMINCORES1 100
 powercfg -setacvalueindex scheme_current sub_processor PERFBOOSTMODE 2
 powercfg /setactive scheme_current
 
-:: Disable Storage Sense
-reg add "HKCU\Software\Microsoft\Windows\CurrentVersion\StorageSense\Parameters\StoragePolicy" /v "01" /t REG_DWORD /d 0 /f
-
 :: Configure Visual Effects
 reg add "HKCU\Control Panel\Desktop" /v "UserPreferencesMask" /t REG_BINARY /d "9012038012000000" /f
 reg add "HKCU\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\VisualEffects" /v "VisualFXSetting" /t REG_DWORD /d "3" /f
