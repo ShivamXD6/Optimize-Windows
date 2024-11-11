@@ -1,5 +1,5 @@
 # 🔮 Optimize Windows
-[![Version](https://img.shields.io/badge/Version-V4.2%20-2D9F2D?style=for-the-badge&logo=github&logoColor=white)](https://github.com/ShivamXD6/Optimize-Windows/releases/latest)
+[![Version](https://img.shields.io/badge/Version-V4.3%20-2D9F2D?style=for-the-badge&logo=github&logoColor=white)](https://github.com/ShivamXD6/Optimize-Windows/releases/latest)
 [![User Base](https://img.shields.io/github/downloads/ShivamXD6/Optimize-Windows/total?style=for-the-badge&logo=github&label=User%20Base&link=https%3A%2F%2Fgithub.com%2FShivamXD6%2FOptimize-Windows%2Freleases%2Flatest)](https://github.com/ShivamXD6/Optimize-Windows/releases/latest)
 [![License](https://img.shields.io/badge/License-GPL%20v3-0078D4?style=for-the-badge&logo=open-source-initiative&logoColor=white)](https://github.com/ShivamXD6/Optimize-Windows/blob/main/LICENSE)
 ![Last Updated](https://img.shields.io/github/last-commit/ShivamXD6/Optimize-Windows?style=for-the-badge&color=6A5ACD&label=Last%20Updated)

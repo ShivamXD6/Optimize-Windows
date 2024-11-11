@@ -1,3 +1,23 @@
+# Changelogs - V4.3
+## Answer File Changes
+ - Removed One registry for modifying OEM Info.
+ - *Removed Logs Temporary.
+ - Fixed Volume Mixer issue by not removing internet explorer compatibility.
+ - Not Disabling Storage Sense by default as it's useful for freeing up space automatically. (I will configure its settings later).
+
+## Shivaay Folder Changes
+ - Using the Release channel for a more stable Add-More-Features script updates.
+
+## Additional Features Script Changes
+ - Added Script to configure OS Settings (like OS Name, and Shivaay Folder Location) in System Management.
+ - Now if you want to change the Shivaay folder name just make another folder and enter the location of it in this Script.
+ - Updated this script to V3, with improved logic, function and much more.
+
+## Update Script Changes
+ - Included everything from above, except the ones with an asterisk (*).
+ - Using Variables and Functions in the main script instead using it for each script.
+ - Updated Main Update Script to avoid replacing OS name or folder path.
+
 # Changelogs - V4.2
 ## Answer File Changes
  - Updated Pagefile Size, Min to 800MB and Max to 16GB to avoid Low Ram issues.
