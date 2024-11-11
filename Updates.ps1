@@ -1,24 +1,31 @@
-# Variables
-$apiUrl = "https://api.github.com/repos/ShivamXD6/Optimize-Windows/releases"
-$customPath = "HKLM:\Software\ShivaayOS"
-if (Test-Path $customPath) {
-    $shivaayPath = (Get-ItemProperty -Path $customPath -Name "ShivaayFolderPath")."ShivaayFolderPath"
-} else {
-    $shivaayPath = "$desktopPath\Shivaay"
-}
-
-# Functions
 # Function to get the current version from the OEM information
 function Get-CurrentVersion {
     $oemInfo = Get-ItemProperty "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\OEMInformation"
     
-    if ($oemInfo.Model -match "ShivaayOS - V(\d+(\.\d+)?)") {
-        return $matches[1]
-    } 
-    return "0.0"
+    # Extract the model name and version using regex
+    if ($oemInfo.Model -match "(.*) - V(\d+(\.\d+)?)") {
+        $modelName = $matches[1]  # The part before " - V"
+        $version = $matches[2]    # The version after "V"
+        return @{ ModelName = $modelName; Version = $version }
+    }
+    return @{ ModelName = "Unknown"; Version = "0.0" }  # Default if no match is found
 }
 
-$currentVersion = Get-CurrentVersion
+# Function to update OEM information
+function Update-OEMInfo {
+    param (
+        [string]$newVersion,
+        [string]$modelName
+    )
+    # Update the model string with the new version but keep the model name
+    $newModelString = "$modelName - V$newVersion"
+    reg add "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\OEMInformation" /v "Model" /t REG_SZ /d $newModelString /f
+    Write-Host ""
+    Write-Host "Updated to $newModelString." -ForegroundColor Green
+    Write-Host ""
+    Write-Host "Press Enter to Check for more updates..." -ForegroundColor Cyan
+    Write-Host ""
+}
 
 # Function to display a decorated header
 function Show-Header {
@@ -95,24 +102,79 @@ function Get-NextVersions {
     return $nextVersions
 }
 
-# Function to update OEM information
-function Update-OEMInfo {
+# Function to Show Update Process
+function Dis {
     param (
-        [string]$version
-    )
-    reg add "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\OEMInformation" /v "Model" /t REG_SZ /d "ShivaayOS - V$version" /f
-    Write-Host "Updated to ShivaayOS - V$version." -ForegroundColor Green
+        [string]$txt = "Updating"
+    ) 
+    Write-Host ""
+    Write-Host " - $txt"
+    Start-Sleep -Milliseconds 100
 }
+
+# Function to Create Files
+function Create-File {
+  param (
+    [string]$fileContent,
+    [string]$fileName,
+    [string]$fileDirectory
+    )
+  $outputFilePath = [System.IO.Path]::Combine($fileDirectory, "$fileName")
+  $fileContent | Out-File -FilePath $outputFilePath -Encoding ASCII
+}
+
+# Function to Create Shortcuts
+function Create-Shortcut {
+  param (
+    [string]$target,
+    [string]$shortcutName,
+    [string]$shortcutType,
+    [string]$shortcutPath = $shivaayPath
+    )
+  $shell = New-Object -ComObject WScript.Shell
+  $fullPath = Join-Path $shortcutPath $shortcutName
+  $softPath = Join-Path $softwaresPath $shortcutName
+  if ($shortcutType -eq "url") {
+    $internetShortcut = $shell.CreateShortcut($softPath)
+    $internetShortcut.TargetPath = $target
+    $internetShortcut.Save()
+  } else {
+    $shortcut = $shell.CreateShortcut($fullPath)
+    $shortcut.TargetPath = "powershell.exe"
+    $shortcut.Arguments = "-NoProfile -ExecutionPolicy RemoteSigned -Command `"$target`""
+    $shortcut.Save()
+    }
+}
+
+# Variables
+$apiUrl = "https://api.github.com/repos/ShivamXD6/Optimize-Windows/releases"
+$customPath = "HKLM:\Software\ShivaayOS"
+if (Test-Path $customPath) {
+    $global:shivaayPath = (Get-ItemProperty -Path $customPath -Name "ShivaayFolderPath")."ShivaayFolderPath"
+} else {
+    $global:shivaayPath = "$desktopPath\Shivaay"
+}
+$global:desktopPath = "C:\Users\Public\Desktop"
+$global:optimizationPath = "$shivaayPath\Optimizations"
+$global:securityPath = "$shivaayPath\Security"
+$global:softwaresPath = "$shivaayPath\Softwares"
+$global:managementPath = "$shivaayPath\System Management"
+$global:interfacePath = "$shivaayPath\User Interface"
 
 # Main script execution
 Show-Header "Checking for Updates"
 $releases = Fetch-Releases
 
+# Get the current model name and version
+$currentInfo = Get-CurrentVersion
+$currentModelName = $currentInfo.ModelName
+$currentVersion = $currentInfo.Version
+
 # Get the next versions to update to
 $nextVersions = Get-NextVersions -currentVersion $currentVersion -releases $releases
 
 if ($nextVersions.Count -gt 0) {
-    Write-Host "Current version: $currentVersion" -ForegroundColor Yellow
+    Write-Host "Current model: $currentModelName - V$currentVersion" -ForegroundColor Yellow
     Write-Host "Available versions to update: $($nextVersions -join ', ')" -ForegroundColor Yellow
     Write-Host ""
 
@@ -140,8 +202,9 @@ if ($nextVersions.Count -gt 0) {
             $scriptUrl = $updateAsset.browser_download_url
             Write-Host "Executing script from: $scriptUrl" -ForegroundColor Green
             try {
-                irm $scriptUrl | iex
-                Update-OEMInfo -version $nextVersion
+                irm $scriptUrl | iex 2>$null
+                # Update the OEM info with the new version, preserving the model name
+                Update-OEMInfo -newVersion $nextVersion -modelName $currentModelName
                 pause
             } catch {
                 Write-Host "Failed to execute the script from $scriptUrl." -ForegroundColor Red
@@ -153,8 +216,10 @@ if ($nextVersions.Count -gt 0) {
         }
     }
 } else {
-    Write-Host "You are already on the latest version: $currentVersion" -ForegroundColor Green
+    Write-Host "You are already using the latest version: $currentVersion" -ForegroundColor Green
     pause
 }
-
-Write-Host "Updates completed!" -ForegroundColor Cyan
+Write-Host ""
+Write-Host "All Updates completed!, no more updates are available!" -ForegroundColor Green
+Write-Host ""
+pause
