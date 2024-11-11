@@ -112,6 +112,7 @@
 - 🎥 Toggle GameDVR
 - 🔒 *Toggle Biometrics (Fingerprint and Face Unlock)
 - 💿 *Toggle Compact OS (Free up space by compressing Windows Binaries)
+- 📝 *Configure Shivaay OS (Like change OS name, Folder Location etc)
 
 #### ⚡ **Optimizations**
 - 🔔 Toggle Update Notification
