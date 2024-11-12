@@ -1017,11 +1017,11 @@ schtasks /Change /TN $task /Disable
 }
 
 # Set Services to Manual or Disabled
-$ds = @('AJRouter', 'AssignedAccessManagerSvc', 'AppIDSvc', 'BDESVC', 'DiagTrack', 'DPS', 'EFS', 'FontCache', 'PcaSvc', 'RmSvc', 'WSearch', 'WbioSrvc', 'lfsvc')
+$ds = @('AJRouter', 'AssignedAccessManagerSvc', 'AppIDSvc', 'BDESVC', 'DiagTrack', 'FontCache', 'PcaSvc', 'RmSvc', 'WSearch', 'WbioSrvc', 'lfsvc')
 foreach ($dnm in $ds) {
   Set-Service -Name $dnm -StartupType Disabled -ErrorAction Continue
 }
-$ms = @('BITS', 'CDPSvc', 'DusmSvc', 'LanmanServer', 'LanmanWorkstation', 'Spooler', 'StateRepository', 'StorSvc', 'SysMain', 'TokenBroker', 'TrkWks', 'UsoSvc', 'WpnService', 'edgeupdate', 'edgeupdatem', 'iphlpsvc', 'sppsvc')
+$ms = @('BITS', 'CDPSvc', 'DPS', 'DusmSvc', 'EFS', 'LanmanServer', 'LanmanWorkstation', 'Spooler', 'StateRepository', 'StorSvc', 'SysMain', 'TokenBroker', 'TrkWks', 'UsoSvc', 'WpnService', 'edgeupdate', 'edgeupdatem', 'iphlpsvc', 'sppsvc')
 foreach ($mnm in $ms) {
   Set-Service -Name $mnm -StartupType Manual -ErrorAction Continue
 }
