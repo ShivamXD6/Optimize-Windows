@@ -603,11 +603,11 @@ reg add %reg16% /v Start /t REG_DWORD /d 4 /f
 ren "%~dpnx0" "Enable - Defender.cmd"
 )
 bcdedit /deletevalue {current} safeboot
-reg delete "HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon" /v "Defender" /f
+reg add "HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon" /v "Userinit" /t REG_SZ /d "C:\Windows\system32\userinit.exe" /f
 shutdown /r /f /t 1
 ) else (
 bcdedit /set {current} safeboot minimal
-reg add "HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon" /v "Defender" /t REG_SZ /d "explorer.exe, cmd /c \"%~dpnx0\"" /f
+reg add "HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon" /v "Userinit" /t REG_SZ /d "explorer.exe, cmd /c \"%~dpnx0\"" /f
 shutdown /r /f /t 1
 )
 "@
@@ -620,21 +620,18 @@ if %errorLevel% neq 0 (
 echo Please Run as Administrator.
 pause & exit
 )
-set reg1="HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer"
-set reg2="HKLM\SOFTWARE\Policies\Microsoft\Windows Defender"
-set reg3="HKLM\SOFTWARE\Policies\Microsoft\Windows Defender\MpEngine"
-set reg4="HKLM\SOFTWARE\Policies\Microsoft\Windows Defender Security Center\App and Browser protection"
+set reg1="HKLM\SOFTWARE\Policies\Microsoft\Windows Defender"
+set reg2="HKLM\SOFTWARE\Policies\Microsoft\Windows Defender\MpEngine"
+set reg3="HKLM\SOFTWARE\Policies\Microsoft\Windows Defender Security Center\App and Browser protection"
 if "%~n0"=="Enable - Smart Screen" (
-reg add %reg1% /v "SmartScreenEnabled" /t REG_SZ /d "Warn" /f
-reg add %reg2% /v "PUAProtection" /t REG_DWORD /d 1 /f
-reg add %reg3% /v "MpEnablePus" /t REG_DWORD /d 1 /f
-reg delete %reg4% /v "UILockdown" /f
+reg add %reg1% /v "PUAProtection" /t REG_DWORD /d 1 /f
+reg add %reg2% /v "MpEnablePus" /t REG_DWORD /d 1 /f
+reg delete %reg3% /v "UILockdown" /f
 ren "%~dpnx0" "Disable - Smart Screen.cmd"
 ) else (
-reg add %reg1% /v "SmartScreenEnabled" /t REG_SZ /d "Off" /f
-reg add %reg2% /v "PUAProtection" /t REG_DWORD /d 0 /f
-reg add %reg3% /v "MpEnablePus" /t REG_DWORD /d 0 /f
-reg add %reg4% /v "UILockdown" /t REG_DWORD /d 1 /f
+reg add %reg1% /v "PUAProtection" /t REG_DWORD /d 0 /f
+reg add %reg2% /v "MpEnablePus" /t REG_DWORD /d 0 /f
+reg add %reg3% /v "UILockdown" /t REG_DWORD /d 1 /f
 ren "%~dpnx0" "Enable - Smart Screen.cmd"
 )
 "@
@@ -1113,7 +1110,6 @@ reg add "HKLM\SOFTWARE\Microsoft\Windows Defender\Spynet" /v SubmitSamplesConsen
 
 :: Disable Smart Screen (Fixes Slow App Loading in Windows 11)
 reg add "HKLM\SYSTEM\CurrentControlSet\Control\CI\Policy" /v "VerifiedAndReputablePolicyState" /t REG_DWORD /d 0 /f
-reg add "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer" /v "SmartScreenEnabled" /t REG_SZ /d "Off" /f
 reg add "HKLM\SOFTWARE\Policies\Microsoft\Windows Defender" /v "PUAProtection" /t REG_DWORD /d 0 /f
 reg add "HKLM\SOFTWARE\Policies\Microsoft\Windows Defender\MpEngine" /v "MpEnablePus" /t REG_DWORD /d 0 /f
 reg add "HKLM\SOFTWARE\Policies\Microsoft\Windows Defender Security Center\App and Browser protection" /v "UILockdown" /t REG_DWORD /d 1 /f

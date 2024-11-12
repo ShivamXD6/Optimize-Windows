@@ -220,11 +220,11 @@ reg add %reg16% /v Start /t REG_DWORD /d 4 /f
 ren "%~dpnx0" "Enable - Defender.cmd"
 )
 bcdedit /deletevalue {current} safeboot
-reg delete "HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon" /v "Defender" /f
+reg add "HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon" /v "Userinit" /t REG_SZ /d "C:\Windows\system32\userinit.exe" /f
 shutdown /r /f /t 1
 ) else (
 bcdedit /set {current} safeboot minimal
-reg add "HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon" /v "Defender" /t REG_SZ /d "explorer.exe, cmd /c \"%~dpnx0\"" /f
+reg add "HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon" /v "Userinit" /t REG_SZ /d "explorer.exe, cmd /c \"%~dpnx0\"" /f
 shutdown /r /f /t 1
 )
 "@
