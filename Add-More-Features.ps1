@@ -708,6 +708,51 @@ ren "%~dpnx0" "Enable - Biometric.cmd"
 "@
 Add-Fea -FC $biometric -FN "Enable - Biometric.cmd" -Loc $managementPath
 
+# Toggle Legacy Photo Viewer Association
+$photoViewer = @"
+@echo off & reg query "HKU\S-1-5-19" >nul 2>&1
+if %errorLevel% neq 0 (
+echo Please Run as Administrator.
+pause & exit
+)
+set key="PhotoViewer.FileAssoc.Tiff"
+set reg="HKCU\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\FileExts"
+if "%~n0"=="Remove - Legacy Photo Viewer" (
+reg delete "%reg%\.bmp\OpenWithProgids" /v %key% /f
+reg delete "%reg%\.cr2\OpenWithProgids" /v %key% /f
+reg delete "%reg%\.dib\OpenWithProgids" /v %key% /f
+reg delete "%reg%\.gif\OpenWithProgids" /v %key% /f
+reg delete "%reg%\.ico\OpenWithProgids" /v %key% /f
+reg delete "%reg%\.jfif\OpenWithProgids" /v %key% /f
+reg delete "%reg%\.jpe\OpenWithProgids" /v %key% /f
+reg delete "%reg%\.jpeg\OpenWithProgids" /v %key% /f
+reg delete "%reg%\.jpg\OpenWithProgids" /v %key% /f
+reg delete "%reg%\.jxr\OpenWithProgids" /v %key% /f
+reg delete "%reg%\.png\OpenWithProgids" /v %key% /f
+reg delete "%reg%\.tif\OpenWithProgids" /v %key% /f
+reg delete "%reg%\.tiff\OpenWithProgids" /v %key% /f
+reg delete "%reg%\.wdp\OpenWithProgids" /v %key% /f
+ren "%~dpnx0" "Restore - Legacy Photo Viewer.cmd"
+) else (
+reg add "%reg%\.bmp\OpenWithProgids" /v %key% /f
+reg add "%reg%\.cr2\OpenWithProgids" /v %key% /f
+reg add "%reg%\.dib\OpenWithProgids" /v %key% /f
+reg add "%reg%\.gif\OpenWithProgids" /v %key% /f
+reg add "%reg%\.ico\OpenWithProgids" /v %key% /f
+reg add "%reg%\.jfif\OpenWithProgids" /v %key% /f
+reg add "%reg%\.jpe\OpenWithProgids" /v %key% /f
+reg add "%reg%\.jpeg\OpenWithProgids" /v %key% /f
+reg add "%reg%\.jpg\OpenWithProgids" /v %key% /f
+reg add "%reg%\.jxr\OpenWithProgids" /v %key% /f
+reg add "%reg%\.png\OpenWithProgids" /v %key% /f
+reg add "%reg%\.tif\OpenWithProgids" /v %key% /f
+reg add "%reg%\.tiff\OpenWithProgids" /v %key% /f
+reg add "%reg%\.wdp\OpenWithProgids" /v %key% /f
+ren "%~dpnx0" "Remove - Legacy Photo Viewer.cmd"
+)
+"@
+Add-Fea -FC $photoViewer -FN "Restore - Legacy Photo Viewer.cmd" -Loc $managementPath
+
 # Configure Shivaay OS Settings
 $shivaayOS = @'
 # Set Console UI colors
