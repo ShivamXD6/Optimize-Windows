@@ -21,7 +21,7 @@
 - [📸 Screenshots](#-screenshots)
 - [💖 Acknowledgements](#-acknowledgements)
 
-## 📂 Included Script
+## 📂 Included Scripts
 ### Auto Unattend or Answer File
 
  - Automates Windows installation with optimized settings, debloating or tweaking Windows etc.

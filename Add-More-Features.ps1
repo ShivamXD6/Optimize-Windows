@@ -361,71 +361,143 @@ Create-File -fileContent $notification -fileName 'Enable - Notifications and Bac
 
 # Optimizations
 # Cleanup
-$cleanup = @"
-@echo off & reg query "HKU\S-1-5-19" >nul 2>&1
-if %errorLevel% neq 0 (
-echo Please Run as Administrator.
-pause & exit
+$cleanup = @'
+# Ensure the script runs as Administrator
+if (-not ([Security.Principal.WindowsPrincipal] [Security.Principal.WindowsIdentity]::GetCurrent()).IsInRole([Security.Principal.WindowsBuiltInRole] "Administrator")) {
+    Write-Output "Please run this script as Administrator."
+    Pause
+    Exit
+}
+
+# Ignore Errors and Continue
+$ErrorActionPreference = 'SilentlyContinue'
+
+# Function to display sections
+function Show-Message ($message) {
+    Write-Output "==========================================="
+    Write-Output "  $message"
+    Write-Output "==========================================="
+    Start-Sleep -Seconds 2
+}
+
+# Kill Cleanup Manager
+Get-Process -Name cleanmgr -EA 0 | Stop-Process -Force -EA 0
+
+# Show initial disk space
+$initialFreeMB = (Get-PSDrive -Name C).Free / 1MB
+$initialFreeGB = [math]::Round($initialFreeMB / 1024, 2)
+
+Show-Message "Using Disk Cleanup with custom configuration"
+$volumeCache = @{
+    "Active Setup Temp Folders" = 2
+    "BranchCache" = 2
+    "Content Indexer Cleaner" = 2
+    "Delivery Optimization Files" = 2
+    "Device Driver Packages" = 2
+    "Diagnostic Data Viewer database files" = 2
+    "Downloaded Program Files" = 2
+    "Feedback Hub Archive log files" = 2
+    "Internet Cache Files" = 2
+    "Language Pack" = 2
+    "Offline Pages Files" = 2
+    "Old ChkDsk Files" = 2
+    "Recycle Bin" = 2
+    "RetailDemo Offline Content" = 2
+    "Setup Log Files" = 2
+    "System error memory dump files" = 2
+    "System error minidump files" = 2
+    "Temporary Files" = 2
+    "Temporary Setup Files" = 2
+    "Temporary Sync Files" = 2
+    "Update Cleanup" = 2
+    "Upgrade Discarded Files" = 2
+    "User file versions" = 2
+    "Windows Defender" = 2
+    "Windows Error Reporting Files" = 2
+    "Windows ESD installation files" = 2
+    "Windows Reset Log Files" = 2
+    "Windows Upgrade Log Files" = 2
+}
+$registryPath = "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\VolumeCaches"
+foreach ($item in $volumeCache.GetEnumerator()) {
+    $keyPath = Join-Path $registryPath $item.Key
+    if (Test-Path $keyPath) {
+        New-ItemProperty -Path $keyPath -Name StateFlags1337 -Value $item.Value -PropertyType DWord | Out-Null
+    }
+}
+Start-Process -FilePath "$env:SystemRoot\system32\cleanmgr.exe" -ArgumentList "/sagerun:1337" -Wait:$false
+
+Show-Message "Cleaning up leftovers"
+$foldersToRemove = @(
+    "CbsTemp",
+    "Logs",
+    "Panther",
+    "Prefetch",
+    "SoftwareDistribution",
+    "System32\LogFiles",
+    "System32\LogFiles\WMI",
+    "System32\SleepStudy",
+    "System32\sru",
+    "System32\WDI\LogFiles",
+    "System32\winevt\Logs",
+    "SystemTemp",
+    "Temp"
 )
 
-goto START
+foreach ($folderName in $foldersToRemove) {
+    $folderPath = Join-Path $env:SystemRoot $folderName
+    if (Test-Path $folderPath) {
+        Remove-Item -Path "$folderPath\*" -Force -Recurse | Out-Null
+    }
+}
+Remove-Item -Path "C:\Program Files\WindowsApps\MicrosoftWindows.Client.WebExperience*" -Recurse -Force
 
-:SHOW
-echo ===========================================
-echo   %1
-echo ===========================================
-timeout /t 3 >nul
-goto :EOF
+Show-Message "Cleaning up %TEMP% and Log Files"
+Get-ChildItem -Path "$env:TEMP" | Remove-Item -Recurse -Force
+Get-ChildItem -Path "$env:SystemRoot" -Filter *.log -File -Recurse -Force | Remove-Item -Recurse -Force | Out-Null
 
-:START
-for /f "tokens=*" %%A in ('powershell -command "(Get-PSDrive C).Free / 1MB"') do set "bmb=%%A" & set /a bgb=bmb/1024
-call :SHOW "Clearing DNS Cache"
-ipconfig /flushdns
+Show-Message "Cleaning up Event Logs"
+Get-EventLog -LogName * | ForEach-Object { Clear-EventLog $_.Log }
 
-call :SHOW "Clearing Windows Run History"
-reg delete "HKCU\Software\Microsoft\Windows\CurrentVersion\Explorer\RunMRU" /f
+# Run DISM Component Cleanup
+Show-Message "Cleaning up WinSxS components"
+Dism /online /Cleanup-Image /StartComponentCleanup /ResetBase
 
-call :SHOW "Removing Temp, Log, CHK, Old and Prefetch Files"
-for %%e in (tmp log chk old) do for /r C:\ %%f in (*%%e) do (del /f /q "%%f" 2>nul && echo Deleted: "%%f")
-for /r %windir%\prefetch %%f in (*) do (del /f /q "%%f" 2>nul && echo Deleted: "%%f")
+# Clean Edge Update Downloads
+Show-Message "Cleaning up EdgeUpdate Downloads"
+$edgeUpdatePath = ${env:ProgramFiles(x86)} + "\Microsoft\EdgeUpdate\Download"
+if (Test-Path -Path $edgeUpdatePath) {
+    Remove-Item -Path $edgeUpdatePath -Force -Recurse | Out-Null
+}
 
-call :SHOW "Cleaning Windows Update Cache"
-del /q /f /s "%SystemRoot%\SoftwareDistribution\Download\*"
+# Clean Empty Folders
+Show-Message "Cleaning Empty Folders"
+Get-ChildItem -Directory -Path "C:\" -Recurse -ErrorAction SilentlyContinue |
+Where-Object { try { ($_.GetFiles().Count -eq 0) -and ($_.GetDirectories().Count -eq 0) } catch { $false } } |
+ForEach-Object {
+    try {
+        Remove-Item $_.FullName -Force -Recurse -ErrorAction SilentlyContinue
+        Write-Output "Deleted Empty Folder: $($_.FullName)"
+    } catch {}
+}
 
-call :SHOW "Clearing Event Logs"
-for /f "tokens=*" %%G in ('wevtutil el') do (
-echo Clearing Event Log %%G...
-wevtutil cl "%%G"
-)
+# Clean System Restore Points
+Show-Message "Cleaning System Restore Points"
+vssadmin delete shadows /all /quiet | Out-Null
 
-call :SHOW "Cleaning further with Disk Cleanup"
-cleanmgr /d C: /VERYLOWDISK
+# Show freed space
+$finalFreeMB = (Get-PSDrive -Name C).Free / 1MB
+$finalFreeGB = [math]::Round($finalFreeMB / 1024, 2)
+$freedSpaceMB = $finalFreeMB - $initialFreeMB
+$freedSpaceGB = [math]::Round($freedSpaceMB / 1024, 2)
 
-call :SHOW "Repairing System Image"
-dism /online /Cleanup-Image /StartComponentCleanup /ResetBase
+Show-Message "Before Cleanup: $initialFreeMB MB ($initialFreeGB GB) Free"
+Show-Message "After Cleanup: $finalFreeMB MB ($finalFreeGB GB) Free"
+Show-Message "Freed Space: $freedSpaceMB MB ($freedSpaceGB GB)"
 
-call :SHOW "Fixing All Corrupted Files"
-sfc /scannow
-
-call :SHOW "Cleaning Empty Folders"
-for /d /r C:\ %%d in (*) do rd "%%d" 2>nul && echo Deleted: %%d
-
-call :SHOW "Cleaning Recycle Bin and System Restore Points"
-vssadmin delete shadows /all /quiet
-powershell -command "Clear-RecycleBin -Force" >nul 2>&1
-
-call :SHOW "Before Cleanup: %bmb% MB (~ %bgb% GB) Free"
-for /f "tokens=*" %%A in ('powershell -command "(Get-PSDrive C).Free / 1MB"') do set "amb=%%A" & set /a agb=amb/1024
-call :SHOW "After Cleanup: %amb% MB (~ %agb% GB) Free"
-
-for /f "tokens=*" %%D in ('powershell -command "%amb% - %bmb%"') do set "tot=%%D" & set /a tgb=tot/1024
-call :SHOW "Freed Space: %tot% MB (~ %tgb% GB)"
-
-pause
-goto :EOF
-
-"@
-Create-File -fileContent $cleanup -fileName 'Cleanup.cmd' -fileDirectory $optimizationPath
+Pause
+'@
+Create-File -fileContent $cleanup -fileName 'Cleanup.ps1' -fileDirectory $optimizationPath
 
 # Toggle GameDVR
 $gameDVR = @"
