@@ -220,16 +220,15 @@ reg add %reg16% /v Start /t REG_DWORD /d 4 /f
 ren "%~dpnx0" "Enable - Defender.cmd"
 )
 bcdedit /deletevalue {current} safeboot
-shutdown /r /f /t 5 /c "PC will restart into normal mode in 5 seconds"
+reg delete "HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon" /v "Defender" /f
+shutdown /r /f /t 1
 ) else (
-echo  1. To Toggle On/Off Defender I will boot into safemode.
-echo  2. After Booting into safemode run this script again.
-pause
 bcdedit /set {current} safeboot minimal
-shutdown /r /f /t 5 /c "PC will restart into safemode in 5 seconds"
+reg add "HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon" /v "Defender" /t REG_SZ /d "explorer.exe, cmd /c \"%~dpnx0\"" /f
+shutdown /r /f /t 1
 )
 "@
-Create-File -fileContent $Defender -fileName 'Disable - Defender.cmd' -fileDirectory $securityPath
+Create-File -fileContent $Defender -fileName 'Enable - Defender.cmd' -fileDirectory $securityPath
 
 # Toggle Smart Screen
 $smartScreen = @"

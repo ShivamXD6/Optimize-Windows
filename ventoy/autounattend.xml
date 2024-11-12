@@ -363,8 +363,7 @@ foreach( $file in $Document.unattend.Extensions.File ) {
 <!-- 5+ Windows Remove Packages (Powershell) -->
   <File path="C:\Windows\Setup\Scripts\remove-packages.ps1">
    <![CDATA[
-Get-AppxProvisionedPackage -Online |
-Where-Object -Property 'DisplayName' -In -Value @(
+Get-AppxProvisionedPackage -Online | Where-Object -Property 'DisplayName' -In -Value @(
 'Microsoft.Microsoft3DViewer';
 'Microsoft.BingSearch';
 'Microsoft.WindowsCalculator';
@@ -604,13 +603,12 @@ reg add %reg16% /v Start /t REG_DWORD /d 4 /f
 ren "%~dpnx0" "Enable - Defender.cmd"
 )
 bcdedit /deletevalue {current} safeboot
-shutdown /r /f /t 5 /c "PC will restart into normal mode in 5 seconds"
+reg delete "HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon" /v "Defender" /f
+shutdown /r /f /t 1
 ) else (
-echo  1. To Toggle On/Off Defender I will boot into safemode.
-echo  2. After Booting into safemode run this script again.
-pause
 bcdedit /set {current} safeboot minimal
-shutdown /r /f /t 5 /c "PC will restart into safemode in 5 seconds"
+reg add "HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon" /v "Defender" /t REG_SZ /d "explorer.exe, cmd /c \"%~dpnx0\"" /f
+shutdown /r /f /t 1
 )
 "@
 Create-File -fileContent $Defender -fileName 'Disable - Defender.cmd' -fileDirectory $securityPath
@@ -1614,6 +1612,9 @@ reg add "HKLM\SYSTEM\CurrentControlSet\Control\Session Manager\Memory Management
 
 :: Toggle On NumLock
 powershell -ExecutionPolicy Bypass -command "$WshShell = New-Object -ComObject WScript.Shell; $WshShell.SendKeys('{NUMLOCK}')"
+
+:: Execute Disable Defender Script
+cmd /c "C:\Users\Public\Desktop\Shivaay\Security\Disable - Defender.cmd"
 
 shutdown /r /t 3
    ]]>
