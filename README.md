@@ -80,7 +80,7 @@
 - 💤 Disable Hibernation and Reserved Storage
 - 🖨️ Disable Printer Spooler
 - 🔍 Disable Search Indexing
-- 🛡️ Disable Smart Screen
+- 🛡️ Disable Defender, Core Isolation and Smart Screen
 - 🔒 Disable Biometrics (Fingerprint and Face Unlock)
 - 📀 Set SysMain (SuperFetch/Prefetch) to Manual not required for many SSD Users
 - ⏫ Disable Delivery Optimization (to avoid corrupted updates being downloaded or sharing of bandwidth)

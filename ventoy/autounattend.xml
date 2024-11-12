@@ -672,7 +672,7 @@ reg add %reg6% /v "EnableVirtualizationBasedSecurity" /t REG_DWORD /d 0 /f
 ren "%~dpnx0" "Enable - Core Isolation.cmd"
 )
 "@
-Create-File -fileContent $coreIsolation -fileName 'Enable - Core Isolation.cmd' -fileDirectory $securityPath
+Create-File -fileContent $coreIsolation -fileName 'Disable - Core Isolation.cmd' -fileDirectory $securityPath
 
 # System Management
 # Toggle Hibernation and Fast Startup
@@ -1613,10 +1613,11 @@ reg add "HKLM\SYSTEM\CurrentControlSet\Control\Session Manager\Memory Management
 :: Toggle On NumLock
 powershell -ExecutionPolicy Bypass -command "$WshShell = New-Object -ComObject WScript.Shell; $WshShell.SendKeys('{NUMLOCK}')"
 
-:: Execute Disable Defender Script
-cmd /c "C:\Users\Public\Desktop\Shivaay\Security\Disable - Defender.cmd"
+:: Disable Core Isolation
+cmd /c "C:\Users\Public\Desktop\Shivaay\Security\Disable - Core Isolation.cmd"
 
-shutdown /r /t 3
+:: Disable Defender
+cmd /c "C:\Users\Public\Desktop\Shivaay\Security\Disable - Defender.cmd"
    ]]>
   </File>
  </Extensions>
