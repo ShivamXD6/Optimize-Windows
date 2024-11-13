@@ -52,7 +52,7 @@
 - 🚀 Various Services Optimization
 - 🚫 Disable Automatic File Discovery
 - 🎮 Turn on Game Mode and Hardware GPU Acceleration
-- 💿 Dynamically Adjust Virtual Ram upto 16GB
+- 💿 Dynamically Adjust Virtual Memory upto 16GB
 - 🌟 Configure Visual Effects for Snappy Experience
 - 🤖 Debloat Copilot and Disable Recall
 

@@ -1005,10 +1005,7 @@ Remove-Item "$autoLoggerDir\AutoLogger-Diagtrack-Listener.etl"
 $icaclsCommand = "icacls `"$autoLoggerDir`" /deny SYSTEM:`"(OI)(CI)F`""
 Invoke-Expression $icaclsCommand | Out-Null
 
-# Get the OS build number
-$buildNumber = (Get-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\Windows NT\CurrentVersion").CurrentBuild
-
-# Remove Edge and OneDrive
+# Remove Edge
 Get-Process *edge* | Stop-Process -Force -ErrorAction SilentlyContinue
 Stop-Service -Name "MicrosoftEdgeElevationService" -Force -ErrorAction SilentlyContinue
 Remove-Item -Path "C:\Program Files (x86)\Microsoft\Edge" -Recurse -Force -ErrorAction Continue
@@ -1016,22 +1013,14 @@ Remove-Item -Path "C:\Program Files (x86)\Microsoft\EdgeUpdate" -Recurse -Force 
 Remove-Item -Path "C:\Users\Public\Desktop\Microsoft Edge.lnk" -Recurse -Force -ErrorAction Continue
 Remove-Item -Path "C:\ProgramData\Microsoft\Windows\Start Menu\Programs\Microsoft Edge.lnk" -Recurse -Force -ErrorAction Continue
 Remove-Item -Path "C:\Windows\SystemApps\Microsoft.MicrosoftEdgeDevToolsClient_8wekyb3d8bbwe" -Recurse -Force -ErrorAction Continue
-
-# Commands for specific Windows
-if ($buildNumber -ge 22000) {
-# Win 11
 Remove-Item -Path "C:\Program Files (x86)\Microsoft\EdgeWebView" -Recurse -Force -ErrorAction Continue
 Remove-Item -Path "C:\Program Files (x86)\Microsoft\EdgeCore" -Recurse -Force -ErrorAction Continue
-Remove-Item "C:\Windows\System32\OneDriveSetup.exe" -Recurse -Force -ErrorAction Continue
-Set-Service -Name 'webthreatdefsvc' -StartupType Disabled -ErrorAction Continue
-Set-Service -Name 'InventorySvc' -StartupType Disabled -ErrorAction Continue
-} elseif ($buildNumber -ge 10240 -and $buildNumber -lt 22000) {
-# Win 10
 Remove-Item -Path "C:\Windows\SystemApps\Microsoft.MicrosoftEdge_8wekyb3d8bbwe" -Recurse -Force -ErrorAction Continue
+
+# Remove OneDrive
+Remove-Item "C:\Users\Default\AppData\Roaming\Microsoft\Windows\Start Menu\Programs\OneDrive.lnk" -ErrorAction SilentlyContinue
+Remove-Item "C:\Windows\System32\OneDriveSetup.exe" -Recurse -Force -ErrorAction Continue
 Remove-Item "C:\Windows\SysWOW64\OneDriveSetup.exe" -Recurse -Force -ErrorAction Continue
-Set-Service -Name 'Fax' -StartupType Disabled -ErrorAction Continue
-Set-Service -Name 'TabletInputService' -StartupType Disabled -ErrorAction Continue
-}
 
 # Removes Microsoft Teams
 $TeamsPath = [System.IO.Path]::Combine($env:LOCALAPPDATA, 'Microsoft', 'Teams')
@@ -1084,11 +1073,11 @@ schtasks /Change /TN $task /Disable
 }
 
 # Set Services to Manual or Disabled
-$ds = @('AJRouter', 'AssignedAccessManagerSvc', 'AppIDSvc', 'BDESVC', 'DiagTrack', 'FontCache', 'PcaSvc', 'RmSvc', 'WSearch', 'WbioSrvc', 'lfsvc')
+$ds = @('AJRouter', 'AssignedAccessManagerSvc', 'AppIDSvc', 'BDESVC', 'DiagTrack', 'DPS', 'Fax', 'FontCache', 'InventorySvc', 'PcaSvc', 'RmSvc', 'TabletInputService', 'WSearch', 'WbioSrvc', 'webthreatdefsvc', 'lfsvc')
 foreach ($dnm in $ds) {
   Set-Service -Name $dnm -StartupType Disabled -ErrorAction Continue
 }
-$ms = @('BITS', 'CDPSvc', 'DPS', 'DusmSvc', 'EFS', 'LanmanServer', 'LanmanWorkstation', 'Spooler', 'StateRepository', 'StorSvc', 'SysMain', 'TokenBroker', 'TrkWks', 'UsoSvc', 'WpnService', 'edgeupdate', 'edgeupdatem', 'iphlpsvc', 'sppsvc')
+$ms = @('BITS', 'CDPSvc', 'DusmSvc', 'LanmanServer', 'LanmanWorkstation', 'Spooler', 'StateRepository', 'StorSvc', 'SysMain', 'TokenBroker', 'TrkWks', 'UsoSvc', 'WpnService', 'edgeupdate', 'edgeupdatem', 'iphlpsvc', 'sppsvc')
 foreach ($mnm in $ms) {
   Set-Service -Name $mnm -StartupType Manual -ErrorAction Continue
 }
@@ -1614,6 +1603,19 @@ cmd /c "C:\Users\Public\Desktop\Shivaay\Security\Disable - Core Isolation.cmd"
 :: Disable Defender
 cmd /c "C:\Users\Public\Desktop\Shivaay\Security\Disable - Defender.cmd"
    ]]>
+  </File>
+<!-- 10+ Remove Pinned items from Start Menu in Windows 10 -->
+  <File path="C:\Users\Default\AppData\Local\Microsoft\Windows\Shell\LayoutModification.xml">
+    <![CDATA[
+      <LayoutModificationTemplate Version="1" xmlns="http://schemas.microsoft.com/Start/2014/LayoutModification">
+        <LayoutOptions StartTileGroupCellWidth="6" />
+	    <DefaultLayoutOverride>
+		  <StartLayoutCollection>
+		    <StartLayout GroupCellWidth="6" xmlns="http://schemas.microsoft.com/Start/2014/FullDefaultLayout" />
+		  </StartLayoutCollection>
+	    </DefaultLayoutOverride>
+      </LayoutModificationTemplate>
+    ]]>
   </File>
  </Extensions>
 </unattend>
