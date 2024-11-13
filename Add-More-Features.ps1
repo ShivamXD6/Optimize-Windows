@@ -368,8 +368,9 @@ if (-not ([Security.Principal.WindowsPrincipal] [Security.Principal.WindowsIdent
     Exit
 }
 
-# Ignore Errors and Continue
+# Kill Process, Ignore Errors and Continue
 $ErrorActionPreference = 'SilentlyContinue'
+Get-Process -Name cleanmgr -EA 0 | Stop-Process -Force -EA 0
 
 # Function to display sections
 function Show-Message ($message) {
@@ -378,9 +379,6 @@ function Show-Message ($message) {
     Write-Output "==========================================="
     Start-Sleep -Seconds 2
 }
-
-# Kill Cleanup Manager
-Get-Process -Name cleanmgr -EA 0 | Stop-Process -Force -EA 0
 
 # Show initial disk space
 $initialFreeMB = (Get-PSDrive -Name C).Free / 1MB
@@ -548,7 +546,7 @@ ren "%~dpnx0" %st% & taskkill /f /im explorer.exe & start explorer.exe
 Create-File -fileContent $searchIndex -fileName 'Enable - Search Indexing.cmd' -fileDirectory $optimizationPath
 
 # User Interface
-# Toggle Gallery in File Explorer
+# Toggle Gallery and Home in File Explorer
 $gallery = @"
 @echo off & reg query "HKU\S-1-5-19" >nul 2>&1
 if %errorLevel% neq 0 (

@@ -463,6 +463,8 @@ function Create-Shortcut {
     $shortcut.Save()
     }
 }
+
+# Shivaay Root Folder
 $winUtilCommand = "irm https://christitus.com/win | iex"
 Create-Shortcut -target $winUtilCommand -shortcutName 'WinUtil-CTT.lnk'
 $activatedCommand = "irm https://get.activated.win | iex"
@@ -690,54 +692,28 @@ ren "%~dpnx0" "Enable - Hibernation and Fast Startup.cmd"
 "@
 Create-File -fileContent $hibernation -fileName 'Disable - Hibernation and Fast Startup.cmd' -fileDirectory $managementPath
 
-# Toggle GameDVR
-$gameDVR = @"
+# Toggle Update Notifications
+$updateNotify = @"
 @echo off & reg query "HKU\S-1-5-19" >nul 2>&1
 if %errorLevel% neq 0 (
 echo Please Run as Administrator.
 pause & exit
 )
-set reg1="HKCU\System\GameConfigStore"
-set reg2="HKLM\SOFTWARE\Policies\Microsoft\Windows\GameDVR"
-if "%~n0"=="Enable - GameDVR" (
-reg add %reg1% /v GameDVR_FSEBehavior /t REG_DWORD /d 0 /f
-reg add %reg1% /v GameDVR_Enabled /t REG_DWORD /d 1 /f
-reg add %reg1% /v GameDVR_DXGIHonorFSEWindowsCompatible /t REG_DWORD /d 0 /f
-reg add %reg1% /v GameDVR_HonorUserFSEBehaviorMode /t REG_DWORD /d 0 /f
-reg add %reg1% /v GameDVR_EFSEFeatureFlags /t REG_DWORD /d 1 /f
-reg add %reg2% /v AllowGameDVR /t REG_DWORD /d 1 /f
-    ren "%~dpnx0" "Disable - GameDVR.cmd"
+set reg1="HKLM\SOFTWARE\Microsoft\WindowsUpdate\UX\Settings"
+set reg2="HKLM\SOFTWARE\Policies\Microsoft\Windows\WindowsUpdate"
+if "%~n0"=="Enable - Update Notifications" (
+reg delete %reg1% /v RestartNotificationsAllowed2 /f
+reg delete %reg2% /v SetAutoRestartNotificationDisable /f
+reg delete %reg2% /v SetUpdateNotificationLevel /f
+ren "%~dpnx0" "Disable - Update Notifications.cmd"
 ) else (
-reg delete %reg1% /v GameDVR_FSEBehavior /f
-reg delete %reg1% /v GameDVR_Enabled /f
-reg delete %reg1% /v GameDVR_DXGIHonorFSEWindowsCompatible /f
-reg delete %reg1% /v GameDVR_HonorUserFSEBehaviorMode /f
-reg delete %reg1% /v GameDVR_EFSEFeatureFlags /f
-reg delete %reg2% /v AllowGameDVR /f
-ren "%~dpnx0" "Enable - GameDVR.cmd"
+reg add %reg1% /v RestartNotificationsAllowed2 /t REG_DWORD /d 0 /f
+reg add %reg2% /v SetAutoRestartNotificationDisable /t REG_DWORD /d 1 /f
+reg add %reg2% /v SetUpdateNotificationLevel /t REG_DWORD /d 2 /f
+ren "%~dpnx0" "Enable - Update Notifications.cmd"
 )
 "@
-Create-File -fileContent $gameDVR -fileName 'Enable - GameDVR.cmd' -fileDirectory $managementPath
-
-# Toggle Search Indexing Service
-$searchIndex = @"
-@echo off & reg query "HKU\S-1-5-19" >nul 2>&1
-if %errorLevel% neq 0 (
-echo Please Run as Administrator.
-pause & exit
-)
-if "%~n0"=="Enable - Search Indexing" (
-sc config WSearch start=auto
-net start WSearch
-set st="Disable - Search Indexing.cmd"
-) else (
-net stop WSearch
-sc config WSearch start=disabled
-set st="Enable - Search Indexing.cmd"
-)
-ren "%~dpnx0" %st% & taskkill /f /im explorer.exe & start explorer.exe
-"@
-Create-File -fileContent $searchIndex -fileName 'Enable - Search Indexing.cmd' -fileDirectory $managementPath
+Create-File -fileContent $updateNotify -fileName 'Disable - Update Notifications.cmd' -fileDirectory $managementPath
 
 # Toggle Notifications and Background Apps
 $notification = @"
@@ -774,8 +750,9 @@ if (-not ([Security.Principal.WindowsPrincipal] [Security.Principal.WindowsIdent
     Exit
 }
 
-# Ignore Errors and Continue
+# Kill Process, Ignore Errors and Continue
 $ErrorActionPreference = 'SilentlyContinue'
+Get-Process -Name cleanmgr -EA 0 | Stop-Process -Force -EA 0
 
 # Function to display sections
 function Show-Message ($message) {
@@ -784,9 +761,6 @@ function Show-Message ($message) {
     Write-Output "==========================================="
     Start-Sleep -Seconds 2
 }
-
-# Kill Cleanup Manager
-Get-Process -Name cleanmgr -EA 0 | Stop-Process -Force -EA 0
 
 # Show initial disk space
 $initialFreeMB = (Get-PSDrive -Name C).Free / 1MB
@@ -904,28 +878,54 @@ Pause
 '@
 Create-File -fileContent $cleanup -fileName 'Cleanup.ps1' -fileDirectory $optimizationPath
 
-# Toggle Update Notifications
-$updateNotify = @"
+# Toggle GameDVR
+$gameDVR = @"
 @echo off & reg query "HKU\S-1-5-19" >nul 2>&1
 if %errorLevel% neq 0 (
 echo Please Run as Administrator.
 pause & exit
 )
-set reg1="HKLM\SOFTWARE\Microsoft\WindowsUpdate\UX\Settings"
-set reg2="HKLM\SOFTWARE\Policies\Microsoft\Windows\WindowsUpdate"
-if "%~n0"=="Enable - Update Notifications" (
-reg delete %reg1% /v RestartNotificationsAllowed2 /f
-reg delete %reg2% /v SetAutoRestartNotificationDisable /f
-reg delete %reg2% /v SetUpdateNotificationLevel /f
-ren "%~dpnx0" "Disable - Update Notifications.cmd"
+set reg1="HKCU\System\GameConfigStore"
+set reg2="HKLM\SOFTWARE\Policies\Microsoft\Windows\GameDVR"
+if "%~n0"=="Enable - GameDVR" (
+reg add %reg1% /v GameDVR_FSEBehavior /t REG_DWORD /d 0 /f
+reg add %reg1% /v GameDVR_Enabled /t REG_DWORD /d 1 /f
+reg add %reg1% /v GameDVR_DXGIHonorFSEWindowsCompatible /t REG_DWORD /d 0 /f
+reg add %reg1% /v GameDVR_HonorUserFSEBehaviorMode /t REG_DWORD /d 0 /f
+reg add %reg1% /v GameDVR_EFSEFeatureFlags /t REG_DWORD /d 1 /f
+reg add %reg2% /v AllowGameDVR /t REG_DWORD /d 1 /f
+    ren "%~dpnx0" "Disable - GameDVR.cmd"
 ) else (
-reg add %reg1% /v RestartNotificationsAllowed2 /t REG_DWORD /d 0 /f
-reg add %reg2% /v SetAutoRestartNotificationDisable /t REG_DWORD /d 1 /f
-reg add %reg2% /v SetUpdateNotificationLevel /t REG_DWORD /d 2 /f
-ren "%~dpnx0" "Enable - Update Notifications.cmd"
+reg delete %reg1% /v GameDVR_FSEBehavior /f
+reg delete %reg1% /v GameDVR_Enabled /f
+reg delete %reg1% /v GameDVR_DXGIHonorFSEWindowsCompatible /f
+reg delete %reg1% /v GameDVR_HonorUserFSEBehaviorMode /f
+reg delete %reg1% /v GameDVR_EFSEFeatureFlags /f
+reg delete %reg2% /v AllowGameDVR /f
+ren "%~dpnx0" "Enable - GameDVR.cmd"
 )
 "@
-Create-File -fileContent $updateNotify -fileName 'Disable - Update Notifications.cmd' -fileDirectory $optimizationPath
+Create-File -fileContent $gameDVR -fileName 'Enable - GameDVR.cmd' -fileDirectory $optimizationPath
+
+# Toggle Search Indexing Service
+$searchIndex = @"
+@echo off & reg query "HKU\S-1-5-19" >nul 2>&1
+if %errorLevel% neq 0 (
+echo Please Run as Administrator.
+pause & exit
+)
+if "%~n0"=="Enable - Search Indexing" (
+sc config WSearch start=auto
+net start WSearch
+set st="Disable - Search Indexing.cmd"
+) else (
+net stop WSearch
+sc config WSearch start=disabled
+set st="Enable - Search Indexing.cmd"
+)
+ren "%~dpnx0" %st% & taskkill /f /im explorer.exe & start explorer.exe
+"@
+Create-File -fileContent $searchIndex -fileName 'Enable - Search Indexing.cmd' -fileDirectory $optimizationPath
 
 # User Interface
 # Toggle Gallery and Home in File Explorer
