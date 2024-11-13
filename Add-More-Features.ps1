@@ -789,11 +789,11 @@ function Update-ShivaayFolderInRegistry {
         [string]$newShivaayFolder
     )
     # Ensure the registry path exists
-    if (-not (Test-Path $shivaayFolderRegistryPath)) {
-        New-Item -Path $shivaayFolderRegistryPath -Force | Out-Null
+    if (-not (Test-Path $customPath)) {
+        New-Item -Path $customPath -Force | Out-Null
     }
     # Update the Shivaay Folder path in the registry
-    Set-ItemProperty -Path $shivaayFolderRegistryPath -Name $shivaayFolderRegistryValueName -Value $newShivaayFolder
+    Set-ItemProperty -Path $customPath -Name "CustomFolderPath" -Value $newShivaayFolder
     $shivaayPath = $newShivaayFolder # Update variable for display
     Write-Host "Shivaay Folder Path updated to: $newShivaayFolder" -ForegroundColor $GR
     Show-UI # Refresh UI after update
