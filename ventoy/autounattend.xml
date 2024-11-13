@@ -666,7 +666,7 @@ powercfg /hibernate off
 ren "%~dpnx0" "Enable - Hibernation and Fast Startup.cmd"
 )
 "@
-Create-File -fileContent $hibernation -fileName 'Disable - Hibernation and Fast Startup.cmd' -fileDirectory $managementPath
+Create-File -fileContent $hibernation -fileName 'Enable - Hibernation and Fast Startup.cmd' -fileDirectory $managementPath
 
 # Toggle Update Notifications
 $updateNotify = @"
@@ -704,17 +704,17 @@ set reg3="HKLM\SOFTWARE\Policies\Microsoft\Windows\AppPrivacy"
 if "%~n0"=="Enable - Notifications and Background Apps" (
 reg add %reg1% /v DisableNotificationCenter /t REG_DWORD /d 0 /f
 reg add %reg2% /v ToastEnabled /t REG_DWORD /d 1 /f
-reg delete %reg3% /v "LetAppsRunInBackground" /f
+reg delete %reg3% /v LetAppsRunInBackground /f
 set st="Disable - Notifications and Background Apps.cmd"
 ) else (
 reg add %reg1% /v DisableNotificationCenter /t REG_DWORD /d 1 /f
 reg add %reg2% /v ToastEnabled /t REG_DWORD /d 0 /f
-reg add %reg3% /v "LetAppsRunInBackground" /t REG_DWORD /d 2 /f
+reg add %reg3% /v LetAppsRunInBackground /t REG_DWORD /d 2 /f
 set st="Enable - Notifications and Background Apps.cmd"
 )
 ren "%~dpnx0" %st% & taskkill /f /im explorer.exe & start explorer.exe
 "@
-Create-File -fileContent $notification -fileName 'Enable - Notifications and Background Apps.cmd' -fileDirectory $managementPath
+Create-File -fileContent $notification -fileName 'Disable - Notifications and Background Apps.cmd' -fileDirectory $managementPath
 
 # Optimizations
 # Cleanup
@@ -854,6 +854,23 @@ Pause
 '@
 Create-File -fileContent $cleanup -fileName 'Cleanup.ps1' -fileDirectory $optimizationPath
 
+# Toggle Compact OS Mode
+$compactOS = @"
+@echo off & reg query "HKU\S-1-5-19" >nul 2>&1
+if %errorLevel% neq 0 (
+echo Please Run as Administrator.
+pause & exit
+)
+if "%~n0"=="Enable - Compact OS" (
+compact /CompactOS:always
+ren "%~dpnx0" "Disable - Compact OS.cmd"
+) else (
+compact /CompactOS:never
+ren "%~dpnx0" "Enable - Compact OS.cmd"
+)
+"@
+Create-File -fileContent $compactOS -fileName 'Enable - Compact OS.cmd' -fileDirectory $optimizationPath
+
 # Toggle GameDVR
 $gameDVR = @"
 @echo off & reg query "HKU\S-1-5-19" >nul 2>&1
@@ -881,7 +898,7 @@ reg delete %reg2% /v AllowGameDVR /f
 ren "%~dpnx0" "Enable - GameDVR.cmd"
 )
 "@
-Create-File -fileContent $gameDVR -fileName 'Enable - GameDVR.cmd' -fileDirectory $optimizationPath
+Create-File -fileContent $gameDVR -fileName 'Disable - GameDVR.cmd' -fileDirectory $optimizationPath
 
 # Toggle Search Indexing Service
 $searchIndex = @"
@@ -924,7 +941,7 @@ set st="Show - Gallery and Home In File Explorer.cmd"
 )
 ren "%~dpnx0" %st% & taskkill /f /im explorer.exe & start explorer.exe
 "@
-Create-File -fileContent $gallery -fileName 'Show - Gallery and Home In File Explorer.cmd' -fileDirectory $interfacePath
+Create-File -fileContent $gallery -fileName 'Hide - Gallery and Home In File Explorer.cmd' -fileDirectory $interfacePath
 
 # Toggle Recent Items in Windows
 $recentItems = @"
@@ -965,7 +982,7 @@ set st="Disable - Recent Items.cmd"
 )
 ren "%~dpnx0" %st% & taskkill /f /im explorer.exe & start explorer.exe
 "@
-Create-File -fileContent $recentItems -fileName 'Enable - Recent Items.cmd' -fileDirectory $interfacePath
+Create-File -fileContent $recentItems -fileName 'Disable - Recent Items.cmd' -fileDirectory $interfacePath
 
 # Configure Maximum Password Age in Windows
 net.exe accounts /maxpwage:UNLIMITED
@@ -1063,13 +1080,6 @@ foreach ($mnm in $ms) {
 <!-- 7+ Windows Local Machine Registry Tweaks (CMD) -->
   <File path="C:\Windows\Setup\Scripts\localmachine.cmd">
    <![CDATA[
-:: Remove Some Files & Directories to free up space
-del /s /q "C:\ProgramData\Microsoft\Windows Defender\Scans\*.*"
-del /s /q "C:\Windows\assembly\NativeImages_v4.0.30319_64\*.*"
-del /s /q "C:\Windows\assembly\NativeImages_v4.0.30319_32\*.*"
-del /s /q "C:\Windows\Containers\*.*"
-del /s /q "C:\Windows\System32\Microsoft-Edge-WebView"
-
 :: Disable Defender Auto Sample Submission
 reg add "HKLM\SOFTWARE\Microsoft\Windows Defender\Spynet" /v SubmitSamplesConsent /t REG_DWORD /d 2 /f
 
@@ -1204,9 +1214,6 @@ reg add "HKLM\SOFTWARE\Policies\Microsoft\Windows\Windows Error Reporting" /v Di
 :: Disable Delivery Optimization
 reg add "HKLM\SOFTWARE\Policies\Microsoft\Windows\DeliveryOptimization" /v DODownloadMode /t REG_DWORD /d 0 /f
 
-:: Disable Background Apps
-reg add "HKLM\SOFTWARE\Policies\Microsoft\Windows\AppPrivacy" /v "LetAppsRunInBackground" /t REG_DWORD /d 2 /f
-
 :: Disable Remote Assistance
 reg add "HKLM\SYSTEM\CurrentControlSet\Control\Remote Assistance" /v fAllowToGetHelp /t REG_DWORD /d 0 /f
 
@@ -1238,9 +1245,6 @@ reg add "HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Multimedia\SystemProf
 reg add "HKLM\Software\Microsoft\PolicyManager\default\WiFi\AllowWiFiHotSpotReporting" /v Value /t REG_DWORD /d 0 /f
 reg add "HKLM\Software\Microsoft\PolicyManager\default\WiFi\AllowAutoConnectToWiFiSenseHotspots" /v Value /t REG_DWORD /d 0 /f
 
-:: Disable Xbox GameDVR
-reg add "HKLM\SOFTWARE\Policies\Microsoft\Windows\GameDVR" /v AllowGameDVR /t REG_DWORD /d 0 /f
-
 :: Disable Tablet Mode
 reg add "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\ImmersiveShell" /v TabletMode /t REG_DWORD /d 0 /f
 
@@ -1262,12 +1266,6 @@ reg add "HKLM\SOFTWARE\Policies\Microsoft\Windows\CloudContent" /v "DisableConsu
 
 :: Disable Cloud Optimized Content
 reg add "HKLM\SOFTWARE\Policies\Microsoft\Windows\CloudContent" /v "DisableCloudOptimizedContent" /t REG_DWORD /d 1 /f
-
-:: Disable Recent Items - 1
-reg add "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\Explorer" /v "NoStartMenuMFUprogramsList" /t REG_DWORD /d "1" /f
-reg add "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\Explorer" /v "NoRecentDocsHistory" /t REG_DWORD /d "1" /f
-reg add "HKLM\SOFTWARE\Policies\Microsoft\Windows\Explorer" /v "ShowOrHideMostUsedApps" /t REG_DWORD /d "1" /f
-reg add "HKLM\SOFTWARE\Policies\Microsoft\Windows\Explorer" /v "HideRecentlyAddedApps" /t REG_DWORD /d "1" /f
 
 :: Block Automatic Upgrade from Windows 10 22H2 to Windows 11
 reg add "HKLM\SOFTWARE\Policies\Microsoft\Windows\WindowsUpdate" /v "TargetReleaseVersion" /t REG_DWORD /d 1 /f
@@ -1359,6 +1357,13 @@ powercfg -setacvalueindex scheme_current sub_processor CPMINCORES1 100
 powercfg -setacvalueindex scheme_current sub_processor PERFBOOSTMODE 2
 powercfg /setactive scheme_current
 
+:: Cleanup Some Directories to free up space
+rd /s /q "C:\ProgramData\Microsoft\Windows Defender\Scans"
+rd /s /q "C:\Windows\assembly\NativeImages_v4.0.30319_64"
+rd /s /q "C:\Windows\assembly\NativeImages_v4.0.30319_32"
+rd /s /q "C:\Windows\Containers"
+rd /s /q "C:\Windows\System32\Microsoft-Edge-WebView"
+
 :: Configure Visual Effects
 reg add "HKCU\Control Panel\Desktop" /v "UserPreferencesMask" /t REG_BINARY /d "9012038012000000" /f
 reg add "HKCU\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\VisualEffects" /v "VisualFXSetting" /t REG_DWORD /d "3" /f
@@ -1394,14 +1399,6 @@ reg add "HKCU\SOFTWARE\Microsoft\Windows\CurrentVersion\Privacy" /v IsMiEnabled 
 reg delete "HKCU\SOFTWARE\Microsoft\Windows\CurrentVersion\ContentDeliveryManager\Subscriptions" /f
 reg delete "HKCU\SOFTWARE\Microsoft\Windows\CurrentVersion\ContentDeliveryManager\SuggestedApps" /f
 reg add "HKCU\SOFTWARE\Microsoft\Speech_OneCore\Settings\OnlineSpeechPrivacy" /v "HasAccepted" /t REG_DWORD /d 0 /f
-
-:: Disable Recent Items - 2
-reg add "HKCU\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\Explorer" /v "NoInstrumentation" /t REG_DWORD /d "1" /f
-reg add "HKCU\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\Explorer" /v "ClearRecentDocsOnExit" /t REG_DWORD /d "1" /f
-reg add "HKCU\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\Explorer" /v "NoRecentDocsHistory" /t REG_DWORD /d "1" /f
-reg add "HKCU\SOFTWARE\Policies\Microsoft\Windows\Explorer" /v "NoRemoteDestinations" /t REG_DWORD /d "1" /f
-reg add "HKCU\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Advanced" /v "Start_TrackProgs" /t REG_DWORD /d "0" /f
-reg add "HKCU\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Advanced" /v "Start_TrackDocs" /t REG_DWORD /d "0" /f
 
 :: Removes Copilot and Disable it System wide
 reg add "HKCU\SOFTWARE\Microsoft\Windows\CurrentVersion\Runonce" /v "UninstallCopilot" /t REG_SZ /d "" /f
@@ -1456,9 +1453,7 @@ reg add "HKCU\SOFTWARE\Classes\CLSID\{F02C1A0D-BE21-4350-88B0-7367FC96EF3C}" /v 
 :: Disable Automatic Folder Discovery (Improves Responsiveness)
 reg add "HKCU\Software\Classes\Local Settings\Software\Microsoft\Windows\Shell\Bags\AllFolders\Shell" /v "FolderType" /t REG_SZ /d "NotSpecified" /f
 
-:: Hide Gallery, Home and 3D Objects From File Explorer and Set This PC as Default
-reg add "HKCU\Software\Classes\CLSID\{e88865ea-0e1c-4e20-9aa6-edcd0212c87c}" /v System.IsPinnedToNameSpaceTree /t REG_DWORD /d 0 /f
-reg add "HKCU\Software\Classes\CLSID\{f874310e-b6b7-47dc-bc84-b9e6b38f5903}" /v "System.IsPinnedToNameSpaceTree" /t REG_DWORD /d 0 /f
+:: Hide Remove 3D Objects From File Explorer and Set This PC as Default
 reg delete "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\MyComputer\NameSpace\{0DB7E03F-FC29-4DC6-9020-FF41B59E513A}" /f
 reg delete "HKLM\SOFTWARE\WOW6432Node\Microsoft\Windows\CurrentVersion\Explorer\MyComputer\NameSpace\{0DB7E03F-FC29-4DC6-9020-FF41B59E513A}" /f
 reg add "HKCU\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Advanced" /v LaunchTo /t REG_DWORD /d 1 /f
@@ -1513,19 +1508,8 @@ reg add "HKCU\SOFTWARE\Microsoft\Windows\CurrentVersion\UserProfileEngagement" /
 :: Enable End Task With Right Click
 reg add "HKCU\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Advanced\TaskbarDeveloperSettings" /v TaskbarEndTask /t REG_DWORD /d 1 /f
 
-:: Disable Notification Tray and Calendar
-reg add "HKCU\Software\Policies\Microsoft\Windows\Explorer" /v DisableNotificationCenter /t REG_DWORD /d 1 /f
-reg add "HKCU\Software\Microsoft\Windows\CurrentVersion\PushNotifications" /v ToastEnabled /t REG_DWORD /d 0 /f
-
 :: Set Classic Right-Click Menu for Windows 11
 reg add "HKCU\Software\Classes\CLSID\{86ca1aa0-34aa-4e8b-a509-50c905bae2a2}\InprocServer32" /ve /t REG_SZ /d "" /f
-
-:: Disable Xbox GameDVR
-reg add "HKCU\System\GameConfigStore" /v GameDVR_FSEBehavior /t REG_DWORD /d 2 /f
-reg add "HKCU\System\GameConfigStore" /v GameDVR_Enabled /t REG_DWORD /d 0 /f
-reg add "HKCU\System\GameConfigStore" /v GameDVR_DXGIHonorFSEWindowsCompatible /t REG_DWORD /d 1 /f
-reg add "HKCU\System\GameConfigStore" /v GameDVR_HonorUserFSEBehaviorMode /t REG_DWORD /d 1 /f
-reg add "HKCU\System\GameConfigStore" /v GameDVR_EFSEFeatureFlags /t REG_DWORD /d 0 /f
 
 :: Disable Bing Search in Start Menu
 reg add "HKCU\SOFTWARE\Policies\Microsoft\Windows\Explorer" /v DisableSearchBoxSuggestions /t REG_DWORD /d 1 /f
@@ -1569,6 +1553,18 @@ reg add "HKLM\SYSTEM\CurrentControlSet\Control\Session Manager\Memory Management
 
 :: Toggle On NumLock
 powershell -ExecutionPolicy Bypass -command "$WshShell = New-Object -ComObject WScript.Shell; $WshShell.SendKeys('{NUMLOCK}')"
+
+:: Disable Xbox GameDVR
+cmd /c "C:\Users\Public\Desktop\Shivaay\Optimizations\Disable - GameDVR.cmd"
+
+:: Disable Notification, Calendar Tray and Background Apps
+cmd /c "C:\Users\Public\Desktop\Shivaay\System Management\Disable - Notifications and Background Apps.cmd"
+
+:: Hide Home and Gallery in File Explorer
+cmd /c "C:\Users\Public\Desktop\Shivaay\User Interface\Hide - Gallery and Home In File Explorer.cmd"
+
+:: Disable Recent Items
+cmd /c "C:\Users\Public\Desktop\Shivaay\User Interface\Disable - Recent Items.cmd"
 
 :: Disable Core Isolation
 cmd /c "C:\Users\Public\Desktop\Shivaay\Security\Disable - Core Isolation.cmd"

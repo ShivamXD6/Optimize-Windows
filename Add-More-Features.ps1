@@ -319,12 +319,12 @@ set reg3="HKLM\SOFTWARE\Policies\Microsoft\Windows\AppPrivacy"
 if "%~n0"=="Enable - Notifications and Background Apps" (
 reg add %reg1% /v DisableNotificationCenter /t REG_DWORD /d 0 /f
 reg add %reg2% /v ToastEnabled /t REG_DWORD /d 1 /f
-reg delete %reg3% /v "LetAppsRunInBackground" /f
+reg delete %reg3% /v LetAppsRunInBackground /f
 set st="Disable - Notifications and Background Apps.cmd"
 ) else (
 reg add %reg1% /v DisableNotificationCenter /t REG_DWORD /d 1 /f
 reg add %reg2% /v ToastEnabled /t REG_DWORD /d 0 /f
-reg add %reg3% /v "LetAppsRunInBackground" /t REG_DWORD /d 2 /f
+reg add %reg3% /v LetAppsRunInBackground /t REG_DWORD /d 2 /f
 set st="Enable - Notifications and Background Apps.cmd"
 )
 ren "%~dpnx0" %st% & taskkill /f /im explorer.exe & start explorer.exe
@@ -468,6 +468,23 @@ Show-Message "Freed Space: $freedSpaceMB MB ($freedSpaceGB GB)"
 Pause
 '@
 Create-File -fileContent $cleanup -fileName 'Cleanup.ps1' -fileDirectory $optimizationPath
+
+# Toggle Compact OS Mode
+$compactOS = @"
+@echo off & reg query "HKU\S-1-5-19" >nul 2>&1
+if %errorLevel% neq 0 (
+echo Please Run as Administrator.
+pause & exit
+)
+if "%~n0"=="Enable - Compact OS" (
+compact /CompactOS:always
+ren "%~dpnx0" "Disable - Compact OS.cmd"
+) else (
+compact /CompactOS:never
+ren "%~dpnx0" "Enable - Compact OS.cmd"
+)
+"@
+Create-File -fileContent $compactOS -fileName 'Enable - Compact OS.cmd' -fileDirectory $optimizationPath
 
 # Toggle GameDVR
 $gameDVR = @"
@@ -866,23 +883,6 @@ Get-UserInput
 Add-Fea -FC $shivaayOS -FN "Configure ShivaayOS.ps1" -Loc $managementPath
 
 # 6+ Optimizations
-# Toggle Compact OS Mode
-$compactOS = @"
-@echo off & reg query "HKU\S-1-5-19" >nul 2>&1
-if %errorLevel% neq 0 (
-echo Please Run as Administrator.
-pause & exit
-)
-if "%~n0"=="Enable - Compact OS" (
-compact /CompactOS:always
-ren "%~dpnx0" "Disable - Compact OS.cmd"
-) else (
-compact /CompactOS:never
-ren "%~dpnx0" "Enable - Compact OS.cmd"
-)
-"@
-Add-Fea -FC $compactOS -FN "Enable - Compact OS.cmd" -Loc $optimizationPath
-
 # Toggle Last Access Time Stamp and 8.3 Char Length File Name Creation
 $timeChar = @"
 @echo off & reg query "HKU\S-1-5-19" >nul 2>&1
