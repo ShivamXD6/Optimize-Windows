@@ -230,33 +230,6 @@ shutdown /r /f /t 1
 "@
 Create-File -fileContent $Defender -fileName 'Enable - Defender.cmd' -fileDirectory $securityPath
 
-# Toggle Smart Screen
-$smartScreen = @"
-@echo off & reg query "HKU\S-1-5-19" >nul 2>&1
-if %errorLevel% neq 0 (
-echo Please Run as Administrator.
-pause & exit
-)
-set reg1="HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer"
-set reg2="HKLM\SOFTWARE\Policies\Microsoft\Windows Defender"
-set reg3="HKLM\SOFTWARE\Policies\Microsoft\Windows Defender\MpEngine"
-set reg4="HKLM\SOFTWARE\Policies\Microsoft\Windows Defender Security Center\App and Browser protection"
-if "%~n0"=="Enable - Smart Screen" (
-reg add %reg1% /v "SmartScreenEnabled" /t REG_SZ /d "Warn" /f
-reg add %reg2% /v "PUAProtection" /t REG_DWORD /d 1 /f
-reg add %reg3% /v "MpEnablePus" /t REG_DWORD /d 1 /f
-reg delete %reg4% /v "UILockdown" /f
-ren "%~dpnx0" "Disable - Smart Screen.cmd"
-) else (
-reg add %reg1% /v "SmartScreenEnabled" /t REG_SZ /d "Off" /f
-reg add %reg2% /v "PUAProtection" /t REG_DWORD /d 0 /f
-reg add %reg3% /v "MpEnablePus" /t REG_DWORD /d 0 /f
-reg add %reg4% /v "UILockdown" /t REG_DWORD /d 1 /f
-ren "%~dpnx0" "Enable - Smart Screen.cmd"
-)
-"@
-Create-File -fileContent $smartScreen -fileName 'Enable - Smart Screen.cmd' -fileDirectory $securityPath
-
 # Toggle Core Isolation 
 $coreIsolation = @"
 @echo off & reg query "HKU\S-1-5-19" >nul 2>&1

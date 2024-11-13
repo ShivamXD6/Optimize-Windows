@@ -615,30 +615,6 @@ shutdown /r /f /t 1
 "@
 Create-File -fileContent $Defender -fileName 'Disable - Defender.cmd' -fileDirectory $securityPath
 
-# Toggle Smart Screen
-$smartScreen = @"
-@echo off & reg query "HKU\S-1-5-19" >nul 2>&1
-if %errorLevel% neq 0 (
-echo Please Run as Administrator.
-pause & exit
-)
-set reg1="HKLM\SOFTWARE\Policies\Microsoft\Windows Defender"
-set reg2="HKLM\SOFTWARE\Policies\Microsoft\Windows Defender\MpEngine"
-set reg3="HKLM\SOFTWARE\Policies\Microsoft\Windows Defender Security Center\App and Browser protection"
-if "%~n0"=="Enable - Smart Screen" (
-reg add %reg1% /v "PUAProtection" /t REG_DWORD /d 1 /f
-reg add %reg2% /v "MpEnablePus" /t REG_DWORD /d 1 /f
-reg delete %reg3% /v "UILockdown" /f
-ren "%~dpnx0" "Disable - Smart Screen.cmd"
-) else (
-reg add %reg1% /v "PUAProtection" /t REG_DWORD /d 0 /f
-reg add %reg2% /v "MpEnablePus" /t REG_DWORD /d 0 /f
-reg add %reg3% /v "UILockdown" /t REG_DWORD /d 1 /f
-ren "%~dpnx0" "Enable - Smart Screen.cmd"
-)
-"@
-Create-File -fileContent $smartScreen -fileName 'Enable - Smart Screen.cmd' -fileDirectory $securityPath
-
 # Toggle Core Isolation 
 $coreIsolation = @"
 @echo off & reg query "HKU\S-1-5-19" >nul 2>&1
@@ -1099,9 +1075,6 @@ reg add "HKLM\SOFTWARE\Microsoft\Windows Defender\Spynet" /v SubmitSamplesConsen
 
 :: Disable Smart Screen (Fixes Slow App Loading in Windows 11)
 reg add "HKLM\SYSTEM\CurrentControlSet\Control\CI\Policy" /v "VerifiedAndReputablePolicyState" /t REG_DWORD /d 0 /f
-reg add "HKLM\SOFTWARE\Policies\Microsoft\Windows Defender" /v "PUAProtection" /t REG_DWORD /d 0 /f
-reg add "HKLM\SOFTWARE\Policies\Microsoft\Windows Defender\MpEngine" /v "MpEnablePus" /t REG_DWORD /d 0 /f
-reg add "HKLM\SOFTWARE\Policies\Microsoft\Windows Defender Security Center\App and Browser protection" /v "UILockdown" /t REG_DWORD /d 1 /f
 
 :: Disable Reserved Storage
 reg add "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\ReserveManager" /v "ShippedWithReserves" /t REG_DWORD /d 0 /f

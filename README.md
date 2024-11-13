@@ -89,7 +89,7 @@
 - Everything which have "*" are only available in Add More Features Script. Not available by default to make folder less cluttered.
 
 #### 🔐 **Security**
-- 🛡️ Toggle Windows Defender, SmartScreen and Core Isolation
+- 🛡️ Toggle Windows Defender and Core Isolation
 - 🛡️ *Toggle Unused Security Pages
 
 #### 📦 **Software**
