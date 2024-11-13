@@ -150,10 +150,13 @@ function Create-Shortcut {
 $apiUrl = "https://api.github.com/repos/ShivamXD6/Optimize-Windows/releases"
 $global:desktopPath = "C:\Users\Public\Desktop"
 $customPath = "HKLM:\Software\ShivaayOS"
+$global:shivaayPath = "$desktopPath\Shivaay"
 if (Test-Path $customPath) {
-    $global:shivaayPath = (Get-ItemProperty -Path $customPath -Name "ShivaayFolderPath")."ShivaayFolderPath"
-} else {
-    $global:shivaayPath = "$desktopPath\Shivaay"
+    try {
+        $regValue = Get-ItemProperty -Path $customPath -Name "ShivaayFolderPath" -ErrorAction Stop
+        $shivaayPath = $regValue."ShivaayFolderPath"
+    }
+    catch {}
 }
 $global:optimizationPath = "$shivaayPath\Optimizations"
 $global:securityPath = "$shivaayPath\Security"

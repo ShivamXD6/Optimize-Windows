@@ -8,10 +8,13 @@ if (-not ([Security.Principal.WindowsPrincipal][Security.Principal.WindowsIdenti
 # 1+ Directories and Functions
 $desktopPath = "C:\Users\Public\Desktop"
 $customPath = "HKLM:\Software\ShivaayOS"
+$shivaayPath = "$desktopPath\Shivaay"
 if (Test-Path $customPath) {
-    $shivaayPath = (Get-ItemProperty -Path $customPath -Name "ShivaayFolderPath")."ShivaayFolderPath"
-} else {
-    $shivaayPath = "$desktopPath\Shivaay"
+    try {
+        $regValue = Get-ItemProperty -Path $customPath -Name "ShivaayFolderPath" -ErrorAction Stop
+        $shivaayPath = $regValue."ShivaayFolderPath"
+    }
+    catch {}
 }
 $optimizationPath = "$shivaayPath\Optimizations"
 $securityPath = "$shivaayPath\Security"
@@ -734,18 +737,22 @@ $RE = [System.ConsoleColor]::Red
 
 # Define registry paths
 $registryPath = "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\OEMInformation"
-$shivaayFolderRegistryPath = "HKLM:\Software\ShivaayOS"
-$shivaayFolderRegistryValueName = "ShivaayFolderPath"
 
 # Fetch information from registry for OS name and version
 $osName = (Get-ItemProperty -Path $registryPath -Name "Model").Model -replace " - V\d+\.\d+$", ""
 $osVersion = (Get-ItemProperty -Path $registryPath -Name "Model").Model -replace ".*- V", "V"
 
 # Fetch Shivaay Folder Path from registry or use default if not set
-if (Test-Path $shivaayFolderRegistryPath) {
-    $currentShivaayFolder = (Get-ItemProperty -Path $shivaayFolderRegistryPath -Name $shivaayFolderRegistryValueName).$shivaayFolderRegistryValueName
-} else {
-    $currentShivaayFolder = "C:\Users\Public\Desktop\Shivaay"
+$desktopPath = "C:\Users\Public\Desktop"
+$customPath = "HKLM:\Software\ShivaayOS"
+$shivaayPath = "$desktopPath\Shivaay"
+# Check if the custom folder path exists
+if (Test-Path $customPath) {
+    try {
+        $regValue = Get-ItemProperty -Path $customPath -Name "ShivaayFolderPath" -ErrorAction Stop
+        $shivaayPath = $regValue."ShivaayFolderPath"
+    }
+    catch {}
 }
 
 # Default values for reset
@@ -760,7 +767,7 @@ function Show-UI {
     Write-Host
     Write-Host "Current OS Name       : " -ForegroundColor $CY -NoNewline; Write-Host "$osName" -ForegroundColor $WH
     Write-Host "Current Version       : " -ForegroundColor $GR -NoNewline; Write-Host "$osVersion" -ForegroundColor $WH
-    Write-Host "Current Shivaay Folder: " -ForegroundColor $YE -NoNewline; Write-Host "$currentShivaayFolder" -ForegroundColor $WH
+    Write-Host "Current Shivaay Folder: " -ForegroundColor $YE -NoNewline; Write-Host "$shivaayPath" -ForegroundColor $WH
     Write-Host
     Write-Host "==================================" -ForegroundColor $WH
 }
@@ -787,7 +794,7 @@ function Update-ShivaayFolderInRegistry {
     }
     # Update the Shivaay Folder path in the registry
     Set-ItemProperty -Path $shivaayFolderRegistryPath -Name $shivaayFolderRegistryValueName -Value $newShivaayFolder
-    $currentShivaayFolder = $newShivaayFolder # Update variable for display
+    $shivaayPath = $newShivaayFolder # Update variable for display
     Write-Host "Shivaay Folder Path updated to: $newShivaayFolder" -ForegroundColor $GR
     Show-UI # Refresh UI after update
 }
