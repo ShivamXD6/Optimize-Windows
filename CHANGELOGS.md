@@ -1,3 +1,26 @@
+# Changelogs - V4.4
+## Answer File Changes
+ - *Removed Pins and One Drive from the Start Menu (in Windows 10), also made some minor changes.
+ - *Changed Locations of some files of the Shivaay folder.
+ - Fixed Clipboard Delay (Thanks to Aftab for pointing out this issue)
+ - *Not Restoring Legacy Photo Viewer by default.
+ - *Using My Safemode approach to disable defender as it's a more efficient way.
+ - *Disabled Core Isolation again by default as it reduces CPU performance by 5% (in my case).
+ - *Removed additional commands for disabling various components, as the running folder scripts can handle it as well.
+ - Removed BranchReadinessLevel policy registry looks like it doesn't do anything.
+ - Removed Smart Screen script (I'll work on it later).
+ 
+## Shivaay Folder Changes
+ - Updated Cleanup Script (Fully Changed Cleaning methods and converted it into a Powershell script)
+ - Updated Defender Script (To automatically reboot to normal mode after Toggling defender)
+ - *Included Compact OS (as I use this on every Installation)
+
+## Additional Features Script Changes
+ - Added Script to Restore or Remove Legacy Photo Viewer in System Management.
+
+## Update Script Changes
+ - Included everything from above, except the ones with an asterisk (*)
+
 # Changelogs - V4.3
 ## Answer File Changes
  - Removed One registry for modifying OEM Info.
