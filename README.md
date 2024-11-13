@@ -201,7 +201,7 @@
 
 4. Now Select `Boot in Normal Mode`.
 5. Now you'll see some commands running.
-6. Select Your Language, Region and Windows Version.
+6. Select Your Language, Region and Select Windows Pro Version.
 
 > [!NOTE]
 > If you don't see many Windows versions, click **Back** once, then click **Next** again. This should display all available Windows versions.
@@ -253,7 +253,7 @@
 1. Now Restart into Boot Selection Menu (By Pressing F12, F9, or ESC Repeatedly).
 2. Select your USB Drive.
 3. Now you'll see some commands running.
-4. Select Your Language, Region and Windows Version.
+4. Select Your Language, Region and Select Windows Pro Version.
 
 > [!NOTE]
 > If you don't see many Windows versions, click **Back** once, then click **Next** again. This should display all available Windows versions.
