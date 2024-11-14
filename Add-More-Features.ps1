@@ -1,4 +1,5 @@
 # 0+ Check if the script is running with administrative privileges
+$ErrorActionPreference = 'SilentlyContinue'
 if (-not ([Security.Principal.WindowsPrincipal][Security.Principal.WindowsIdentity]::GetCurrent()).IsInRole([Security.Principal.WindowsBuiltInRole]::Administrator)) {
     # Re-launch the script with elevated privileges
     Start-Process powershell -ArgumentList "-NoProfile -ExecutionPolicy Bypass -File `"$PSCommandPath`"" -Verb RunAs
@@ -746,7 +747,6 @@ $osVersion = (Get-ItemProperty -Path $registryPath -Name "Model").Model -replace
 $desktopPath = "C:\Users\Public\Desktop"
 $customPath = "HKLM:\Software\ShivaayOS"
 $shivaayPath = "$desktopPath\Shivaay"
-# Check if the custom folder path exists
 if (Test-Path $customPath) {
     try {
         $regValue = Get-ItemProperty -Path $customPath -Name "ShivaayFolderPath" -ErrorAction Stop
@@ -908,23 +908,6 @@ ren "%~dpnx0" "Enable - Multi-Plane Overlay.cmd"
 )
 "@
 Add-Fea -FC $MPO -FN "Enable - Multi-Plane Overlay.cmd" -Loc $optimizationPath
-
-# Toggle Delivery Optimization
-$deliveryOptimization = @"
-@echo off & reg query "HKU\S-1-5-19" >nul 2>&1
-if %errorLevel% neq 0 (
-echo Please Run as Administrator.
-pause & exit
-)
-if "%~n0"=="Enable - Delivery Optimization" (
-reg delete "HKLM\SOFTWARE\Policies\Microsoft\Windows\DeliveryOptimization" /v DODownloadMode /f
-ren "%~dpnx0" "Disable - Delivery Optimization.cmd"
-) else (
-reg add "HKLM\SOFTWARE\Policies\Microsoft\Windows\DeliveryOptimization" /v DODownloadMode /t REG_DWORD /d 0 /f
-ren "%~dpnx0" "Enable - Delivery Optimization.cmd"
-)
-"@
-Add-Fea -FC $deliveryOptimization -FN "Enable - Delivery Optimization.cmd" -Loc $optimizationPath
 
 # Toggle SuperFetch
 $superFetch = @"
