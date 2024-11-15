@@ -13,7 +13,7 @@
 
 ## 📑 Table of Contents
 
-- [📂 Included Script](#-included-script)
+- [📂 Included Scripts](#-included-scripts)
 - [🚀 Features](#-features)
 - [❓ What to choose for installation](#-what-to-choose-for-installation)
 - [🔧 Installation with Ventoy](#-installation-with-ventoy)
@@ -48,7 +48,7 @@
 
 ### 2. **💨 Debloat & Optimization**
 - 🧹 Remove Windows Bloatware
-- ❌ Disable Error Reporting, Delivery Optimization, and Remote Assistance
+- ❌ Disable Error Reporting and Remote Assistance
 - 🚀 Various Services Optimization
 - 🚫 Disable Automatic File Discovery
 - 🎮 Turn on Game Mode and Hardware GPU Acceleration
@@ -83,7 +83,6 @@
 - 🛡️ Disable Defender, Core Isolation and Smart Screen
 - 🔒 Disable Biometrics (Fingerprint and Face Unlock)
 - 📀 Set SysMain (SuperFetch/Prefetch) to Manual not required for many SSD Users
-- ⏫ Disable Delivery Optimization (to avoid corrupted updates being downloaded or sharing of bandwidth)
 
 ### 6. **📂 Shivaay's Folder Options**
 - Everything which have "*" are only available in Add More Features Script. Not available by default to make folder less cluttered.
