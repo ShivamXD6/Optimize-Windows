@@ -1,9 +1,8 @@
 # 0+ Check if the script is running with administrative privileges
 $ErrorActionPreference = 'SilentlyContinue'
 if (-not ([Security.Principal.WindowsPrincipal][Security.Principal.WindowsIdentity]::GetCurrent()).IsInRole([Security.Principal.WindowsBuiltInRole]::Administrator)) {
-    # Re-launch the script with elevated privileges
-    Start-Process powershell -ArgumentList "-NoProfile -ExecutionPolicy Bypass -File `"$PSCommandPath`"" -Verb RunAs
-    exit
+  Start-Process powershell -ArgumentList "-NoProfile -ExecutionPolicy Bypass -File `"$PSCommandPath`"" -Verb RunAs
+  exit
 }
 
 # 1+ Directories and Functions
@@ -11,11 +10,11 @@ $desktopPath = "C:\Users\Public\Desktop"
 $customPath = "HKLM:\Software\ShivaayOS"
 $shivaayPath = "$desktopPath\Shivaay"
 if (Test-Path $customPath) {
-    try {
-        $regValue = Get-ItemProperty -Path $customPath -Name "ShivaayFolderPath" -ErrorAction Stop
-        $shivaayPath = $regValue."ShivaayFolderPath"
-    }
-    catch {}
+  try {
+    $regValue = Get-ItemProperty -Path $customPath -Name "ShivaayFolderPath" -ErrorAction Stop
+    $shivaayPath = $regValue."ShivaayFolderPath"
+  }
+  catch {}
 }
 $optimizationPath = "$shivaayPath\Optimizations"
 $securityPath = "$shivaayPath\Security"
@@ -30,7 +29,7 @@ function Create-Shortcut {
     [string]$shortcutName,
     [string]$shortcutType,
     [string]$shortcutPath = $shivaayPath
-    )
+  )
   $shell = New-Object -ComObject WScript.Shell
   $fullPath = Join-Path $shortcutPath $shortcutName
   $softPath = Join-Path $softwaresPath $shortcutName
@@ -43,7 +42,7 @@ function Create-Shortcut {
     $shortcut.TargetPath = "powershell.exe"
     $shortcut.Arguments = "-NoProfile -ExecutionPolicy RemoteSigned -Command `"$target`""
     $shortcut.Save()
-    }
+  }
 }
 
 # 1.2+ Create Files
@@ -58,16 +57,14 @@ function Create-File {
 }
 
 # 1.3+ Add Features
-if (-not (Test-Path "$customPath\Features")) { New-Item -Path "$customPath" -Name "Features" -Force | Out-Null }
 function Add-Fea {
   param (
     [string]$FN,
     [string]$FC,
     [string]$Loc,
     [bool]$SCUT = $false
-    )
-     $featureExists = (Get-ItemProperty -Path "$customPath\Features" -Name $FN -ErrorAction SilentlyContinue) -ne $null
-    # Check if feature already added or not exist
+  )
+    $featureExists = (Get-ItemProperty -Path "$customPath\Features" -Name $FN -ErrorAction SilentlyContinue) -ne $null
     if (-not $featureExists) {
       Write-Host "- Adding $FN -> $Loc"
       Set-ItemProperty -Path "$customPath\Features" -Name $FN -Value Yes
@@ -88,6 +85,7 @@ $securityPath = New-Item -Path "$shivaayPath\Security" -ItemType Directory -Forc
 $softwaresPath = New-Item -Path "$shivaayPath\Softwares" -ItemType Directory -Force
 $managementPath = New-Item -Path "$shivaayPath\System Management" -ItemType Directory -Force
 $interfacePath = New-Item -Path "$shivaayPath\User Interface" -ItemType Directory -Force
+Remove-Item -Path "HKLM:\Software\ShivaayOS\Features" -Recurse -Force | Out-Null
 
 Write-Host ""
 Write-Host "! Warning: The 'Shivaay' folder is missing or broken." -ForegroundColor Red
@@ -589,6 +587,7 @@ Write-Host "- Successfully restored the 'Shivaay' folder!" -ForegroundColor Gree
 Write-Host ""
 
 }
+if (-not (Test-Path "$customPath\Features")) { New-Item -Path "$customPath" -Name "Features" -Force | Out-Null }
 Write-Host "- Adding additional features..." -ForegroundColor Yellow
 Write-Host "- Script Version - V3" -ForegroundColor Blue
 Write-Host ""
